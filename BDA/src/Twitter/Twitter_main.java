@@ -7,6 +7,7 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 public final class Twitter_main  {
+	
 	public static void main(String[] args) {
 		// https://www.youtube.com/watch?v=uYPmkzMpnxw
         try {
