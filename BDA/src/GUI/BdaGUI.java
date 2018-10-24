@@ -6,8 +6,10 @@ import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,8 +30,16 @@ public class BdaGUI extends JFrame {
 	private JLabel fbLogo;
 	private JLabel emailLogo;
 	private JLabel search;
+	private JLabel settings;
+	private JLabel searchAdv;
+	private JPanel searchAdvPanel;
+	private JLabel serachAdvLbl;
 	private JTextField searchField;
+	private JTextField searchAdvUser;
 
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -43,7 +53,9 @@ public class BdaGUI extends JFrame {
 		});
 	}
 
-
+	/**
+	 * Create the frame.
+	 */
 	public BdaGUI() {
 		setTitle("Bom Dia Academia");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -184,15 +196,71 @@ public class BdaGUI extends JFrame {
 		);
 		bdaPanel.setLayout(gl_bdaPanel);
 		
+		searchAdvPanel = new JPanel();
+		searchAdvPanel.setVisible(false);
+		searchAdvPanel.setBackground(new Color(100, 100, 100));
+		
 		GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
 		gl_mainPanel.setHorizontalGroup(
 			gl_mainPanel.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 575, Short.MAX_VALUE)
+				.addGroup(gl_mainPanel.createSequentialGroup()
+					.addContainerGap(430, Short.MAX_VALUE)
+					.addComponent(searchAdvPanel, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE))
 		);
 		gl_mainPanel.setVerticalGroup(
 			gl_mainPanel.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 579, Short.MAX_VALUE)
+				.addComponent(searchAdvPanel, GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
 		);
+		
+		serachAdvLbl = new JLabel("Advanced Search");
+		serachAdvLbl.setForeground(Color.WHITE);
+		
+		searchAdvUser = new JTextField();
+		searchAdvUser.setColumns(10);
+		
+		JComboBox searchAdvTime = new JComboBox();
+		searchAdvTime.setModel(new DefaultComboBoxModel(new String[] {"12h", "1d", "2d", "5d", "10d", "30d", "All"}));
+		searchAdvTime.setSelectedIndex(6);
+		
+		JLabel searchAdvTimeLbl = new JLabel("Time:");
+		
+		JLabel searchAdvUserLbl = new JLabel("From user:");
+		GroupLayout gl_searchAdvPanel = new GroupLayout(searchAdvPanel);
+		gl_searchAdvPanel.setHorizontalGroup(
+			gl_searchAdvPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_searchAdvPanel.createSequentialGroup()
+					.addGap(28)
+					.addGroup(gl_searchAdvPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_searchAdvPanel.createSequentialGroup()
+							.addComponent(searchAdvTimeLbl)
+							.addContainerGap())
+						.addGroup(gl_searchAdvPanel.createSequentialGroup()
+							.addGroup(gl_searchAdvPanel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(searchAdvTime, Alignment.LEADING, 0, 86, Short.MAX_VALUE)
+								.addComponent(searchAdvUser)
+								.addGroup(Alignment.LEADING, gl_searchAdvPanel.createSequentialGroup()
+									.addGap(2)
+									.addGroup(gl_searchAdvPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(searchAdvUserLbl)
+										.addComponent(serachAdvLbl, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+							.addGap(31))))
+		);
+		gl_searchAdvPanel.setVerticalGroup(
+			gl_searchAdvPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_searchAdvPanel.createSequentialGroup()
+					.addGap(5)
+					.addComponent(serachAdvLbl)
+					.addGap(23)
+					.addComponent(searchAdvUserLbl)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(searchAdvUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(22)
+					.addComponent(searchAdvTimeLbl)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(searchAdvTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(435))
+		);
+		searchAdvPanel.setLayout(gl_searchAdvPanel);
 		
 		JPanel menuPanel = new JPanel();
 		menuPanel.setBackground(new Color(200, 200, 200));
@@ -229,11 +297,40 @@ public class BdaGUI extends JFrame {
 		search.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("Perform search");
+				System.out.println("Perform search for " + searchField.getText() );
 			}
 		});
 		search.setPreferredSize(new Dimension(24, 24));
 		search.setIcon(new ImageIcon(BdaGUI.class.getResource("/resources/search.png")));
+		
+		settings = new JLabel("");
+		settings.setPreferredSize(new Dimension(24, 24));
+		settings.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFrame settings = new JFrame();
+				settings.setVisible(true);
+				settings.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				settings.setBounds(100, 100, 300, 200);
+				settings.setTitle("Settings");
+			}
+		});
+		settings.setIcon(new ImageIcon(BdaGUI.class.getResource("/resources/settings.png")));
+		
+		
+		searchAdv = new JLabel("");
+		searchAdv.setPreferredSize(new Dimension(24, 24));
+		searchAdv.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(searchAdvPanel.isVisible()) {
+					searchAdvPanel.setVisible(false);
+				} else {
+					searchAdvPanel.setVisible(true);
+				}
+			}
+		});
+		searchAdv.setIcon(new ImageIcon(BdaGUI.class.getResource("/resources/searchAdv.png")));
 		
 		searchField = new JTextField();
 		searchField.setForeground(Color.WHITE);
@@ -247,19 +344,25 @@ public class BdaGUI extends JFrame {
 		gl_menuPanel.setHorizontalGroup(
 			gl_menuPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_menuPanel.createSequentialGroup()
-					.addGap(253)
+					.addContainerGap(253, Short.MAX_VALUE)
 					.addComponent(searchField, GroupLayout.PREFERRED_SIZE, 178, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+					.addGap(18)
 					.addComponent(search, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(102))
+					.addGap(18)
+					.addComponent(searchAdv, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(settings, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18))
 		);
 		gl_menuPanel.setVerticalGroup(
 			gl_menuPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_menuPanel.createSequentialGroup()
 					.addGap(5)
 					.addGroup(gl_menuPanel.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(searchField, Alignment.LEADING)
 						.addComponent(search, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(searchField, Alignment.LEADING))
+						.addComponent(searchAdv, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(settings, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addGap(3))
 		);
 		menuPanel.setLayout(gl_menuPanel);
