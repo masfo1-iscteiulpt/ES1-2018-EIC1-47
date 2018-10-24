@@ -11,11 +11,11 @@ import twitter4j.conf.ConfigurationBuilder;
 public class Twitter_Class {
 	ConfigurationBuilder cbc;
 	/**
-	 * Initiates a Twiiter_Class object
+	 * Initiates a Twitter_Class object
 	 * @param ConfigurationBuilder
 	 */
-	public Twitter_Class(ConfigurationBuilder cb) {
-		this.cbc=cb;
+	public Twitter_Class(ConfigurationBuilder ConfigurationBuilder) {
+		this.cbc=ConfigurationBuilder;
 		
 	}
 	/**
