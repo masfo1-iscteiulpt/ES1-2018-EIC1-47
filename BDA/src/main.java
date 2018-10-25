@@ -45,7 +45,7 @@ public class main {
 		// fb init
 		Facebook fb = new Facebook();
 		fb.getUser();
-		//fb.getExtendedAccessToken();
+		fb.getExtendedAccessToken();
 		fb.filterFacebookPost();
 	}
 
