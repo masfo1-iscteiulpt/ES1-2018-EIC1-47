@@ -298,5 +298,6 @@ public class BdaGUI extends JFrame {
 	public void addMessage(MessagePanel mp) {
 		parallel.addGroup(layout.createSequentialGroup().addComponent(mp));
 		sequential.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(mp));
+		resultsPanel.validate();
 	}
 }
