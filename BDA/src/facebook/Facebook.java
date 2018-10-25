@@ -1,3 +1,4 @@
+package facebook;
 import java.util.List;
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;

@@ -7,8 +7,16 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
-
+/**
+ * This is a application to connect to Twitter server to retrieve received
+ * tweets.
+ * 
+ * @author Hugo Croca
+ * @version 1.0
+ *
+ */
 public class Twitter_Class {
+	
 	ConfigurationBuilder cbc;
 	/**
 	 * Initiates a Twitter_Class object
