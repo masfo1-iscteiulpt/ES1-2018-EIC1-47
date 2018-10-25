@@ -1,4 +1,4 @@
-package Gmail;
+package gmail;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;

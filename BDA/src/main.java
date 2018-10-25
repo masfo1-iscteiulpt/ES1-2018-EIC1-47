@@ -1,6 +1,6 @@
 import java.awt.EventQueue;
 
-import GUI.BdaGUI;
+import gui.BdaGUI;
 
 public class main {
 
