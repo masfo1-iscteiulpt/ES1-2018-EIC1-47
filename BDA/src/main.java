@@ -1,5 +1,10 @@
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import facebook.Facebook;
 import gmail.RetrieveEmailsUsingIMAP;
@@ -11,8 +16,8 @@ public class main {
 
 	public static BdaGUI frame;
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
+		EventQueue.invokeAndWait(new Runnable() {
 			public void run() {
 				try {
 					frame = new BdaGUI();
@@ -43,10 +48,10 @@ public class main {
 		}
 
 		// fb init
-		Facebook fb = new Facebook();
-		fb.getUser();
-		fb.getExtendedAccessToken();
-		fb.filterFacebookPost();
+		//Facebook fb = new Facebook();
+		//fb.getUser();
+		//fb.getExtendedAccessToken();
+		//fb.filterFacebookPost();
 	}
 
 }

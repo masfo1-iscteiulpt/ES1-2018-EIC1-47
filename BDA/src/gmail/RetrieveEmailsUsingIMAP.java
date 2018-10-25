@@ -1,8 +1,9 @@
 package gmail;
+
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
-
 import javax.mail.Address;
 import javax.mail.Folder;
 import javax.mail.Message;
@@ -15,8 +16,9 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
-
+import javax.swing.JLabel;
 import gui.BdaGUI;
+import gui.MessagePanel;
 
 /**
  * This is a application to connect to Gmail server to retrieve received
@@ -140,7 +142,8 @@ public class RetrieveEmailsUsingIMAP {
 				messageContent = htmlRemove(messageContent);
 				System.out.println("\t Message: " + messageContent);
 				System.out.println("\t Attachments: " + attachFiles);
-				frame.results.setText(messageContent);
+				frame.addMessage(new MessagePanel(messageContent, new Color(193, 64, 63)));
+				
 			}
 
 			inbox.close(false);

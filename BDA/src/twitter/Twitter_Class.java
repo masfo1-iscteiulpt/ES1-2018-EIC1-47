@@ -1,8 +1,13 @@
 package twitter;
 
+import java.awt.Color;
 import java.util.List;
 
+import javax.swing.GroupLayout;
+import javax.swing.JLabel;
+
 import gui.BdaGUI;
+import gui.MessagePanel;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -54,12 +59,12 @@ public class Twitter_Class {
 			int counterTotal = 0;
 			for (Status status : statuses) {
 				if (status.getUser().getName() != null) {
-					frame.results.setText(status.getUser().getName() + ":" + status.getText() + " - " + status.getCreatedAt());
 					System.out.println(" ");
 					System.out.println(status.getUser().getName() + ":" + status.getText() + " - " + status.getCreatedAt());
 					System.out.println(" ");
 					System.out.println("-------------------------------------------------------------------");
 					counter++;
+					frame.addMessage(new MessagePanel(status.getUser().getName() + ":" + status.getText() + " - " + status.getCreatedAt(), new Color(29, 161, 243)));
 				}
 				counterTotal++;
 			}

@@ -24,6 +24,9 @@ import java.awt.Component;
 import java.awt.Label;
 import javax.swing.JRadioButton;
 import javax.swing.JTextPane;
+import java.awt.GridLayout;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
 
 public class BdaGUI extends JFrame {
 
@@ -38,8 +41,13 @@ public class BdaGUI extends JFrame {
 	private JLabel emailLogo;
 	private JLabel search;
 	private JTextField searchField;
-	public JTextPane results;
-
+	public JPanel resultsPanel;
+	public GroupLayout layout;
+	public GroupLayout.Group vertical;
+	public GroupLayout.Group horizontal;
+	public GroupLayout.Group sequential;
+	public GroupLayout.ParallelGroup parallel;
+	
 	public BdaGUI() {
 		setTitle("Bom Dia Academia");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -180,27 +188,37 @@ public class BdaGUI extends JFrame {
 		);
 		bdaPanel.setLayout(gl_bdaPanel);
 		
-		results = new JTextPane();
-		results.setForeground(Color.WHITE);
-		results.setText("test");
-		results.setCaretColor(Color.WHITE);
-		results.setBackground(Color.GRAY);
+		JScrollPane resultsScrollPane = new JScrollPane();
+		resultsScrollPane.setBorder(null);
 		
 		GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
 		gl_mainPanel.setHorizontalGroup(
 			gl_mainPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_mainPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(results, GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
+					.addComponent(resultsScrollPane, GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_mainPanel.setVerticalGroup(
 			gl_mainPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_mainPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(results, GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
+					.addComponent(resultsScrollPane, GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
 					.addContainerGap())
 		);
+		
+		resultsPanel = new JPanel();
+		resultsPanel.setBackground(new Color(50, 50, 50));
+		resultsScrollPane.setViewportView(resultsPanel);
+		
+		layout = new GroupLayout(resultsPanel);
+        resultsPanel.setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+        parallel = layout.createParallelGroup();
+        layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(parallel));
+        sequential = layout.createSequentialGroup();
+        layout.setVerticalGroup(sequential);
 		
 		JPanel menuPanel = new JPanel();
 		menuPanel.setBackground(new Color(200, 200, 200));
@@ -270,9 +288,15 @@ public class BdaGUI extends JFrame {
 						.addComponent(search, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
 					.addGap(15))
 		);
+		
 		menuPanel.setLayout(gl_menuPanel);
 		
 		mainPanel.setLayout(gl_mainPanel);
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	public void addMessage(MessagePanel mp) {
+		parallel.addGroup(layout.createSequentialGroup().addComponent(mp));
+		sequential.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(mp));
 	}
 }
