@@ -6,8 +6,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="/home/luis/Java/javax.mail.jar"/>
-	<classpathentry kind="lib" path="/home/luis/Java/activation/activation.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="libs/activation.jar"/>
+	<classpathentry kind="lib" path="libs/javax.mail.jar"/>
+	<classpathentry kind="lib" path="libs/restfb-2.11.0.jar"/>
+	<classpathentry kind="lib" path="libs/twitter4j-core-4.0.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
