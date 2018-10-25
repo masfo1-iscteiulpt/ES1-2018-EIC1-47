@@ -1,4 +1,5 @@
 package facebook;
+
 import java.util.List;
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
@@ -16,13 +17,14 @@ public class Facebook {
 	 * 
 	 * 	 
 	 */
-	public void getUser() {
-		String accessToken2 = "EAACec3COZB6ABAAoAPOmB9SLLxgHCxZCUPROZArp8bmBZAA3Qa28WpdcrjfPvwOZC0RwtsGojK4WvNrbwbxEwuR7xWtaZALmKDeqMEOHqewVPC7DovPsVagaq3MZAbgMgpecHN9wSDc6hBrzLsniXVAbFoLZBJByBjO8KSBo6GM6k6DAh7I8zxsYHfDt3id4LZCf8tnqMpWtzsUgirwVXGLG6p4CXPtwZC3rkZD";
+	public String getUser() {
+		String accessToken2 = "EAADf3tYDBH0BAIsGWmAMZBeCFsJCivLp6aVq24jXC9ox1BEPiUCgltoOfzFeyH7HAwvMJMQkV6mZCUBtKfo20ifh5OJl2smZBsOWdmA6hgo1sm9bZBMSdIgllEmYn4YK592S9iWXxxLwKY3EJIMqDqIlOrEf9XdWOtFDEuBwNNzxmSIQDZAuE4ZCS4TKKUiAnrDHxFARqUzKIidEDETWDVFxmdhtNcn44ZD";
 		FacebookClient fbClient2 = new DefaultFacebookClient(accessToken2);
 		User me2 = fbClient2.fetchObject("me", User.class);
 		System.out.println("Facebook:");
 		System.out.println("Id: " + me2.getId());
 		System.out.println("Name: " + me2.getName());
+		return me2.getId()+" "+me2.getName();
 	}
 	
 	/**
@@ -30,13 +32,15 @@ public class Facebook {
 	 * Description: Permite saber a validade do Extended Access Token
 	 * 	 
 	 */
-	public void getExtendedAccessToken() {
-		String accessToken4 = "EAACec3COZB6ABAAoAPOmB9SLLxgHCxZCUPROZArp8bmBZAA3Qa28WpdcrjfPvwOZC0RwtsGojK4WvNrbwbxEwuR7xWtaZALmKDeqMEOHqewVPC7DovPsVagaq3MZAbgMgpecHN9wSDc6hBrzLsniXVAbFoLZBJByBjO8KSBo6GM6k6DAh7I8zxsYHfDt3id4LZCf8tnqMpWtzsUgirwVXGLG6p4CXPtwZC3rkZD";
+	public String getExtendedAccessToken() {
+		String accessToken4 = "EAADf3tYDBH0BAIsGWmAMZBeCFsJCivLp6aVq24jXC9ox1BEPiUCgltoOfzFeyH7HAwvMJMQkV6mZCUBtKfo20ifh5OJl2smZBsOWdmA6hgo1sm9bZBMSdIgllEmYn4YK592S9iWXxxLwKY3EJIMqDqIlOrEf9XdWOtFDEuBwNNzxmSIQDZAuE4ZCS4TKKUiAnrDHxFARqUzKIidEDETWDVFxmdhtNcn44ZD";
 		FacebookClient fbClient4 = new DefaultFacebookClient(accessToken4);
-		AccessToken extendedAccessToken4 = fbClient4.obtainExtendedAccessToken("174218646846368",
-				"3a6cda5104f042edb9bd6683bf9d8dc0");
+		AccessToken extendedAccessToken4 = fbClient4.obtainExtendedAccessToken("246148166255741",
+				"a0313479d4a80eb56041620aeeaa1fd7");
 		System.out.println("ExtendedAccessToken: " + extendedAccessToken4.getAccessToken());
 		System.out.println("Expires: " + extendedAccessToken4.getExpires());
+		
+		return " "+extendedAccessToken4.getExpires().toString();
 	}
 
 	/**
@@ -48,7 +52,7 @@ public class Facebook {
 	 * 	 
 	 */
 	public void filterFacebookPost() {
-		String accessToken5 = "EAACec3COZB6ABAAoAPOmB9SLLxgHCxZCUPROZArp8bmBZAA3Qa28WpdcrjfPvwOZC0RwtsGojK4WvNrbwbxEwuR7xWtaZALmKDeqMEOHqewVPC7DovPsVagaq3MZAbgMgpecHN9wSDc6hBrzLsniXVAbFoLZBJByBjO8KSBo6GM6k6DAh7I8zxsYHfDt3id4LZCf8tnqMpWtzsUgirwVXGLG6p4CXPtwZC3rkZD";
+		String accessToken5 = "EAADf3tYDBH0BAIsGWmAMZBeCFsJCivLp6aVq24jXC9ox1BEPiUCgltoOfzFeyH7HAwvMJMQkV6mZCUBtKfo20ifh5OJl2smZBsOWdmA6hgo1sm9bZBMSdIgllEmYn4YK592S9iWXxxLwKY3EJIMqDqIlOrEf9XdWOtFDEuBwNNzxmSIQDZAuE4ZCS4TKKUiAnrDHxFARqUzKIidEDETWDVFxmdhtNcn44ZD";
 		FacebookClient fbClient5 = new DefaultFacebookClient(accessToken5);
 
 		Connection<Post> result = fbClient5.fetchConnection("me/feed", Post.class);
@@ -57,7 +61,7 @@ public class Facebook {
 		int counterTotal = 0;
 		for (List<Post> page : result) {
 			for (Post aPost : page) {
-				if (aPost.getMessage() != null && aPost.getMessage().contains("Inform")) {
+				if (aPost.getMessage() != null && aPost.getMessage().contains("ISCTE")) {
 					System.out.println("---- Post " + counter5 + " ----");
 					System.out.println("Id: " + "fb.com/" + aPost.getId());
 					System.out.println("Message: " + aPost.getMessage());
