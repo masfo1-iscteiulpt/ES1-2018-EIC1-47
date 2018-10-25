@@ -2,6 +2,7 @@ package twitter;
 
 import java.util.List;
 
+import gui.BdaGUI;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -39,9 +40,10 @@ public class Twitter_Class {
 	}
 	/**
 	 * Prints the first 20 Tweets from the logged user
+	 * @param frame 
 	 * 
 	 */
-	public void printTweets() {
+	public void printTweets(BdaGUI frame) {
 		TwitterFactory tf = new TwitterFactory(cbc.build());
     	Twitter twitter = tf.getInstance();        		
         List<Status> statuses;
@@ -52,6 +54,7 @@ public class Twitter_Class {
 			int counterTotal = 0;
 			for (Status status : statuses) {
 				if (status.getUser().getName() != null) {
+					frame.results.setText(status.getUser().getName() + ":" + status.getText() + " - " + status.getCreatedAt());
 					System.out.println(" ");
 					System.out.println(status.getUser().getName() + ":" + status.getText() + " - " + status.getCreatedAt());
 					System.out.println(" ");

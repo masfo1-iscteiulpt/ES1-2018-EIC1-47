@@ -16,6 +16,8 @@ import javax.mail.Store;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 
+import gui.BdaGUI;
+
 /**
  * This is a application to connect to Gmail server to retrieve received
  * e-mails.
@@ -54,9 +56,10 @@ public class RetrieveEmailsUsingIMAP {
 	 * @param port     port 993
 	 * @param userName user's mail "****gmail.com"
 	 * @param password user's password
+	 * @param frame 
 	 * @throws IOException
 	 */
-	public void getEmails(String protocol, String host, String port, String userName, String password)
+	public void getEmails(String protocol, String host, String port, String userName, String password, BdaGUI frame)
 			throws IOException {
 
 		System.out.println("Inside getEmails method...");
@@ -137,7 +140,7 @@ public class RetrieveEmailsUsingIMAP {
 				messageContent = htmlRemove(messageContent);
 				System.out.println("\t Message: " + messageContent);
 				System.out.println("\t Attachments: " + attachFiles);
-
+				frame.results.setText(messageContent);
 			}
 
 			inbox.close(false);
@@ -267,19 +270,6 @@ public class RetrieveEmailsUsingIMAP {
 		}
 
 		return null;
-	}
-
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 * @throws IOException
-	 */
-	// -------------------------------------------------
-	public static void main(String[] args) throws IOException {
-
-		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
-		tmu.getEmails("imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com", "CrokaNation12");
 	}
 
 }

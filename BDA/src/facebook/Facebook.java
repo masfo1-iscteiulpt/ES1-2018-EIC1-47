@@ -17,7 +17,7 @@ public class Facebook {
 	 * 	 
 	 */
 	public void getUser() {
-		String accessToken2 = "EAACec3COZB6ABAPQOD6ZC37zJdEXqkU2jnPoeZA4vUBdBlV7RzFuGbn0WrpjdfaslqZCxjcZAbRE9tGHMWpVWAWSDt589sXHwMdvxLTLPSow5QVvL9HgA7R3r0o9A6F8Ex3tkAsdKMuSZC5DdMfq8Ejj9B5ZAoCEy6ZB9LZBR7NOnYjaJB1ZBbsZCskBuZBDBHKpZCZChPBEJ0FhKqRZC12qWxaXvGAdp7y49hFmIsZD";
+		String accessToken2 = "EAACec3COZB6ABAIaHqPhYzgWiFjNQc7nuxMDZAZC0IPRIodiqeAOhlZC8z89yNJfImoUrrI2fr98ZBVawjE9oZA0GBjEdA0b5bLGkAhgiQsSEhByarRZBgOlmGvz1EwdFRIzZBrqtZCbYUnBczm1I6Tkjsjx4MJkdBTxgTNIT44ZBWnwMMEMKgEE145XaDg5MJiwPJxGsnJptTNB6Po06wkMAI";
 		FacebookClient fbClient2 = new DefaultFacebookClient(accessToken2);
 		User me2 = fbClient2.fetchObject("me", User.class);
 		System.out.println("Facebook:");
@@ -48,8 +48,7 @@ public class Facebook {
 	 * 	 
 	 */
 	public void filterFacebookPost() {
-		// "EAACec3COZB6ABAPQOD6ZC37zJdEXqkU2jnPoeZA4vUBdBlV7RzFuGbn0WrpjdfaslqZCxjcZAbRE9tGHMWpVWAWSDt589sXHwMdvxLTLPSow5QVvL9HgA7R3r0o9A6F8Ex3tkAsdKMuSZC5DdMfq8Ejj9B5ZAoCEy6ZB9LZBR7NOnYjaJB1ZBbsZCskBuZBDBHKpZCZChPBEJ0FhKqRZC12qWxaXvGAdp7y49hFmIsZD
-		String accessToken5 = "EAACec3COZB6ABAPQOD6ZC37zJdEXqkU2jnPoeZA4vUBdBlV7RzFuGbn0WrpjdfaslqZCxjcZAbRE9tGHMWpVWAWSDt589sXHwMdvxLTLPSow5QVvL9HgA7R3r0o9A6F8Ex3tkAsdKMuSZC5DdMfq8Ejj9B5ZAoCEy6ZB9LZBR7NOnYjaJB1ZBbsZCskBuZBDBHKpZCZChPBEJ0FhKqRZC12qWxaXvGAdp7y49hFmIsZD";
+		String accessToken5 = "EAACec3COZB6ABAHMfp80IK8hYx8L6KSZCF2ymLWXfcgO1jDHZANpbZBoy7sS7ujZBL1MLc3m0IqUnCUv2pxoXZBZBeaF6NhZCYOZA9k2soHEvQ3K9ajuuD4rlOO6HMjqufA9B3hHSb2ADEJ8xnyIoqbl9oMuDVsfUfRqkVd9D4f38z8vtaXeZAsq0nvL0ZACj3SRBKGKnhEv0La1S4id4lRSNJV";
 		FacebookClient fbClient5 = new DefaultFacebookClient(accessToken5);
 
 		Connection<Post> result = fbClient5.fetchConnection("me/feed", Post.class);
