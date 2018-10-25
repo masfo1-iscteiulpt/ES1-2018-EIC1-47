@@ -132,17 +132,24 @@ public class RetrieveEmailsUsingIMAP {
 						messageContent = content.toString();
 					}
 				}
-				System.out.println("...................");
-				System.out.println("\t Message #: " + (i + 1));
-				System.out.println("\t From: " + fromemail);
-				System.out.println("\t To: " + toemail);
-				System.out.println("\t CC: " + ccemails);
-				System.out.println("\t Subject: " + subject);
-				System.out.println("\t Sent Date: " + sentdate);
+				//System.out.println("...................");
+				//System.out.println("\t Message #: " + (i + 1));
+				//System.out.println("\t From: " + fromemail);
+				String mc = "\t From: " + fromemail;
+				//System.out.println("\t To: " + toemail);
+				mc += "\t To: " + toemail;
+				//System.out.println("\t CC: " + ccemails);
+				mc += "\t CC: " + ccemails;
+				//System.out.println("\t Subject: " + subject);
+				mc += "\t subject: " + subject;
+				//System.out.println("\t Sent Date: " + sentdate);
+				mc += "\t Sent Date: " + sentdate;
 				messageContent = htmlRemove(messageContent);
-				System.out.println("\t Message: " + messageContent);
-				System.out.println("\t Attachments: " + attachFiles);
-				frame.addMessage(new MessagePanel(messageContent, new Color(193, 64, 63)));
+				//System.out.println("\t Message: " + messageContent);
+				mc += "\n" + "\n"+ "Message: " + messageContent;
+				//System.out.println("\t Attachments: " + attachFiles);
+				mc += "\t Attachments: " + attachFiles;
+				frame.addMessage(new MessagePanel(mc, new Color(193, 64, 63)));
 				
 			}
 
