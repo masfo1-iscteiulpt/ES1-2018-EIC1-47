@@ -1,6 +1,8 @@
 import java.awt.EventQueue;
 
 import gui.BdaGUI;
+import twitter.Twitter_Class;
+import twitter4j.conf.ConfigurationBuilder;
 
 public class main {
 
@@ -15,6 +17,18 @@ public class main {
 				}
 			}
 		});
+		
+		//twitter main xd
+		try {
+			ConfigurationBuilder cb = new ConfigurationBuilder();
+			Twitter_Class tw = new Twitter_Class(cb);
+			tw.sign_in();
+			tw.printTweets();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		
 	}
 
 }
