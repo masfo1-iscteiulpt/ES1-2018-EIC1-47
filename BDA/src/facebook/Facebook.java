@@ -14,6 +14,8 @@ import gui.MessagePanel;
 
 public class Facebook {
 
+	private String token = "EAALKZAOc8jaMBAAsUVjACUZA7gMMkciI8ZBc0LoEZCPlmTwIJAhMY4dxleLJjdLuDh56VTXWr5576tZBmm7PCVBb68jGy9Yq9ZBUPWQNprbhEgUWZCvFaA8K5Tidbhf55O4RLxD5K7O3BzQYIFvQqZAMtwcqw2mrRHXVK9IkkCqU7jiCk92LLZAhO2uEjtP4NwfvmnKZCfoxZCmnakZB2qV73NbT0ebbGnWyTNQZD";
+
 	/**
 	 * 
 	 * Description: Permite saber o user que possui aquele Access Token
@@ -22,7 +24,7 @@ public class Facebook {
 	 * 	 
 	 */
 	public String getUser() {
-		String accessToken2 = "EAADf3tYDBH0BAIsGWmAMZBeCFsJCivLp6aVq24jXC9ox1BEPiUCgltoOfzFeyH7HAwvMJMQkV6mZCUBtKfo20ifh5OJl2smZBsOWdmA6hgo1sm9bZBMSdIgllEmYn4YK592S9iWXxxLwKY3EJIMqDqIlOrEf9XdWOtFDEuBwNNzxmSIQDZAuE4ZCS4TKKUiAnrDHxFARqUzKIidEDETWDVFxmdhtNcn44ZD";
+		String accessToken2 = token;
 		FacebookClient fbClient2 = new DefaultFacebookClient(accessToken2);
 		User me2 = fbClient2.fetchObject("me", User.class);
 		System.out.println("Facebook:");
@@ -37,10 +39,10 @@ public class Facebook {
 	 * 	 
 	 */
 	public String getExtendedAccessToken() {
-		String accessToken4 = "EAADf3tYDBH0BAIsGWmAMZBeCFsJCivLp6aVq24jXC9ox1BEPiUCgltoOfzFeyH7HAwvMJMQkV6mZCUBtKfo20ifh5OJl2smZBsOWdmA6hgo1sm9bZBMSdIgllEmYn4YK592S9iWXxxLwKY3EJIMqDqIlOrEf9XdWOtFDEuBwNNzxmSIQDZAuE4ZCS4TKKUiAnrDHxFARqUzKIidEDETWDVFxmdhtNcn44ZD";
+		String accessToken4 = token;
 		FacebookClient fbClient4 = new DefaultFacebookClient(accessToken4);
-		AccessToken extendedAccessToken4 = fbClient4.obtainExtendedAccessToken("246148166255741",
-				"a0313479d4a80eb56041620aeeaa1fd7");
+		AccessToken extendedAccessToken4 = fbClient4.obtainExtendedAccessToken("785484678466979",
+				"98d490925815e4a3eb615da0d94a5983");
 		System.out.println("ExtendedAccessToken: " + extendedAccessToken4.getAccessToken());
 		System.out.println("Expires: " + extendedAccessToken4.getExpires());
 		
@@ -57,31 +59,31 @@ public class Facebook {
 	 * 	 
 	 */
 	public void filterFacebookPost(BdaGUI frame) {
-		String accessToken5 = "EAADf3tYDBH0BAIsGWmAMZBeCFsJCivLp6aVq24jXC9ox1BEPiUCgltoOfzFeyH7HAwvMJMQkV6mZCUBtKfo20ifh5OJl2smZBsOWdmA6hgo1sm9bZBMSdIgllEmYn4YK592S9iWXxxLwKY3EJIMqDqIlOrEf9XdWOtFDEuBwNNzxmSIQDZAuE4ZCS4TKKUiAnrDHxFARqUzKIidEDETWDVFxmdhtNcn44ZD";
+		String accessToken5 = token;
 		FacebookClient fbClient5 = new DefaultFacebookClient(accessToken5);
 
 		Connection<Post> result = fbClient5.fetchConnection("me/feed", Post.class);
 		System.out.println("\nPosts:");
-		int counter = 0;
+		int counter5 = 0;
 		int counterTotal = 0;
 		for (List<Post> page : result) {
 			for (Post aPost : page) {
-				if (aPost.getMessage() != null && aPost.getMessage().contains("ISCTE")) {
-					//System.out.println("---- Post " + counter5 + " ----");
+				//if (aPost.getMessage() != null && aPost.getMessage().contains("PROJETO SE")) {
+					System.out.println("---- Post " + counter5 + " ----");
 					System.out.println("Id: " + "fb.com/" + aPost.getId());
 					String mc = "Message: " + aPost.getMessage();
 					mc += "\n" + "Caption: " + aPost.getDescription();
 					mc += "\n" + "Created: " + aPost.getCreatedTime();
 					System.out.println("Message: " + aPost.getMessage());
 					System.out.println("Created: " + aPost.getCreatedTime());
-					counter++;
+					counter5++;
 					
 					frame.addMessage(new MessagePanel(mc, new Color(74, 110, 170)));
-				}
+				//}
 				counterTotal++;
 			}
 		}
-		System.out.println("-------------\nNº of Results: " + counter + "/" + counterTotal);
+		System.out.println("-------------\nNº of Results: " + counter5 + "/" + counterTotal);
 	}
 	
 
