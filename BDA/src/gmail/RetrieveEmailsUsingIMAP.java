@@ -19,6 +19,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.swing.JLabel;
 import gui.BdaGUI;
 import gui.MessagePanel;
+import gui.ServiceType;
 
 /**
  * This is a application to connect to Gmail server to retrieve received
@@ -149,7 +150,7 @@ public class RetrieveEmailsUsingIMAP {
 				mc += "\n" + "\n"+ "Message: " + messageContent;
 				//System.out.println("\t Attachments: " + attachFiles);
 				mc += "\t Attachments: " + attachFiles;
-				frame.addMessage(new MessagePanel(mc, new Color(193, 64, 63)));
+				frame.addMessage(new MessagePanel(mc, ServiceType.GM));
 				
 			}
 

@@ -10,8 +10,12 @@ import java.awt.Dimension;
 
 public class MessagePanel extends JPanel{
 	
-	public MessagePanel(String text, Color c) {
-		
+	private ServiceType serviceType;
+	private String messageContent;
+	
+	public MessagePanel(String mc, ServiceType st) {
+		serviceType = st;
+		messageContent = mc;
 		JTextArea textArea = new JTextArea();
 		textArea.setWrapStyleWord(true);
 		textArea.setLineWrap(true);
@@ -20,7 +24,7 @@ public class MessagePanel extends JPanel{
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(null);
-		panel.setBackground(c);
+		panel.setBackground(st.color());
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -34,6 +38,10 @@ public class MessagePanel extends JPanel{
 				.addComponent(textArea, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
 		);
 		setLayout(groupLayout);
-		textArea.setText(text);
+		textArea.setText(mc);
+	}
+
+	public ServiceType getService() {
+		return serviceType;
 	}
 }

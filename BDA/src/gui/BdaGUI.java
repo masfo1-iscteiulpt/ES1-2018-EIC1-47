@@ -2,14 +2,10 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.util.LinkedList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -19,21 +15,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JList;
-import java.awt.ScrollPane;
-import java.awt.TextArea;
-import java.awt.Component;
-import java.awt.Label;
-import javax.swing.JRadioButton;
-import javax.swing.JTextPane;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
 
 public class BdaGUI extends JFrame {
 
@@ -50,8 +35,6 @@ public class BdaGUI extends JFrame {
 	private JTextField searchField;
 	public JPanel resultsPanel;
 	public GroupLayout layout;
-	public GroupLayout.Group vertical;
-	public GroupLayout.Group horizontal;
 	public GroupLayout.Group sequential;
 	public GroupLayout.ParallelGroup parallel;
 	private JScrollPane resultsScrollPane;
@@ -60,6 +43,7 @@ public class BdaGUI extends JFrame {
 	private JLabel serachAdvLbl;
 	private JTextField searchAdvUser;
 	private JLabel settings;
+	private LinkedList<MessagePanel> messages = new LinkedList<MessagePanel>();
 	
 	public BdaGUI() {
 		setTitle("Bom Dia Academia");
@@ -78,10 +62,12 @@ public class BdaGUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Filter tw");
+				removeFilters();
+				filterMessages(ServiceType.TW);
 			}
 		});
 		twPanel.setMinimumSize(new Dimension(100, 100));
-		twPanel.setBackground(new Color(29, 161, 243));
+		twPanel.setBackground(ServiceType.TW.color());
 		twPanel.setBorder(null);
 		
 		twLogo = new JLabel("");
@@ -110,10 +96,12 @@ public class BdaGUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Filter fb");
+				removeFilters();
+				filterMessages(ServiceType.FB);
 			}
 		});
 		fbPanel.setMinimumSize(new Dimension(100, 100));
-		fbPanel.setBackground(new Color(74, 110, 170));
+		fbPanel.setBackground(ServiceType.FB.color());
 		fbPanel.setBorder(null);
 		
 		fbLogo = new JLabel("");
@@ -141,10 +129,11 @@ public class BdaGUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Filter email");
+				filterMessages(ServiceType.GM);
 			}
 		});
 		emailPanel.setMinimumSize(new Dimension(100, 100));
-		emailPanel.setBackground(new Color(193, 64, 63));
+		emailPanel.setBackground(ServiceType.GM.color());
 		emailPanel.setBorder(null);
 		
 		emailLogo = new JLabel("");
@@ -172,12 +161,13 @@ public class BdaGUI extends JFrame {
 		bdaPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("Remove filter");
+				System.out.println("Remove filters");
+				removeFilters();
 			}
 		});
 		bdaPanel.setMinimumSize(new Dimension(100, 100));
 		bdaPanel.setBorder(null);
-		bdaPanel.setBackground(new Color(255, 138, 0));
+		bdaPanel.setBackground(ServiceType.BDA.color());
 		
 		JLabel bdaLogo = new JLabel("");
 		bdaLogo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -254,7 +244,9 @@ public class BdaGUI extends JFrame {
 		search.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("Perform search for " + searchField.getText());
+				if(searchField.getText() != "") {
+					System.out.println("Perform search for " + searchField.getText());
+				}
 			}
 		});
 		search.setPreferredSize(new Dimension(24, 24));
@@ -269,13 +261,12 @@ public class BdaGUI extends JFrame {
 					searchAdvPanel.setVisible(false);
 				} else {
 					searchAdvPanel.setVisible(true);
-					System.out.println("dale");
 				}
 			}
 		});
 		searchAdv.setIcon(new ImageIcon(BdaGUI.class.getResource("/resources/searchAdv.png")));
 		
-		searchField = new JTextField();
+		searchField = new JTextField("");
 		searchField.setForeground(Color.WHITE);
 		searchField.setCaretColor(Color.WHITE);
 		searchField.setBorder(null);
@@ -284,22 +275,10 @@ public class BdaGUI extends JFrame {
 		
 		searchAdvPanel = new JPanel();
 		searchAdvPanel.setVisible(false);
-		searchAdvPanel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("click!");
-			}
-		});
 		searchAdvPanel.setBackground(new Color(100, 100, 100));
 		
 		searchAdvPanel = new JPanel();
 		searchAdvPanel.setVisible(false);
-		searchAdvPanel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("click!");
-			}
-		});
 		searchAdvPanel.setBackground(new Color(100, 100, 100));		
 		
 		serachAdvLbl = new JLabel("Advanced Search");
@@ -412,8 +391,26 @@ public class BdaGUI extends JFrame {
 	}
 	
 	public void addMessage(MessagePanel mp) {
+		messages.add(mp);
 		parallel.addGroup(layout.createSequentialGroup().addComponent(mp));
 		sequential.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(mp));
 		mp.validate();
 	}
+	
+	public void filterMessages(ServiceType st) {
+		for(MessagePanel p : messages) {
+			if(p.getService() != st) {
+				p.setVisible(false);
+			}
+		}
+	}
+	
+	public void removeFilters() {
+		for(MessagePanel p : messages) {
+			if(!p.isVisible()) {
+				p.setVisible(true);
+			}
+		}
+	}
+	
 }

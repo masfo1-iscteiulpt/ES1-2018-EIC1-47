@@ -11,6 +11,7 @@ import com.restfb.types.User;
 
 import gui.BdaGUI;
 import gui.MessagePanel;
+import gui.ServiceType;
 
 public class Facebook {
 
@@ -77,7 +78,7 @@ public class Facebook {
 					System.out.println("Created: " + aPost.getCreatedTime());
 					counter5++;
 					
-					frame.addMessage(new MessagePanel(mc, new Color(74, 110, 170)));
+					frame.addMessage(new MessagePanel(mc, ServiceType.FB));
 				//}
 				counterTotal++;
 			}

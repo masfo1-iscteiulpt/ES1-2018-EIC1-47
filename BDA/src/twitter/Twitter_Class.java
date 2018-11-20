@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 
 import gui.BdaGUI;
 import gui.MessagePanel;
+import gui.ServiceType;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -64,7 +65,7 @@ public class Twitter_Class {
 					System.out.println(" ");
 					System.out.println("-------------------------------------------------------------------");
 					counter++;
-					frame.addMessage(new MessagePanel(status.getUser().getName() + ":" + status.getText() + " - " + status.getCreatedAt(), new Color(29, 161, 243)));
+					frame.addMessage(new MessagePanel(status.getUser().getName() + ":" + status.getText() + " - " + status.getCreatedAt(), ServiceType.TW));
 				}
 				counterTotal++;
 			}

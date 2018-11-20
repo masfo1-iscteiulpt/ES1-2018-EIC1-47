@@ -35,7 +35,7 @@ public class Settings extends JFrame {
 	public Settings() {
 		setResizable(false);
 		setTitle("Settings");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 500, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -93,11 +93,11 @@ public class Settings extends JFrame {
 		});
 		
 		fbPanel = new JPanel();
-		fbPanel.setBackground(new Color(74, 110, 170));
+		fbPanel.setBackground(ServiceType.FB.color());
 		twPanel = new JPanel();
-		twPanel.setBackground(new Color(29, 161, 243));
+		twPanel.setBackground(ServiceType.TW.color());
 		mailPanel = new JPanel();
-		mailPanel.setBackground(new Color(193, 64, 63));
+		mailPanel.setBackground(ServiceType.GM.color());
 		
 		JButton saveButton = new JButton("Save");
 		saveButton.addActionListener(new ActionListener() {
