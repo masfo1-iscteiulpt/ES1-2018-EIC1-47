@@ -59,6 +59,7 @@ public class BdaGUI extends JFrame {
 	private JPanel searchAdvPanel;
 	private JLabel serachAdvLbl;
 	private JTextField searchAdvUser;
+	private JLabel settings;
 	
 	public BdaGUI() {
 		setTitle("Bom Dia Academia");
@@ -312,8 +313,19 @@ public class BdaGUI extends JFrame {
 		searchAdvTime.setSelectedIndex(6);
 		
 		JLabel searchAdvTimeLbl = new JLabel("Time:");
-		
 		JLabel searchAdvUserLbl = new JLabel("From user:");
+		
+		settings = new JLabel("");
+		settings.setPreferredSize(new Dimension(24, 24));
+		settings.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Settings frame = new Settings();
+				frame.setVisible(true);
+			}
+		});
+		settings.setIcon(new ImageIcon(BdaGUI.class.getResource("/resources/settings.png")));
+		
 		GroupLayout gl_searchAdvPanel = new GroupLayout(searchAdvPanel);
 		gl_searchAdvPanel.setHorizontalGroup(
 			gl_searchAdvPanel.createParallelGroup(Alignment.LEADING)
@@ -361,6 +373,8 @@ public class BdaGUI extends JFrame {
 					.addComponent(search, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(searchAdv, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(settings, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addGap(18))
 		);
 		gl_menuPanel.setVerticalGroup(
@@ -370,10 +384,11 @@ public class BdaGUI extends JFrame {
 					.addGroup(gl_menuPanel.createParallelGroup(Alignment.LEADING, false)
 						.addComponent(searchField, GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
 						.addGap(10)
-						.addComponent(search, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+						.addComponent(search, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
 						.addGap(10)
-						.addComponent(searchAdv, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(15))
+						.addComponent(searchAdv, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGap(10)
+						.addComponent(settings, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 		);
 		
 		menuPanel.setLayout(gl_menuPanel);

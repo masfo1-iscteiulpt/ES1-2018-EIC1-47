@@ -30,7 +30,7 @@ public class Facebook {
 		System.out.println("Facebook:");
 		System.out.println("Id: " + me2.getId());
 		System.out.println("Name: " + me2.getName());
-		return me2.getId()+" "+me2.getName();
+		return me2.getId() + " " + me2.getName();
 	}
 	
 	/**
@@ -41,12 +41,11 @@ public class Facebook {
 	public String getExtendedAccessToken() {
 		String accessToken4 = token;
 		FacebookClient fbClient4 = new DefaultFacebookClient(accessToken4);
-		AccessToken extendedAccessToken4 = fbClient4.obtainExtendedAccessToken("785484678466979",
-				"98d490925815e4a3eb615da0d94a5983");
+		AccessToken extendedAccessToken4 = fbClient4.obtainExtendedAccessToken("785484678466979", "98d490925815e4a3eb615da0d94a5983");
 		System.out.println("ExtendedAccessToken: " + extendedAccessToken4.getAccessToken());
 		System.out.println("Expires: " + extendedAccessToken4.getExpires());
 		
-		return " "+extendedAccessToken4.getExpires().toString();
+		return " " + extendedAccessToken4.getExpires().toString();
 	}
 
 	/**
