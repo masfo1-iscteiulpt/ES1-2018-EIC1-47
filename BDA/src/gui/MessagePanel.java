@@ -11,9 +11,9 @@ import java.awt.Dimension;
 public class MessagePanel extends JPanel{
 	
 	public MessagePanel(String text, Color c) {
-		setPreferredSize(new Dimension(100, 100));
 		
 		JTextArea textArea = new JTextArea();
+		textArea.setWrapStyleWord(true);
 		textArea.setLineWrap(true);
 		textArea.setBorder(null);
 		textArea.setEditable(false);
