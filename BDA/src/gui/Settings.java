@@ -104,6 +104,9 @@ public class Settings extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("save changes");
+				boolean fw = chckbxTw.isSelected();
+				boolean tw = chckbxTw.isSelected();
+				boolean gm = chckbxGmail.isSelected();
 			}
 		});
 		

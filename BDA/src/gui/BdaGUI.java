@@ -62,7 +62,6 @@ public class BdaGUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Filter tw");
-				removeFilters();
 				filterMessages(ServiceType.TW);
 			}
 		});
@@ -96,7 +95,6 @@ public class BdaGUI extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Filter fb");
-				removeFilters();
 				filterMessages(ServiceType.FB);
 			}
 		});
@@ -207,7 +205,7 @@ public class BdaGUI extends JFrame {
         parallel = layout.createParallelGroup();
         layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(parallel));
         sequential = layout.createSequentialGroup();
-        layout.setVerticalGroup(sequential);	
+        layout.setVerticalGroup(sequential);
 		
 		JPanel menuPanel = new JPanel();
 		menuPanel.setBackground(new Color(200, 200, 200));
@@ -246,6 +244,7 @@ public class BdaGUI extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				if(searchField.getText() != "") {
 					System.out.println("Perform search for " + searchField.getText());
+					filterMessages(searchField.getText());
 				}
 			}
 		});
@@ -398,8 +397,17 @@ public class BdaGUI extends JFrame {
 	}
 	
 	public void filterMessages(ServiceType st) {
+		removeFilters();
 		for(MessagePanel p : messages) {
 			if(p.getService() != st) {
+				p.setVisible(false);
+			}
+		}
+	}
+	
+	public void filterMessages(String key) {
+		for(MessagePanel p : messages) {
+			if(!p.getMessage().contains(key)) {
 				p.setVisible(false);
 			}
 		}

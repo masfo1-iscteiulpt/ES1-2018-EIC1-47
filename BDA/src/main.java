@@ -15,7 +15,7 @@ import twitter4j.conf.ConfigurationBuilder;
 public class main {
 
 	public static BdaGUI frame;
-	
+
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
 		EventQueue.invokeAndWait(new Runnable() {
 			public void run() {
@@ -28,6 +28,10 @@ public class main {
 			}
 		});
 
+		startServices();
+	}
+
+	public static void startServices() {
 		// tw init
 		try {
 			ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -49,9 +53,13 @@ public class main {
 
 		// fb init
 		Facebook fb = new Facebook();
-		fb.getUser();
-		fb.getExtendedAccessToken();
-		fb.filterFacebookPost(frame);
+		try {
+			fb.getUser();
+			fb.getExtendedAccessToken();
+			fb.filterFacebookPost(frame);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 }
