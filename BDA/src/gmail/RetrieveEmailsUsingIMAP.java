@@ -37,7 +37,7 @@ public class RetrieveEmailsUsingIMAP {
 	 * @param port
 	 * @return
 	 */
-	private static Properties getServerProperties(String protocol, String host, String port) {
+	protected static Properties getServerProperties(String protocol, String host, String port) {
 		System.out.println("Connecting please wait...");
 		Properties properties = new Properties();
 		properties.put(String.format("mail.%s.host", protocol), host);
@@ -63,7 +63,7 @@ public class RetrieveEmailsUsingIMAP {
 	 * @throws IOException
 	 */
 	public void getEmails(String protocol, String host, String port, String userName, String password, BdaGUI frame)
-			throws IOException {
+			throws IOException, NoSuchProviderException {
 
 		System.out.println("Inside getEmails method...");
 		Properties properties = getServerProperties(protocol, host, port);

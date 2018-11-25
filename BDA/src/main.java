@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+import javax.mail.NoSuchProviderException;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -47,6 +48,9 @@ public class main {
 		try {
 			tmu.getEmails("imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com", "CrokaNation12", frame);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchProviderException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
