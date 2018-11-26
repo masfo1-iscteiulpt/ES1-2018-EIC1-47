@@ -14,7 +14,7 @@ import gui.MessagePanel;
 
 public class Facebook {
 
-	private String token = "EAALKZAOc8jaMBAAsUVjACUZA7gMMkciI8ZBc0LoEZCPlmTwIJAhMY4dxleLJjdLuDh56VTXWr5576tZBmm7PCVBb68jGy9Yq9ZBUPWQNprbhEgUWZCvFaA8K5Tidbhf55O4RLxD5K7O3BzQYIFvQqZAMtwcqw2mrRHXVK9IkkCqU7jiCk92LLZAhO2uEjtP4NwfvmnKZCfoxZCmnakZB2qV73NbT0ebbGnWyTNQZD";
+	private String token = "EAALKZAOc8jaMBAIs2snZBg6ZC7uZB6FwZAIxHjouvnHHnT1nwvvAl4agkkfvPyJfkWgPZAZCN5bZCOgRPwwbPxaH3ZC4KVtgajZAxdpdtQtEAcST9Wzkx9sYs68bIs08YdNWk9SVjgz9VL8R7810znQ91g7bpHITZBZCBKmAdx9uKOZAIDuU4sqeTYzLYMPE8dbeJjXM54GRqmCtrdMIqGpy4ZC5yk";
 
 	/**
 	 * 
