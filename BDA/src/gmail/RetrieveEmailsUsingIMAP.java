@@ -17,9 +17,10 @@ import javax.mail.Store;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.swing.JLabel;
+
+import enums.ServiceType;
 import gui.BdaGUI;
 import gui.MessagePanel;
-import gui.ServiceType;
 
 /**
  * This is a application to connect to Gmail server to retrieve received

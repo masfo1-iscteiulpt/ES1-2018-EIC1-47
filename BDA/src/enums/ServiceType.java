@@ -1,4 +1,4 @@
-package gui;
+package enums;
 
 import java.awt.Color;
 

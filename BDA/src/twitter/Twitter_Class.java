@@ -6,9 +6,9 @@ import java.util.List;
 import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 
+import enums.ServiceType;
 import gui.BdaGUI;
 import gui.MessagePanel;
-import gui.ServiceType;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;

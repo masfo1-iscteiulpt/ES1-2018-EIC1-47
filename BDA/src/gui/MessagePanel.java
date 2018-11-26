@@ -6,6 +6,9 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import enums.ServiceType;
+
 import java.util.Date;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;

@@ -8,9 +8,9 @@ import com.restfb.FacebookClient.AccessToken;
 import com.restfb.types.Post;
 import com.restfb.types.User;
 
+import enums.ServiceType;
 import gui.BdaGUI;
 import gui.MessagePanel;
-import gui.ServiceType;
 
 public class Facebook {
 

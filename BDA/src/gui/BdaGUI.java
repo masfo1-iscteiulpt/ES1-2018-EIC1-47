@@ -23,6 +23,9 @@ import javax.swing.SwingConstants;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import enums.ServiceType;
+import enums.Time;
+
 public class BdaGUI extends JFrame {
 
 	private JPanel contentPane;
