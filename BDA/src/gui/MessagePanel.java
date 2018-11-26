@@ -16,7 +16,7 @@ public class MessagePanel extends JPanel{
 	
 	private ServiceType serviceType;
 	private String messageContent;
-	private String emitter;
+	private String sender;
 	private Date dateSent;
 	private JTextPane fullMesage;
 	private JTextPane headerMsg;
@@ -25,7 +25,7 @@ public class MessagePanel extends JPanel{
 		serviceType = st;
 		messageContent = mc;
 		dateSent = date;
-		emitter = from;
+		sender = from;
 		
 		JPanel headerPane = new JPanel();
 		
@@ -68,7 +68,7 @@ public class MessagePanel extends JPanel{
 				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
 				.addComponent(headerPane, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
 		);
-		JLabel fromLabel = new JLabel(emitter);
+		JLabel fromLabel = new JLabel(sender);
 		fromLabel.setHorizontalTextPosition(SwingConstants.LEADING);
 		
 		JLabel dateLabel = new JLabel(dateSent.toString());
@@ -124,5 +124,13 @@ public class MessagePanel extends JPanel{
 
 	public String getMessage() {
 		return messageContent;
+	}
+	
+	public String getSender() {
+		return sender;
+	}
+	
+	public Date getDate() {
+		return dateSent;
 	}
 }

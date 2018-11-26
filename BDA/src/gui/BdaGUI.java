@@ -3,8 +3,11 @@ package gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.List;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 import java.util.LinkedList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -42,6 +45,7 @@ public class BdaGUI extends JFrame {
 	private JPanel searchAdvPanel;
 	private JLabel serachAdvLbl;
 	private JTextField searchAdvUser;
+	private JComboBox<Time> searchAdvTime;
 	private JLabel settings;
 	private LinkedList<MessagePanel> messages = new LinkedList<MessagePanel>();
 	
@@ -274,10 +278,6 @@ public class BdaGUI extends JFrame {
 		
 		searchAdvPanel = new JPanel();
 		searchAdvPanel.setVisible(false);
-		searchAdvPanel.setBackground(new Color(100, 100, 100));
-		
-		searchAdvPanel = new JPanel();
-		searchAdvPanel.setVisible(false);
 		searchAdvPanel.setBackground(new Color(100, 100, 100));		
 		
 		serachAdvLbl = new JLabel("Advanced Search");
@@ -286,8 +286,18 @@ public class BdaGUI extends JFrame {
 		searchAdvUser = new JTextField();
 		searchAdvUser.setColumns(10);
 		
-		JComboBox searchAdvTime = new JComboBox();
-		searchAdvTime.setModel(new DefaultComboBoxModel(new String[] {"12h", "1d", "2d", "5d", "10d", "30d", "All"}));
+		JLabel searchAdvBut = new JLabel();
+		searchAdvBut.setHorizontalAlignment(SwingConstants.CENTER);
+		searchAdvBut.setIcon(new ImageIcon(BdaGUI.class.getResource("/resources/searchAdv.png")));
+		searchAdvBut.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				performAdvSearch();
+			}
+		});
+		
+		searchAdvTime = new JComboBox<Time>();
+		searchAdvTime.setModel(new DefaultComboBoxModel(new Time[] {Time.H12, Time.D1, Time.D2, Time.D5, Time.D10, Time.D30, Time.ALL}));
 		searchAdvTime.setSelectedIndex(6);
 		
 		JLabel searchAdvTimeLbl = new JLabel("Time:");
@@ -314,15 +324,16 @@ public class BdaGUI extends JFrame {
 							.addComponent(searchAdvTimeLbl)
 							.addContainerGap())
 						.addGroup(gl_searchAdvPanel.createSequentialGroup()
-							.addGroup(gl_searchAdvPanel.createParallelGroup(Alignment.TRAILING)
+							.addGroup(gl_searchAdvPanel.createParallelGroup(Alignment.LEADING)
 								.addComponent(searchAdvTime, Alignment.LEADING, 0, 86, Short.MAX_VALUE)
 								.addComponent(searchAdvUser)
-								.addGroup(Alignment.LEADING, gl_searchAdvPanel.createSequentialGroup()
+								.addGroup(gl_searchAdvPanel.createSequentialGroup()
 									.addGap(2)
 									.addGroup(gl_searchAdvPanel.createParallelGroup(Alignment.LEADING)
 										.addComponent(searchAdvUserLbl)
-										.addComponent(serachAdvLbl, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-							.addGap(31))))
+										.addComponent(serachAdvLbl, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+								.addComponent(searchAdvBut, Alignment.CENTER, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
+							.addGap(32))))
 		);
 		gl_searchAdvPanel.setVerticalGroup(
 			gl_searchAdvPanel.createParallelGroup(Alignment.LEADING)
@@ -337,7 +348,9 @@ public class BdaGUI extends JFrame {
 					.addComponent(searchAdvTimeLbl)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(searchAdvTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(435))
+					.addPreferredGap(ComponentPlacement.RELATED, 390, Short.MAX_VALUE)
+					.addComponent(searchAdvBut)
+					.addGap(20))
 		);
 		searchAdvPanel.setLayout(gl_searchAdvPanel);
 		
@@ -421,4 +434,17 @@ public class BdaGUI extends JFrame {
 		}
 	}
 	
+	public void performAdvSearch() {
+		removeFilters();
+		long ms = ((Time) searchAdvTime.getSelectedItem() ).getSeconds();
+		
+		for(MessagePanel p : messages) {
+			if(!searchAdvUser.getText().equals("") && !p.getSender().equals(searchAdvUser.getText())) {
+				p.setVisible(false);
+			}
+			if(ms!=0 && p.getDate().getTime() < (System.currentTimeMillis() - ms*1000)) {
+				p.setVisible(false);
+			}
+		}
+	}
 }
