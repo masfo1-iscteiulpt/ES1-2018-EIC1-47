@@ -1,6 +1,5 @@
 package facebook;
 
-import java.awt.Color;
 import java.util.List;
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;

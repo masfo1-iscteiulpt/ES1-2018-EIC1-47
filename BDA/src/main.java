@@ -1,17 +1,13 @@
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.mail.NoSuchProviderException;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
+import twitter4j.conf.ConfigurationBuilder;
 import facebook.Facebook;
 import gmail.RetrieveEmailsUsingIMAP;
 import gui.BdaGUI;
 import twitter.Twitter_Class;
-import twitter4j.conf.ConfigurationBuilder;
 
 public class main {
 
