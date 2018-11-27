@@ -2,12 +2,9 @@ package gmail;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
 import java.io.IOException;
 import java.util.Properties;
-
 import javax.mail.NoSuchProviderException;
-
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -15,7 +12,6 @@ import org.junit.runners.MethodSorters;
 import gui.BdaGUI;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class JunitGmailTest {
-	
 	
 
 	@Test

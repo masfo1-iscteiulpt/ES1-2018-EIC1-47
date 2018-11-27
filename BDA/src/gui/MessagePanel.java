@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
+import java.awt.Color;
 
 public class MessagePanel extends JPanel{
 	
@@ -31,6 +32,7 @@ public class MessagePanel extends JPanel{
 		sender = from;
 		
 		JPanel headerPane = new JPanel();
+		headerPane.setBackground(new Color(220, 220, 220));
 		
 		JPanel panel = new JPanel();
 		panel.addMouseListener(new MouseAdapter() {

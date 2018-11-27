@@ -67,10 +67,9 @@ public class Facebook {
 		int counterTotal = 0;
 		for (List<Post> page : result) {
 			for (Post aPost : page) {
-				//if (aPost.getMessage() != null && aPost.getMessage().contains("PROJETO SE")) {
 					System.out.println("---- Post " + counter5 + " ----");
 					System.out.println("Id: " + "fb.com/" + aPost.getId());
-					String mc = "Message: " + aPost.getMessage();
+					String mc = aPost.getMessage();
 					mc += "\n" + "Caption: " + aPost.getDescription();
 					mc += "\n" + "Created: " + aPost.getCreatedTime();
 					System.out.println("Message: " + aPost.getMessage());
@@ -78,14 +77,8 @@ public class Facebook {
 					counter5++;
 					
 					frame.addMessage(new MessagePanel("", mc, ServiceType.FB, aPost.getCreatedTime()));
-				//}
 				counterTotal++;
 			}
 		}
-		System.out.println("-------------\nNº of Results: " + counter5 + "/" + counterTotal);
 	}
-	
-
-	
-	
 }
