@@ -42,7 +42,11 @@ public class main {
 		// gmail init
 		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 		try {
-			tmu.getEmails("imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com", "CrokaNation12", frame);
+			boolean mail = tmu.getEmails("imap", "imap.gmail.com", "993", 
+					"Trabalhosiscte12@gmail.com", "CrokaNation12", frame);
+			if(mail == true) {
+				System.out.println("Gmail sucess");
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

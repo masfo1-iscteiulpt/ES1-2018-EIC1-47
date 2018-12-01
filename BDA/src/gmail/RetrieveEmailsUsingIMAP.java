@@ -1,6 +1,6 @@
 package gmail;
 
-import java.awt.Color;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
@@ -16,7 +16,7 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
-import javax.swing.JLabel;
+
 
 import enums.ServiceType;
 import gui.BdaGUI;
@@ -63,10 +63,11 @@ public class RetrieveEmailsUsingIMAP {
 	 * @param frame 
 	 * @throws IOException
 	 */
-	public void getEmails(String protocol, String host, String port, String userName, String password, BdaGUI frame)
+	public boolean getEmails(String protocol, String host, String port, String userName, String password, BdaGUI frame)
 			throws IOException, NoSuchProviderException {
 
 		System.out.println("Inside getEmails method...");
+		boolean mail = false;
 		Properties properties = getServerProperties(protocol, host, port);
 		Session session = Session.getDefaultInstance(properties);
 		System.out.println("Connected to: " + host);
@@ -145,14 +146,18 @@ public class RetrieveEmailsUsingIMAP {
 			}
 
 			inbox.close(false);
+			mail = true;
 			store.close();
 		} catch (NoSuchProviderException ex) {
+			mail = false;
 			System.out.println("No provider for protocol: " + protocol);
 			ex.printStackTrace();
 		} catch (MessagingException ex) {
+			mail = false;
 			System.out.println("Could not connect to the message store");
 			ex.printStackTrace();
 		}
+		return mail;
 	}
 
 	/**
