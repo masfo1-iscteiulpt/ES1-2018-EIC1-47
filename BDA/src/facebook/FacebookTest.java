@@ -19,6 +19,7 @@ class FacebookTest {
 	@Test
 	void getExtendedAccessTokenTest() {
 		Facebook ftu = new Facebook();
+		
 		assertEquals(" Fri Feb 01 13:16:07 GMT 2019", ftu.getExtendedAccessToken());
 	}
 
@@ -26,6 +27,7 @@ class FacebookTest {
 	void getFilterFacebookPosts() {
 		Facebook ftu = new Facebook();
 		assertTrue(ftu.filterFacebookPost(frame));
+		
 	}
 	
 

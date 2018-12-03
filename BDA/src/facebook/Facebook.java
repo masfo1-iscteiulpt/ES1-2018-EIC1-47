@@ -76,7 +76,6 @@ public class Facebook {
 					System.out.println("Message: " + aPost.getMessage());
 					System.out.println("Created: " + aPost.getCreatedTime());
 					counter5++;
-					
 					frame.addMessage(new MessagePanel("", mc, ServiceType.FB, aPost.getCreatedTime()));
 				counterTotal++;
 			}
