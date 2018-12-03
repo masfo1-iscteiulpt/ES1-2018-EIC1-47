@@ -27,7 +27,7 @@ import gui.MessagePanel;
  * e-mails.
  * 
  * @author Luis Fernandes
- * @version 1.0
+ * @version 1.2
  *
  */
 public class RetrieveEmailsUsingIMAP {
