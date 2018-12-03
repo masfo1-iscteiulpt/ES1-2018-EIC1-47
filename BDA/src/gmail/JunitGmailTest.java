@@ -16,13 +16,13 @@ import gui.BdaGUI;
 public class JunitGmailTest {
 	
 
-	/*@Test
-	public void afailConnectionTest() throws IOException {
+	@Test
+	public void failConnectionTest() throws IOException {
 		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 		String connect = tmu.getConnectedStatus("imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com",
 				"CrokaNation1000");
 		assertEquals("Could not connect to the message store", connect);
-	}*/
+	}
 	
 
 	@Test
@@ -37,15 +37,7 @@ public class JunitGmailTest {
 		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 		Properties properties = tmu.getServerProperties("imap", "imap.gmail.com", "993");
 		assertNotNull("Propreties", properties);
-	}
-
-
-	@Test
-	public void connectTest() throws IOException {
-		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
-		String connect = tmu.getConnectedStatus("imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com",
-				"CrokaNation12");
-		assertEquals("Connected_to_IMAP", connect);
+		System.out.println("recive complete");
 	}
 	
 	@Test
@@ -58,7 +50,6 @@ public class JunitGmailTest {
 						"Trabalhosiscte12@gmail.com", "CrokaNation12", frame);
 				assertTrue(test);
 			} catch (NoSuchProviderException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		

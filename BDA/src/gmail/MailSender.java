@@ -38,10 +38,23 @@ public class MailSender {
 	private String destination;
 
 	/**
+	 * constructor for Sender class
+	 * 
 	 * @param destination - destination for email
 	 */
 	public MailSender(String destination) {
 		this.destination = destination;
+	}
+
+	private Properties getProperties() {
+		System.out.println("Connecting please wait...");
+		Properties properties = new Properties();
+		properties.put("mail.transport.protocol", "smtps");
+		properties.put("mail.smtps.host", SMTP_HOST_NAME);
+		properties.put("mail.smtp.port", SMTP_HOST_PORT);
+		properties.put("mail.smtps.auth", "true");
+
+		return properties;
 	}
 
 	/**
@@ -51,19 +64,14 @@ public class MailSender {
 	 * @throws Exception
 	 */
 	public boolean sendMessage(String sub, String cont) {
-		Properties props = new Properties();
 		boolean mail = false;
-		props.put("mail.transport.protocol", "smtps");
-		props.put("mail.smtps.host", SMTP_HOST_NAME);
-		props.put("mail.smtps.auth", "true");
-
-		Session mailSession = Session.getDefaultInstance(props);
-		mailSession.setDebug(true);
-		Transport transport;
+		Session session = Session.getInstance(getProperties());
+		System.out.println("Session created");
+		session.setDebug(true);
 
 		try {
-			transport = mailSession.getTransport();
-			MimeMessage message = new MimeMessage(mailSession);
+			Transport transport = session.getTransport();
+			MimeMessage message = new MimeMessage(session);
 			// e-mail subject
 			message.setSubject(sub);
 			// e-mail message
@@ -72,7 +80,6 @@ public class MailSender {
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(this.destination));
 
 			transport.connect(SMTP_HOST_NAME, SMTP_HOST_PORT, SMTP_AUTH_USER, SMTP_AUTH_PWD);
-
 			transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
 			System.out.println("Message Sent!");
 			mail = true;
@@ -85,12 +92,5 @@ public class MailSender {
 
 	}
 
-	public static void main(String[] args) throws Exception {
-		MailSender sender = new MailSender("Trabalhosiscte12@gmail.com");
-		boolean test = sender.sendMessage("Testing SMTP-SSL", "This is a test");
-		if (test) {
-			System.out.println("Sending sucess");
-		}
-	}
 
 }
