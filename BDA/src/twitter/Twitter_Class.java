@@ -76,5 +76,15 @@ public class Twitter_Class {
 			}
 		
 	}
+	private void reTweet(long id) {
+		TwitterFactory tf = new TwitterFactory(cbc.build());
+    	Twitter twitter = tf.getInstance();        		
+    	try {
+			twitter.retweetStatus(id);
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 }
