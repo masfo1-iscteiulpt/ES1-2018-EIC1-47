@@ -14,7 +14,7 @@ import gui.MessagePanel;
 
 public class Facebook {
 
-	private String token = "EAALKZAOc8jaMBAEpZBEaJGPyEm49jjgEndBo7Uak2BUAuyeJ9bv7z6Fxm6GC7Y6FogOnrKkEAJa7vdUcZBZA5wjUGh25iP7lIw4IFdFGbZCLmYspYULJYBQDABrRV4R8CZC3LMAwd9u8aJAtZAZA0qeUlg1aDF2ZBZA2D1G4MhgLP88QefDiPCAqRhZBHkLpeIkSAgsGFq1oM4EZCkKKsUZCZBqZAXL";
+	private String token = "EAALKZAOc8jaMBALNgsOkwZA0wReaiTwvFKLlnWo5X8ka4FaPhwxLZCpV4qvbZCuKP8aK5MJ8e8T7cmQZBrko7JozaLxMfTyh1yb66BzPPKtjBfpp5yUrJ9PIZA4LtIZAURA7QrQHTnsOaljtIKDHy5C9SeOcFG6PRFZAcVrLawBcGkAbj0BydOIf";
 
 	/**
 	 * 
@@ -57,7 +57,8 @@ public class Facebook {
 	 * @param frame 
 	 * 	 
 	 */
-	public void filterFacebookPost(BdaGUI frame) {
+	public boolean filterFacebookPost(BdaGUI frame) {
+		boolean test = false;
 		String accessToken5 = token;
 		FacebookClient fbClient5 = new DefaultFacebookClient(accessToken5);
 
@@ -80,5 +81,8 @@ public class Facebook {
 				counterTotal++;
 			}
 		}
+		test=true;
+		return test;
+		
 	}
 }

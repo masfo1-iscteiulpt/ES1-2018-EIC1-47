@@ -4,20 +4,29 @@ package facebook;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
+import gui.BdaGUI;
+
 class FacebookTest {
 
+	private BdaGUI frame;
+	
 	@Test
 	void getUsertest() {
 		Facebook ftu = new Facebook();
-		assertEquals("115472076112743 Rui Santos Esteves", ftu.getUser());
+		assertEquals("1193488397483337 Hugo Cruz", ftu.getUser());
 	}
 	
 	@Test
 	void getExtendedAccessTokenTest() {
 		Facebook ftu = new Facebook();
-		assertEquals(" Mon Dec 24 21:23:22 GMT 2018", ftu.getExtendedAccessToken());
+		assertEquals(" Fri Feb 01 13:16:07 GMT 2019", ftu.getExtendedAccessToken());
 	}
 
+	@Test
+	void getFilterFacebookPosts() {
+		Facebook ftu = new Facebook();
+		assertTrue(ftu.filterFacebookPost(frame));
+	}
 	
 
 }
