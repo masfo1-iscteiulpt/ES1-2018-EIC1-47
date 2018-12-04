@@ -5,6 +5,7 @@ import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.FacebookClient.AccessToken;
+import com.restfb.Parameter;
 import com.restfb.types.Post;
 import com.restfb.types.User;
 
@@ -15,7 +16,8 @@ import gui.MessagePanel;
 public class Facebook {
 
 	private String token = "EAALKZAOc8jaMBALNgsOkwZA0wReaiTwvFKLlnWo5X8ka4FaPhwxLZCpV4qvbZCuKP8aK5MJ8e8T7cmQZBrko7JozaLxMfTyh1yb66BzPPKtjBfpp5yUrJ9PIZA4LtIZAURA7QrQHTnsOaljtIKDHy5C9SeOcFG6PRFZAcVrLawBcGkAbj0BydOIf";
-
+	private boolean test =false;
+	
 	/**
 	 * 
 	 * Description: Permite saber o user que possui aquele Access Token
@@ -58,7 +60,6 @@ public class Facebook {
 	 * 	 
 	 */
 	public boolean filterFacebookPost(BdaGUI frame) {
-		boolean test = false;
 		String accessToken5 = token;
 		FacebookClient fbClient5 = new DefaultFacebookClient(accessToken5);
 
@@ -83,5 +84,21 @@ public class Facebook {
 		test=true;
 		return test;
 		
+	}
+	
+	public boolean likeReactionsFacebookPost() {
+		DefaultFacebookClient fcl = new DefaultFacebookClient(token);
+		Post post = new Post();
+		System.out.println(fcl.publish(post.getId()+"/likes",Boolean.class));
+		test = true;
+		return test;
+	}
+	
+	public boolean commentFacebookPost() {
+		DefaultFacebookClient fcl = new DefaultFacebookClient(token);
+		Post post = new Post();
+		System.out.println(fcl.publish(post.getId()+"/comments", String.class, Parameter.with("message", "Your comment here")));
+		test = true;
+		return test;
 	}
 }

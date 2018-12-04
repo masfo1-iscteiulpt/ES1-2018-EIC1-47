@@ -30,5 +30,16 @@ class FacebookTest {
 		
 	}
 	
+	@Test
+	void getLikeReactionFacebookPost() {
+		Facebook ftu = new Facebook();
+		assertTrue(ftu.likeReactionsFacebookPost());
+	}
+	
+	@Test
+	void getCommentReactionFacebookPost() {
+		Facebook ftu = new Facebook();
+		assertTrue(ftu.commentFacebookPost());
+	}
 
 }
