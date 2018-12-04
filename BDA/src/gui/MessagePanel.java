@@ -3,12 +3,9 @@ package gui;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
 import enums.ServiceType;
-
 import java.util.Date;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
@@ -18,12 +15,16 @@ import java.awt.Color;
 
 public class MessagePanel extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6800556301140860310L;
+	public JTextPane fullMesage;
+	public JTextPane headerMsg;
 	private ServiceType serviceType;
 	private String messageContent;
 	private String sender;
 	private Date dateSent;
-	private JTextPane fullMesage;
-	private JTextPane headerMsg;
 	
 	public MessagePanel(String from, String mc, ServiceType st, Date date) {
 		serviceType = st;
@@ -38,14 +39,7 @@ public class MessagePanel extends JPanel{
 		panel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				System.out.println("EXPAND MSG");
-				if(fullMesage.isVisible()) {
-					fullMesage.setVisible(false);
-					headerMsg.setVisible(true);
-				} else {
-					fullMesage.setVisible(true);
-					headerMsg.setVisible(false);
-				}
+				expandMessage();
 			}
 		});
 		panel.setBorder(null);
@@ -80,20 +74,18 @@ public class MessagePanel extends JPanel{
 		dateLabel.setHorizontalAlignment(SwingConstants.TRAILING);
 		
 		fullMesage = new JTextPane();
-		//fullMesage.setWrapStyleWord(true);
-		//fullMesage.setLineWrap(true);
 		fullMesage.setBorder(null);
 		fullMesage.setEditable(false);
-		fullMesage.setText(mc);
+		fullMesage.setText(messageContent);
 		fullMesage.setVisible(false);
 		
 		headerMsg = new JTextPane();
 		headerMsg.setEditable(false);
 		headerMsg.setBorder(null);
 		if(mc.length()>200) {
-			headerMsg.setText(mc.substring(0, 200));
+			headerMsg.setText(messageContent.substring(0, 200));
 		} else {
-			headerMsg.setText(mc);
+			headerMsg.setText(messageContent);
 		}
 		
 		GroupLayout gl_headerPane = new GroupLayout(headerPane);
@@ -123,6 +115,16 @@ public class MessagePanel extends JPanel{
 		setLayout(groupLayout);
 	}
 
+	public void expandMessage() {
+		if(fullMesage.isVisible()) {
+			fullMesage.setVisible(false);
+			headerMsg.setVisible(true);
+		} else {
+			fullMesage.setVisible(true);
+			headerMsg.setVisible(false);
+		}	
+	}
+
 	public ServiceType getService() {
 		return serviceType;
 	}
@@ -137,5 +139,9 @@ public class MessagePanel extends JPanel{
 	
 	public Date getDate() {
 		return dateSent;
+	}
+
+	public String getHeader() {
+		return headerMsg.getText();
 	}
 }

@@ -2,14 +2,9 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.List;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Date;
 import java.util.LinkedList;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -26,8 +21,16 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import enums.ServiceType;
 import enums.Time;
 
+@SuppressWarnings("serial")
 public class BdaGUI extends JFrame {
 
+	public JPanel resultsPanel;
+	public GroupLayout layout;
+	public GroupLayout.Group sequential;
+	public GroupLayout.ParallelGroup parallel;
+	public JComboBox<Time> searchAdvTime;
+	public JTextField searchAdvUser;
+	public LinkedList<MessagePanel> messages = new LinkedList<MessagePanel>();
 	private JPanel contentPane;
 	private JPanel twPanel;
 	private JPanel mainPanel;
@@ -39,18 +42,11 @@ public class BdaGUI extends JFrame {
 	private JLabel emailLogo;
 	private JLabel search;
 	private JTextField searchField;
-	public JPanel resultsPanel;
-	public GroupLayout layout;
-	public GroupLayout.Group sequential;
-	public GroupLayout.ParallelGroup parallel;
 	private JScrollPane resultsScrollPane;
 	private JLabel searchAdv;
 	private JPanel searchAdvPanel;
 	private JLabel serachAdvLbl;
-	private JTextField searchAdvUser;
-	private JComboBox<Time> searchAdvTime;
 	private JLabel settings;
-	private LinkedList<MessagePanel> messages = new LinkedList<MessagePanel>();
 	
 	public BdaGUI() {
 		setTitle("Bom Dia Academia");
@@ -300,7 +296,7 @@ public class BdaGUI extends JFrame {
 		});
 		
 		searchAdvTime = new JComboBox<Time>();
-		searchAdvTime.setModel(new DefaultComboBoxModel(new Time[] {Time.H12, Time.D1, Time.D2, Time.D5, Time.D10, Time.D30, Time.ALL}));
+		searchAdvTime.setModel(new DefaultComboBoxModel<Time>(new Time[] {Time.H12, Time.D1, Time.D2, Time.D5, Time.D10, Time.D30, Time.ALL}));
 		searchAdvTime.setSelectedIndex(6);
 		
 		JLabel searchAdvTimeLbl = new JLabel("Time:");

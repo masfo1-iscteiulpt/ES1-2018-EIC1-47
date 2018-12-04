@@ -1,11 +1,5 @@
 package twitter;
 
-import java.awt.Color;
-import java.util.List;
-
-import javax.swing.GroupLayout;
-import javax.swing.JLabel;
-
 import enums.ServiceType;
 import gui.BdaGUI;
 import gui.MessagePanel;
