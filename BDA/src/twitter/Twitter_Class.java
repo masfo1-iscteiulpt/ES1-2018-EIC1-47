@@ -83,6 +83,9 @@ public class Twitter_Class {
 	 *  @param TweetId
 	 * 
 	 */
+	private void test(){
+		System.out.println("OLA");
+	}
 	private void reTweet(long id) {
 		TwitterFactory tf = new TwitterFactory(cbc.build());
     	Twitter twitter = tf.getInstance();        		
