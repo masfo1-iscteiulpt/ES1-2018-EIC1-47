@@ -14,7 +14,7 @@ import gui.MessagePanel;
 
 public class Facebook {
 
-	/*Token de Acesso conta do Facebook*/
+	/*Token de Acesso conta do Facebook */
 	private String token = "EAALKZAOc8jaMBAFRz8L7qR6DbqoMazJd4u9r5RxZCR7GNlCM3IxVRGf0ZBXsZABvsnJnfZBvoFvdN92KiiXt0jjMcuhnOwMN4Ng2XThZCzBgZBVdolbNFWHeYEC6nIqeZCdoZBQpZAjNP1ULyMuHE3CpSZBH7QNmbeSEY5jdDOCmm1398N3B6KCdrGlVS4Dq0ZAZBLnSKJxCI490JevuwGBB3gkWW";
 
 	/**
