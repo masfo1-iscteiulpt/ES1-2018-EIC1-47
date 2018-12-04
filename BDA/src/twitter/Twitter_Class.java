@@ -1,5 +1,7 @@
 package twitter;
 
+import java.util.List;
+
 import enums.ServiceType;
 import gui.BdaGUI;
 import gui.MessagePanel;
@@ -31,18 +33,19 @@ public class Twitter_Class {
 	 * Initiates a Twitter account with the given tokens
 	 * 
 	 */
-	public void sign_in(){
+	public void sign_in(String cK, String cS, String aT, String aTS){
 		cbc.setDebugEnabled(true)
-  	  	.setOAuthConsumerKey("pRXsTFA4vsYjkjYIphXveKKgV")
-  	  	.setOAuthConsumerSecret("CfNV7ZgEwN2hhysP8kAGmy6hWMF7mypqX6CPtRwDy7rQ63Z5rU")
-  	  	.setOAuthAccessToken("1053263399889653761-Eu236nomWzitNbXoEcKsOvQVCOchZw")
-  	  	.setOAuthAccessTokenSecret("jKSOccpi450YERoIGJeP9qPQLRJbGTrEZtKoG4IlRDuip");
+  	  	.setOAuthConsumerKey(cK)
+  	  	.setOAuthConsumerSecret(cS)
+  	  	.setOAuthAccessToken(aT)
+  	  	.setOAuthAccessTokenSecret(aTS);
 	}
 	/**
 	 * Prints the first 20 Tweets from the logged user
 	 * @param frame 
 	 * 
 	 */
+	
 	public void printTweets(BdaGUI frame) {
 		TwitterFactory tf = new TwitterFactory(cbc.build());
     	Twitter twitter = tf.getInstance();        		
@@ -59,7 +62,9 @@ public class Twitter_Class {
 					System.out.println(" ");
 					System.out.println("-------------------------------------------------------------------");
 					counter++;
-					frame.addMessage(new MessagePanel(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt()));
+					
+					frame.addMessage(new MessagePanel(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt(), status.getId()));
+					//frame.addMessage(new MessagePanel(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt()));
 				}
 				counterTotal++;
 			}
@@ -69,6 +74,22 @@ public class Twitter_Class {
 				e.printStackTrace();
 			}
 		
+	}
+	
+	/**
+	 * Retweets a tweet of the given ID
+	 *  @param TweetId
+	 * 
+	 */
+	private void reTweet(long id) {
+		TwitterFactory tf = new TwitterFactory(cbc.build());
+    	Twitter twitter = tf.getInstance();        		
+    	try {
+			twitter.retweetStatus(id);
+		} catch (TwitterException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }
