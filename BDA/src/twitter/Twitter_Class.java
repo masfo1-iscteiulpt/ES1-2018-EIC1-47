@@ -66,7 +66,9 @@ public class Twitter_Class {
 					System.out.println(" ");
 					System.out.println("-------------------------------------------------------------------");
 					counter++;
-					frame.addMessage(new MessagePanel(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt()));
+					
+					frame.addMessage(new MessagePanel(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt(), status.getId()));
+					//frame.addMessage(new MessagePanel(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt()));
 				}
 				counterTotal++;
 			}
@@ -83,9 +85,6 @@ public class Twitter_Class {
 	 *  @param TweetId
 	 * 
 	 */
-	private void test(){
-		System.out.println("OLA");
-	}
 	private void reTweet(long id) {
 		TwitterFactory tf = new TwitterFactory(cbc.build());
     	Twitter twitter = tf.getInstance();        		
