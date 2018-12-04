@@ -125,14 +125,12 @@ public class MessagePanel extends JPanel{
 		setLayout(groupLayout);
 	}
 	
-	
 	public MessagePanel(String from, String mc, ServiceType st, Date date, long id) {
 		Tweetid = id;
 		sender = from;
 		messageContent = mc;
 		serviceType = st;
 		dateSent  = date;
-		
 		
 		JPanel headerPane = new JPanel();
 		headerPane.setBackground(new Color(220, 220, 220));
@@ -141,14 +139,7 @@ public class MessagePanel extends JPanel{
 		panel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				System.out.println("EXPAND MSG");
-				if(fullMesage.isVisible()) {
-					fullMesage.setVisible(false);
-					headerMsg.setVisible(true);
-				} else {
-					fullMesage.setVisible(true);
-					headerMsg.setVisible(false);
-				}
+				expandMessage();
 			}
 		});
 		panel.setBorder(null);
@@ -183,20 +174,18 @@ public class MessagePanel extends JPanel{
 		dateLabel.setHorizontalAlignment(SwingConstants.TRAILING);
 		
 		fullMesage = new JTextPane();
-		//fullMesage.setWrapStyleWord(true);
-		//fullMesage.setLineWrap(true);
 		fullMesage.setBorder(null);
 		fullMesage.setEditable(false);
-		fullMesage.setText(mc);
+		fullMesage.setText(messageContent);
 		fullMesage.setVisible(false);
 		
 		headerMsg = new JTextPane();
 		headerMsg.setEditable(false);
 		headerMsg.setBorder(null);
 		if(mc.length()>200) {
-			headerMsg.setText(mc.substring(0, 200));
+			headerMsg.setText(messageContent.substring(0, 200));
 		} else {
-			headerMsg.setText(mc);
+			headerMsg.setText(messageContent);
 		}
 		
 		GroupLayout gl_headerPane = new GroupLayout(headerPane);
