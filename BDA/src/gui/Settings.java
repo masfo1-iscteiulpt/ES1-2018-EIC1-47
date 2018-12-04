@@ -1,17 +1,13 @@
 package gui;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import enums.ServiceType;
-
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
-import java.awt.Color;
 import java.awt.Component;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
@@ -19,12 +15,22 @@ import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+@SuppressWarnings("serial")
+/**
+ * A settings frame that allows the user to tweak features.
+ * 
+ * @author Daniel Freitas
+ * @version 1.0
+ */
 public class Settings extends JFrame {
 
+	public JCheckBox chckbxFb;
+	public JCheckBox chckbxGm;
+	public JCheckBox chckbxTw;
+	public JPanel fbPanel;
+	public JPanel twPanel;
+	public JPanel mailPanel;
 	private JPanel contentPane;
-	private JPanel fbPanel;
-	private JPanel twPanel;
-	private JPanel mailPanel;
 	private JTextField fbAI;
 	private JTextField twACK;
 	private JTextField gmail;
@@ -34,7 +40,10 @@ public class Settings extends JFrame {
 	private JTextField twAAT;
 	private JTextField twAATS;
 	private JTextField fbAT;
-
+	
+	/**
+	 * Creates a settings frame.
+	 */
 	public Settings() {
 		setResizable(false);
 		setTitle("Settings");
@@ -44,54 +53,30 @@ public class Settings extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JCheckBox chckbxFb = new JCheckBox("FB");
+		chckbxFb = new JCheckBox("FB");
 		chckbxFb.setSelected(true);
 		chckbxFb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Component[] cmpnts = fbPanel.getComponents();
-				if(chckbxFb.isSelected()) {
-					for(Component c : cmpnts) {
-						c.setEnabled(true);
-					}
-				} else {
-					for(Component c : cmpnts) {
-						c.setEnabled(false);
-					}
-				}
+				changeStateFb(cmpnts);
 			}
 		});
 		
-		JCheckBox chckbxTw = new JCheckBox("TW");
+		chckbxTw = new JCheckBox("TW");
 		chckbxTw.setSelected(true);
 		chckbxTw.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Component[] cmpnts = twPanel.getComponents();
-				if(chckbxTw.isSelected()) {
-					for(Component c : cmpnts) {
-						c.setEnabled(true);
-					}
-				} else {
-					for(Component c : cmpnts) {
-						c.setEnabled(false);
-					}
-				}
+				changeStateTw(cmpnts);
 			}
 		});
 		
-		JCheckBox chckbxGmail = new JCheckBox("Gmail");
-		chckbxGmail.setSelected(true);
-		chckbxGmail.addActionListener(new ActionListener() {
+		chckbxGm = new JCheckBox("Gmail");
+		chckbxGm.setSelected(true);
+		chckbxGm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Component[] cmpnts = mailPanel.getComponents();
-				if(chckbxGmail.isSelected()) {
-					for(Component c : cmpnts) {
-						c.setEnabled(true);
-					}
-				} else {
-					for(Component c : cmpnts) {
-						c.setEnabled(false);
-					}
-				}
+				changeStateGm(cmpnts);
 			}
 		});
 		
@@ -107,9 +92,9 @@ public class Settings extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("save changes");
-				boolean fw = chckbxTw.isSelected();
-				boolean tw = chckbxTw.isSelected();
-				boolean gm = chckbxGmail.isSelected();
+				//boolean fw = chckbxTw.isSelected();
+				//boolean tw = chckbxTw.isSelected();
+				//boolean gm = chckbxGm.isSelected();
 			}
 		});
 		
@@ -122,7 +107,7 @@ public class Settings extends JFrame {
 					.addGap(111)
 					.addComponent(chckbxTw, GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
 					.addGap(112)
-					.addComponent(chckbxGmail)
+					.addComponent(chckbxGm)
 					.addGap(60))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(fbPanel, GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE)
@@ -140,7 +125,7 @@ public class Settings extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(chckbxGmail)
+						.addComponent(chckbxGm)
 						.addComponent(chckbxTw)
 						.addComponent(chckbxFb))
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -307,5 +292,53 @@ public class Settings extends JFrame {
 		);
 		fbPanel.setLayout(gl_fbPanel);
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	/**
+	 * Enables/disables the Facebook Panel.
+	 * @param cmpnts the Facebook panels components.
+	 */
+	public void changeStateFb(Component[] cmpnts) {
+		if(chckbxFb.isSelected()) {
+			for(Component c : cmpnts) {
+				c.setEnabled(true);
+			}
+		} else {
+			for(Component c : cmpnts) {
+				c.setEnabled(false);
+			}
+		}
+	}
+	
+	/**
+	 * Enables/disables the Twitter Panel.
+	 * @param cmpnts the Twitter panels components.
+	 */
+	public void changeStateTw(Component[] cmpnts) {
+		if(chckbxTw.isSelected()) {
+			for(Component c : cmpnts) {
+				c.setEnabled(true);
+			}
+		} else {
+			for(Component c : cmpnts) {
+				c.setEnabled(false);
+			}
+		}
+	}
+	
+	/**
+	 * Enables/disables the G-mail Panel.
+	 * @param cmpnts the G-mail panels components.
+	 */
+	public void changeStateGm(Component[] cmpnts) {
+		if(chckbxGm.isSelected()) {
+			for(Component c : cmpnts) {
+				c.setEnabled(true);
+			}
+		} else {
+			for(Component c : cmpnts) {
+				c.setEnabled(false);
+			}
+		}
 	}
 }

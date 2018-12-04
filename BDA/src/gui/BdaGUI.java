@@ -2,14 +2,9 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.List;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Date;
 import java.util.LinkedList;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -26,8 +21,23 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import enums.ServiceType;
 import enums.Time;
 
+@SuppressWarnings("serial")
+/**
+ * This is the main graphical user interface class.
+ * 
+ * @author Daniel Freitas
+ * @version 1.0
+ *
+ */
 public class BdaGUI extends JFrame {
 
+	public JPanel resultsPanel;
+	public GroupLayout layout;
+	public GroupLayout.Group sequential;
+	public GroupLayout.ParallelGroup parallel;
+	public JComboBox<Time> searchAdvTime;
+	public JTextField searchAdvUser;
+	public LinkedList<MessagePanel> messages = new LinkedList<MessagePanel>();
 	private JPanel contentPane;
 	private JPanel twPanel;
 	private JPanel mainPanel;
@@ -39,19 +49,15 @@ public class BdaGUI extends JFrame {
 	private JLabel emailLogo;
 	private JLabel search;
 	private JTextField searchField;
-	public JPanel resultsPanel;
-	public GroupLayout layout;
-	public GroupLayout.Group sequential;
-	public GroupLayout.ParallelGroup parallel;
 	private JScrollPane resultsScrollPane;
 	private JLabel searchAdv;
 	private JPanel searchAdvPanel;
 	private JLabel serachAdvLbl;
-	private JTextField searchAdvUser;
-	private JComboBox<Time> searchAdvTime;
 	private JLabel settings;
-	private LinkedList<MessagePanel> messages = new LinkedList<MessagePanel>();
 	
+	/**
+	 * Creates a graphical user interface and all it's features.
+	 */
 	public BdaGUI() {
 		setTitle("Bom Dia Academia");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -300,7 +306,7 @@ public class BdaGUI extends JFrame {
 		});
 		
 		searchAdvTime = new JComboBox<Time>();
-		searchAdvTime.setModel(new DefaultComboBoxModel(new Time[] {Time.H12, Time.D1, Time.D2, Time.D5, Time.D10, Time.D30, Time.ALL}));
+		searchAdvTime.setModel(new DefaultComboBoxModel<Time>(new Time[] {Time.H12, Time.D1, Time.D2, Time.D5, Time.D10, Time.D30, Time.ALL}));
 		searchAdvTime.setSelectedIndex(6);
 		
 		JLabel searchAdvTimeLbl = new JLabel("Time:");
@@ -405,6 +411,10 @@ public class BdaGUI extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 	
+	/**
+	 * Adds a MessagePanel component to the gui.
+	 * @param mp The MessagePanel to be added.
+	 */
 	public void addMessage(MessagePanel mp) {
 		messages.add(mp);
 		parallel.addGroup(layout.createSequentialGroup().addComponent(mp));
@@ -412,6 +422,10 @@ public class BdaGUI extends JFrame {
 		mp.validate();
 	}
 	
+	/**
+	 * Filters the displayed messages on gui by service.
+	 * @param st The desired service to filter the messages.
+	 */
 	public void filterMessages(ServiceType st) {
 		removeFilters();
 		for(MessagePanel p : messages) {
@@ -421,6 +435,10 @@ public class BdaGUI extends JFrame {
 		}
 	}
 	
+	/**
+	 * Filters the displayed messages on gui by a key string.
+	 * @param key The desired string to filter the messages.
+	 */
 	public void filterMessages(String key) {
 		for(MessagePanel p : messages) {
 			if(!p.getMessage().contains(key)) {
@@ -429,6 +447,9 @@ public class BdaGUI extends JFrame {
 		}
 	}
 	
+	/**
+	 * Removes the all the filters applied to the gui's messages.
+	 */
 	public void removeFilters() {
 		for(MessagePanel p : messages) {
 			if(!p.isVisible()) {
@@ -437,6 +458,9 @@ public class BdaGUI extends JFrame {
 		}
 	}
 	
+	/**
+	 * Performs an advanced search in function of the desired time and sender's name.
+	 */
 	public void performAdvSearch() {
 		removeFilters();
 		long ms = ((Time) searchAdvTime.getSelectedItem() ).getSeconds();
