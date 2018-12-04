@@ -16,6 +16,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
+/**
+ * A settings frame that allows the user to tweak features.
+ * 
+ * @author Daniel Freitas
+ * @version 1.0
+ */
 public class Settings extends JFrame {
 
 	public JCheckBox chckbxFb;
@@ -35,7 +41,9 @@ public class Settings extends JFrame {
 	private JTextField twAATS;
 	private JTextField fbAT;
 	
-
+	/**
+	 * Creates a settings frame.
+	 */
 	public Settings() {
 		setResizable(false);
 		setTitle("Settings");
@@ -286,6 +294,10 @@ public class Settings extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 	
+	/**
+	 * Enables/disables the Facebook Panel.
+	 * @param cmpnts the Facebook panels components.
+	 */
 	public void changeStateFb(Component[] cmpnts) {
 		if(chckbxFb.isSelected()) {
 			for(Component c : cmpnts) {
@@ -298,6 +310,10 @@ public class Settings extends JFrame {
 		}
 	}
 	
+	/**
+	 * Enables/disables the Twitter Panel.
+	 * @param cmpnts the Twitter panels components.
+	 */
 	public void changeStateTw(Component[] cmpnts) {
 		if(chckbxTw.isSelected()) {
 			for(Component c : cmpnts) {
@@ -310,6 +326,10 @@ public class Settings extends JFrame {
 		}
 	}
 	
+	/**
+	 * Enables/disables the G-mail Panel.
+	 * @param cmpnts the G-mail panels components.
+	 */
 	public void changeStateGm(Component[] cmpnts) {
 		if(chckbxGm.isSelected()) {
 			for(Component c : cmpnts) {
