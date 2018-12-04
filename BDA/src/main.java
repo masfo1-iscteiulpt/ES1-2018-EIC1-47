@@ -30,15 +30,10 @@ public class main {
 
 	public static void startServices() {
 		// tw init
-		try {
 			ConfigurationBuilder cb = new ConfigurationBuilder();
 			Twitter_Class tw = new Twitter_Class(cb);
-			tw.sign_in();
+			tw.sign_in("pRXsTFA4vsYjkjYIphXveKKgV", "CfNV7ZgEwN2hhysP8kAGmy6hWMF7mypqX6CPtRwDy7rQ63Z5rU","1053263399889653761-Eu236nomWzitNbXoEcKsOvQVCOchZw", "jKSOccpi450YERoIGJeP9qPQLRJbGTrEZtKoG4IlRDuip");
 			tw.printTweets(frame);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-
 		// gmail init
 		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 		try {

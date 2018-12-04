@@ -37,18 +37,19 @@ public class Twitter_Class {
 	 * Initiates a Twitter account with the given tokens
 	 * 
 	 */
-	public void sign_in(){
+	public void sign_in(String cK, String cS, String aT, String aTS){
 		cbc.setDebugEnabled(true)
-  	  	.setOAuthConsumerKey("pRXsTFA4vsYjkjYIphXveKKgV")
-  	  	.setOAuthConsumerSecret("CfNV7ZgEwN2hhysP8kAGmy6hWMF7mypqX6CPtRwDy7rQ63Z5rU")
-  	  	.setOAuthAccessToken("1053263399889653761-Eu236nomWzitNbXoEcKsOvQVCOchZw")
-  	  	.setOAuthAccessTokenSecret("jKSOccpi450YERoIGJeP9qPQLRJbGTrEZtKoG4IlRDuip");
+  	  	.setOAuthConsumerKey(cK)
+  	  	.setOAuthConsumerSecret(cS)
+  	  	.setOAuthAccessToken(aT)
+  	  	.setOAuthAccessTokenSecret(aTS);
 	}
 	/**
 	 * Prints the first 20 Tweets from the logged user
 	 * @param frame 
 	 * 
 	 */
+	
 	public void printTweets(BdaGUI frame) {
 		TwitterFactory tf = new TwitterFactory(cbc.build());
     	Twitter twitter = tf.getInstance();        		
@@ -76,6 +77,12 @@ public class Twitter_Class {
 			}
 		
 	}
+	
+	/**
+	 * Retweets a tweet of the given ID
+	 *  @param TweetId
+	 * 
+	 */
 	private void reTweet(long id) {
 		TwitterFactory tf = new TwitterFactory(cbc.build());
     	Twitter twitter = tf.getInstance();        		
