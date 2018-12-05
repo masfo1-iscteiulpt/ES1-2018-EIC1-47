@@ -19,7 +19,7 @@ public class JunitGmailTest {
 	
 
 	@Test
-	public void afailConnectionTest() throws IOException {
+	public void failConnectionTest() throws IOException {
 		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 		String connect = tmu.getConnectedStatus("imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com",
 				"CrokaNation1000");
@@ -38,6 +38,7 @@ public class JunitGmailTest {
 		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 		Properties properties = tmu.getServerProperties("imap", "imap.gmail.com", "993");
 		assertNotNull("Propreties", properties);
+		System.out.println("recive complete");
 	}
 
 	@Test
