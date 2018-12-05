@@ -38,12 +38,25 @@ public class MailSender {
 	private String destination;
 
 	/**
+	 * @return destination for email
+	 */
+	public String getDestination() {
+		return destination;
+	}
+
+	/**
+	 * @param destination for email
+	 */
+	public void setDestination(String destination) {
+		this.destination = destination;
+	}
+
+	/**
 	 * constructor for Sender class
 	 * 
 	 * @param destination - destination for email
 	 */
-	public MailSender(String destination) {
-		this.destination = destination;
+	public MailSender() {
 	}
 
 	private Properties getProperties() {
@@ -53,7 +66,6 @@ public class MailSender {
 		properties.put("mail.smtps.host", SMTP_HOST_NAME);
 		properties.put("mail.smtp.port", SMTP_HOST_PORT);
 		properties.put("mail.smtps.auth", "true");
-
 		return properties;
 	}
 
@@ -77,7 +89,7 @@ public class MailSender {
 			// e-mail message
 			message.setContent(cont, "text/plain");
 
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress(this.destination));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(getDestination()));
 
 			transport.connect(SMTP_HOST_NAME, SMTP_HOST_PORT, SMTP_AUTH_USER, SMTP_AUTH_PWD);
 			transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
