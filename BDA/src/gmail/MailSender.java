@@ -56,7 +56,8 @@ public class MailSender {
 	 * 
 	 * @param destination - destination for email
 	 */
-	public MailSender() {
+	public MailSender(String destination) {
+		setDestination(destination);
 	}
 
 	private Properties getProperties() {

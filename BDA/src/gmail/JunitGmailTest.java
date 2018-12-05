@@ -13,11 +13,10 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import gui.BdaGUI;
-import gui.OfflineMessage;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class JunitGmailTest {
 	
-
 	@Test
 	public void failConnectionTest() throws IOException {
 		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
@@ -25,6 +24,7 @@ public class JunitGmailTest {
 				"CrokaNation1000");
 		assertEquals("Could not connect to the message store", connect);
 	}
+	
 
 	@Test
 	public void htmlRemvTest() {
@@ -40,30 +40,21 @@ public class JunitGmailTest {
 		assertNotNull("Propreties", properties);
 		System.out.println("recive complete");
 	}
-
-	@Test
-	public void connectTest() throws IOException {
-		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
-		String connect = tmu.getConnectedStatus("imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com",
-				"CrokaNation12");
-		assertEquals("Connected_to_IMAP", connect);
-	}
 	
 	@Test
 	public void mailTest() throws IOException {
-			
+		
 			BdaGUI frame = new BdaGUI();
-			ArrayList<OfflineMessage> posts= new ArrayList<OfflineMessage>();
 			RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 			try {
 				boolean test = tmu.getEmails("imap", "imap.gmail.com", "993", 
-						"Trabalhosiscte12@gmail.com", "CrokaNation12", frame, posts);
+						"Trabalhosiscte12@gmail.com", "CrokaNation12", frame, null);
 				assertTrue(test);
 			} catch (NoSuchProviderException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		
 	}
+
 
 }
