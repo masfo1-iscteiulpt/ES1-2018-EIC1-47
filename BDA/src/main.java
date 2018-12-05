@@ -23,6 +23,7 @@ import twitter.Twitter_Class;
 public class main {
 
 	public static BdaGUI frame;
+	static boolean netConection = false;
 
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
 		EventQueue.invokeAndWait(new Runnable() {
@@ -37,14 +38,21 @@ public class main {
 		});
 		Socket s= new Socket();
 		InetSocketAddress addr=new InetSocketAddress("www.google.com",80);
-		try{
+		try{	
 		s.connect(addr,3000);
-		startServices();
+		netConection = true;
+		//startServices();
 		} catch(Exception e){
-			offlineServices();
+			
 		} finally {
 			try{s.close();}
 			catch(Exception e){}
+		}
+		if(netConection){
+			startServices();
+		}
+		else{
+			offlineServices();
 		}
 	}
 
