@@ -3,6 +3,7 @@ package gmail;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 import javax.mail.Address;
 import javax.mail.Folder;
@@ -21,6 +22,7 @@ import javax.mail.internet.MimeBodyPart;
 import enums.ServiceType;
 import gui.BdaGUI;
 import gui.MessagePanel;
+import gui.OfflineMessage;
 
 /**
  * This is a application to connect to Gmail server to retrieve received
@@ -61,9 +63,10 @@ public class RetrieveEmailsUsingIMAP {
 	 * @param userName user's mail "****gmail.com"
 	 * @param password user's password
 	 * @param frame 
+	 * @param posts 
 	 * @throws IOException
 	 */
-	public boolean getEmails(String protocol, String host, String port, String userName, String password, BdaGUI frame)
+	public boolean getEmails(String protocol, String host, String port, String userName, String password, BdaGUI frame, ArrayList<OfflineMessage> posts)
 			throws IOException, NoSuchProviderException {
 
 		System.out.println("Inside getEmails method...");
@@ -142,7 +145,7 @@ public class RetrieveEmailsUsingIMAP {
 				//mc += "\n" + "\n"+ "Message: " + messageContent;
 				mc += "\t Attachments: " + attachFiles;
 				frame.addMessage(new MessagePanel(fromemail, mc, ServiceType.GM, message.getSentDate()));
-				
+				posts.add(new OfflineMessage(fromemail, mc, ServiceType.GM, message.getSentDate()));
 			}
 
 			inbox.close(false);

@@ -1,7 +1,9 @@
 import java.awt.EventQueue;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -15,6 +17,7 @@ import facebook.Facebook;
 import gmail.RetrieveEmailsUsingIMAP;
 import gui.BdaGUI;
 import gui.MessagePanel;
+import gui.OfflineMessage;
 import twitter.Twitter_Class;
 
 public class main {
@@ -46,7 +49,7 @@ public class main {
 	}
 
 	public static void startServices() {
-		ArrayList<MessagePanel> posts= new ArrayList<MessagePanel>();
+		ArrayList<OfflineMessage> posts= new ArrayList<OfflineMessage>();
 		// tw init
 			ConfigurationBuilder cb = new ConfigurationBuilder();
 			Twitter_Class tw = new Twitter_Class(cb);
@@ -55,7 +58,7 @@ public class main {
 		// gmail init
 		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 		try {
-			tmu.getEmails("imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com", "CrokaNation12", frame);
+			tmu.getEmails("imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com", "CrokaNation12", frame, posts);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,7 +72,7 @@ public class main {
 		try {
 			fb.getUser();
 			fb.getExtendedAccessToken();
-			fb.filterFacebookPost(frame);
+			fb.filterFacebookPost(frame, posts);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -88,7 +91,18 @@ public class main {
 	}
 	
 	private static void offlineServices() {
-		
+		ArrayList<OfflineMessage> posts= new ArrayList<OfflineMessage>();
+			FileInputStream in;
+			try {
+				in = new FileInputStream("file.txt");
+				ObjectInputStream s = new ObjectInputStream(in); 
+				posts = (ArrayList<OfflineMessage>) s.readObject();
+				for(int i=0; i != posts.size(); i++){
+					frame.addMessage(new MessagePanel(posts.get(i).getSender(), posts.get(i).getMessageContent(), posts.get(i).getServiceType(), posts.get(i).getDateSent()));
+				}
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 	}
 	
 }

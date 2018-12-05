@@ -6,6 +6,7 @@ import java.util.List;
 import enums.ServiceType;
 import gui.BdaGUI;
 import gui.MessagePanel;
+import gui.OfflineMessage;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -48,7 +49,7 @@ public class Twitter_Class {
 	 * 
 	 */
 	
-	public void printTweets(BdaGUI frame, ArrayList<MessagePanel> posts) {
+	public void printTweets(BdaGUI frame, ArrayList<OfflineMessage> posts) {
 		TwitterFactory tf = new TwitterFactory(cbc.build());
     	Twitter twitter = tf.getInstance();        		
         List<Status> statuses;
@@ -65,7 +66,7 @@ public class Twitter_Class {
 					System.out.println("-------------------------------------------------------------------");
 					counter++;
 					frame.addMessage(new MessagePanel(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt(), status.getId()));
-					posts.add(new MessagePanel(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt()));
+					posts.add(new OfflineMessage(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt()));
 				}
 				counterTotal++;
 			}

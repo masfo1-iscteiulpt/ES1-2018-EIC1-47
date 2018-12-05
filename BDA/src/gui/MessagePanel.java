@@ -269,4 +269,9 @@ public class MessagePanel extends JPanel {
 	public String getHeader() {
 		return headerMsg.getText();
 	}
+	
+	public long getTweetid() {
+		return Tweetid;
+	}
+
 }

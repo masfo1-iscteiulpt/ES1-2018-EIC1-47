@@ -1,5 +1,6 @@
 package facebook;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
@@ -11,6 +12,7 @@ import com.restfb.types.User;
 import enums.ServiceType;
 import gui.BdaGUI;
 import gui.MessagePanel;
+import gui.OfflineMessage;
 
 public class Facebook {
 
@@ -56,9 +58,10 @@ public class Facebook {
 	 * -E permite saber quantos são
 	 * -Apresenta resultados na consola
 	 * @param frame 
+	 * @param posts 
 	 * 	 
 	 */
-	public void filterFacebookPost(BdaGUI frame) {
+	public void filterFacebookPost(BdaGUI frame, ArrayList<OfflineMessage> posts) {
 		String accessToken5 = token;
 		FacebookClient fbClient5 = new DefaultFacebookClient(accessToken5);
 
@@ -78,6 +81,7 @@ public class Facebook {
 					counter5++;
 					
 					frame.addMessage(new MessagePanel("", mc, ServiceType.FB, aPost.getCreatedTime()));
+					posts.add(new OfflineMessage("", mc, ServiceType.FB, aPost.getCreatedTime()));
 				counterTotal++;
 			}
 		}
