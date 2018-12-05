@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 import javax.mail.NoSuchProviderException;
 import org.junit.FixMethodOrder;
@@ -12,6 +13,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import gui.BdaGUI;
+import gui.OfflineMessage;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class JunitGmailTest {
 	
@@ -42,8 +44,9 @@ public class JunitGmailTest {
 	public void zfailMailTest() throws IOException {
 		try {
 			BdaGUI frame = new BdaGUI();
+			ArrayList<OfflineMessage> posts= new ArrayList<OfflineMessage>();
 			RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
-			boolean test = tmu.getEmails("not-imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com", "CrokaNation12", frame);
+			boolean test = tmu.getEmails("not-imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com", "CrokaNation12", frame, posts);
 		} catch (NoSuchProviderException ex) {
 			assertEquals("No provider for not-imap", ex.getMessage());
 		}
@@ -59,12 +62,13 @@ public class JunitGmailTest {
 	
 	@Test
 	public void mailTest() throws IOException {
-		
+			
 			BdaGUI frame = new BdaGUI();
+			ArrayList<OfflineMessage> posts= new ArrayList<OfflineMessage>();
 			RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 			try {
 				boolean test = tmu.getEmails("imap", "imap.gmail.com", "993", 
-						"Trabalhosiscte12@gmail.com", "CrokaNation12", frame);
+						"Trabalhosiscte12@gmail.com", "CrokaNation12", frame, posts);
 				assertTrue(test);
 			} catch (NoSuchProviderException e) {
 				// TODO Auto-generated catch block
