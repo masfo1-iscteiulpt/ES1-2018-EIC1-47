@@ -17,7 +17,7 @@ import gui.OfflineMessage;
 public class Facebook {
 
 	/*Token de Acesso conta do Facebook */
-	private String token = "EAALKZAOc8jaMBAFRz8L7qR6DbqoMazJd4u9r5RxZCR7GNlCM3IxVRGf0ZBXsZABvsnJnfZBvoFvdN92KiiXt0jjMcuhnOwMN4Ng2XThZCzBgZBVdolbNFWHeYEC6nIqeZCdoZBQpZAjNP1ULyMuHE3CpSZBH7QNmbeSEY5jdDOCmm1398N3B6KCdrGlVS4Dq0ZAZBLnSKJxCI490JevuwGBB3gkWW";
+	private String token = "EAALKZAOc8jaMBAPKZATfpUCHan46iHDTn2n3pm7gZBv1xVgofzCTU9jPZB1cXMwFBZB2B5I2ZBe6vclCIX4cHFBlpFMpxC7U7TRAoYgb1DxpyqygTeE0SMf8aK4TnVfJbDNyxmTZCNfx2BZB9JtewpIPAkJVkmLN7cNVlgOukjyAgMmbqBUpWsoc";
 
 	/**
 	 * 
