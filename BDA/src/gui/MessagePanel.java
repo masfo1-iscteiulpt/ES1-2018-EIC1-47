@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
+
 import javax.swing.SwingConstants;
 import java.awt.Color;
 /**
@@ -18,7 +20,7 @@ import java.awt.Color;
  * @author Daniel Freitas
  * @version 1.0
  */
-public class MessagePanel extends JPanel{
+public class MessagePanel extends JPanel {
 	
 	private static final long serialVersionUID = -6800556301140860310L;
 	public JTextPane fullMesage;

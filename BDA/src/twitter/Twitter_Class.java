@@ -1,5 +1,6 @@
 package twitter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import enums.ServiceType;
@@ -43,10 +44,11 @@ public class Twitter_Class {
 	/**
 	 * Prints the first 20 Tweets from the logged user
 	 * @param frame 
+	 * @param posts 
 	 * 
 	 */
 	
-	public void printTweets(BdaGUI frame) {
+	public void printTweets(BdaGUI frame, ArrayList<MessagePanel> posts) {
 		TwitterFactory tf = new TwitterFactory(cbc.build());
     	Twitter twitter = tf.getInstance();        		
         List<Status> statuses;
@@ -63,6 +65,7 @@ public class Twitter_Class {
 					System.out.println("-------------------------------------------------------------------");
 					counter++;
 					frame.addMessage(new MessagePanel(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt(), status.getId()));
+					posts.add(new MessagePanel(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt()));
 				}
 				counterTotal++;
 			}
