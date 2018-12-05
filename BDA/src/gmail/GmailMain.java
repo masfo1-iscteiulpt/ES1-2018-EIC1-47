@@ -16,7 +16,7 @@ public class GmailMain {
 		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 		try {
 			boolean mail = tmu.getEmails("imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com", "CrokaNation12",
-					frame);
+					frame, null);
 			if (mail == true) {
 				System.out.println("Gmail sucess");
 			}

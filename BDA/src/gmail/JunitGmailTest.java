@@ -42,18 +42,6 @@ public class JunitGmailTest {
 	}
 
 	@Test
-	public void zfailMailTest() throws IOException {
-		try {
-			BdaGUI frame = new BdaGUI();
-			ArrayList<OfflineMessage> posts= new ArrayList<OfflineMessage>();
-			RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
-			boolean test = tmu.getEmails("not-imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com", "CrokaNation12", frame, posts);
-		} catch (NoSuchProviderException ex) {
-			assertEquals("No provider for not-imap", ex.getMessage());
-		}
-	}
-	
-	@Test
 	public void connectTest() throws IOException {
 		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 		String connect = tmu.getConnectedStatus("imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com",
