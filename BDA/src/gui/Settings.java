@@ -3,6 +3,21 @@ package gui;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import enums.ServiceType;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -11,6 +26,7 @@ import javax.swing.JCheckBox;
 import java.awt.Component;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -91,7 +107,12 @@ public class Settings extends JFrame {
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				saveConfigChanges();
+				try {
+					saveConfigChanges();
+				} catch (ParserConfigurationException | TransformerFactoryConfigurationError
+						| TransformerException e1) {
+					System.out.println("unable to save changes");
+				}
 			}
 		});
 		
@@ -291,9 +312,46 @@ public class Settings extends JFrame {
 	
 	/**
 	 * Saves the configuration to a .xml file
+	 * @throws ParserConfigurationException 
+	 * @throws TransformerFactoryConfigurationError 
+	 * @throws TransformerException 
 	 */
-	protected void saveConfigChanges() {
+	protected void saveConfigChanges() throws ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException {
 		System.out.println("saving config changes");
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+		Document doc = docBuilder.newDocument();
+		Element rootElement = doc.createElement("CONFIGURATION");
+		doc.appendChild(rootElement);
+		
+		Element newElement1 = doc.createElement("Gmail");
+		newElement1.setAttribute("Protocol", "imap");
+		newElement1.setAttribute("Account", gmail.getText());
+		newElement1.setAttribute("Password", gmailPass.getText());
+
+		Element newElement2 = doc.createElement("Facebook");
+		newElement2.setAttribute("AppId", fbAI.getText());
+		newElement2.setAttribute("AppSecret", fbAS.getText());
+		newElement2.setAttribute("AccessToken", fbAT.getText());
+		
+		Element newElement3 = doc.createElement("Twitter");
+		newElement3.setAttribute("AuthConsumerKey", twACK.getText());
+		newElement3.setAttribute("AuthConsumerSecret", twACS.getText());
+		newElement3.setAttribute("AuthAccessToken", twAAT.getText());
+		newElement3.setAttribute("AuthAccessTokenSecret", twAATS.getText());
+
+		// Add new nodes to XML document (root element)
+		rootElement.appendChild(newElement1);
+		rootElement.appendChild(newElement2);
+		rootElement.appendChild(newElement3);
+
+		// Save XML document
+		Transformer transformer = TransformerFactory.newInstance().newTransformer();
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		StreamResult result = new StreamResult(new File("config.xml"));
+		DOMSource source = new DOMSource(doc);
+		transformer.transform(source, result);
+		this.dispose();
 	}
 
 	/**
