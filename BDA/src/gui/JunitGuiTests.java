@@ -18,7 +18,7 @@ public class JunitGuiTests {
 		assertEquals(g.messages.size(), 0);
 
 		MessagePanel testMessage = new MessagePanel("From", "MessageContent", ServiceType.FB,
-				new Date(System.currentTimeMillis()));
+				new Date(System.currentTimeMillis()), null);
 		g.addMessage(testMessage);
 
 		assertEquals(g.messages.size(), 1);
@@ -26,7 +26,7 @@ public class JunitGuiTests {
 
 		MessagePanel testMessage2 = new MessagePanel("From",
 				"MessageContentLongerThan200Charssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
-				ServiceType.FB, new Date(System.currentTimeMillis()));
+				ServiceType.FB, new Date(System.currentTimeMillis()), null);
 		g.addMessage(testMessage2);
 
 		assertEquals(g.messages.size(), 2);
@@ -38,11 +38,11 @@ public class JunitGuiTests {
 	public void guiRemoveFiltersTest() {
 		BdaGUI g = new BdaGUI(new Config());
 		g.messages
-				.add(new MessagePanel("From", "MessageContent", ServiceType.FB, new Date(System.currentTimeMillis())));
+				.add(new MessagePanel("From", "MessageContent", ServiceType.FB, new Date(System.currentTimeMillis()), null));
 		g.messages
-				.add(new MessagePanel("From", "MessageContent", ServiceType.TW, new Date(System.currentTimeMillis())));
+				.add(new MessagePanel("From", "MessageContent", ServiceType.TW, new Date(System.currentTimeMillis()), null));
 		g.messages
-				.add(new MessagePanel("From", "MessageContent", ServiceType.GM, new Date(System.currentTimeMillis())));
+				.add(new MessagePanel("From", "MessageContent", ServiceType.GM, new Date(System.currentTimeMillis()), null));
 		g.messages.getFirst().setVisible(false);
 		g.messages.getLast().setVisible(false);
 
@@ -57,11 +57,11 @@ public class JunitGuiTests {
 	public void guiFilterMessagesServiceTypeTest() {
 		BdaGUI g = new BdaGUI(new Config());
 		g.messages
-				.add(new MessagePanel("From", "MessageContent", ServiceType.FB, new Date(System.currentTimeMillis())));
+				.add(new MessagePanel("From", "MessageContent", ServiceType.FB, new Date(System.currentTimeMillis()), null));
 		g.messages
-				.add(new MessagePanel("From", "MessageContent", ServiceType.TW, new Date(System.currentTimeMillis())));
+				.add(new MessagePanel("From", "MessageContent", ServiceType.TW, new Date(System.currentTimeMillis()), null));
 		g.messages
-				.add(new MessagePanel("From", "MessageContent", ServiceType.GM, new Date(System.currentTimeMillis())));
+				.add(new MessagePanel("From", "MessageContent", ServiceType.GM, new Date(System.currentTimeMillis()), null));
 
 		g.filterMessages(ServiceType.FB);
 
@@ -86,9 +86,9 @@ public class JunitGuiTests {
 	public void guiFilterMessagesKeyTest() {
 		BdaGUI g = new BdaGUI(new Config());
 		g.messages
-				.add(new MessagePanel("From", "MessageContent", ServiceType.FB, new Date(System.currentTimeMillis())));
-		g.messages.add(new MessagePanel("From", "Hello", ServiceType.TW, new Date(System.currentTimeMillis())));
-		g.messages.add(new MessagePanel("From", "Bye", ServiceType.GM, new Date(System.currentTimeMillis())));
+				.add(new MessagePanel("From", "MessageContent", ServiceType.FB, new Date(System.currentTimeMillis()), null));
+		g.messages.add(new MessagePanel("From", "Hello", ServiceType.TW, new Date(System.currentTimeMillis()), null));
+		g.messages.add(new MessagePanel("From", "Bye", ServiceType.GM, new Date(System.currentTimeMillis()), null));
 
 		g.filterMessages("Hello");
 
@@ -101,12 +101,12 @@ public class JunitGuiTests {
 	public void guiAdvandecSearchTest() {
 		BdaGUI g = new BdaGUI(new Config());
 		g.messages
-				.add(new MessagePanel("From", "MessageContent", ServiceType.FB, new Date(System.currentTimeMillis())));
-		g.messages.add(new MessagePanel("Other", "Hello", ServiceType.TW, new Date(System.currentTimeMillis())));
+				.add(new MessagePanel("From", "MessageContent", ServiceType.FB, new Date(System.currentTimeMillis()), null));
+		g.messages.add(new MessagePanel("Other", "Hello", ServiceType.TW, new Date(System.currentTimeMillis()), null));
 		g.messages.add(
-				new MessagePanel("From", "Bye", ServiceType.GM, new Date(System.currentTimeMillis() - 1000000000)));
+				new MessagePanel("From", "Bye", ServiceType.GM, new Date(System.currentTimeMillis() - 1000000000), null));
 		g.messages.add(
-				new MessagePanel("Other", "Bye", ServiceType.GM, new Date(System.currentTimeMillis() - 1000000000)));
+				new MessagePanel("Other", "Bye", ServiceType.GM, new Date(System.currentTimeMillis() - 1000000000), null));
 
 		g.searchAdvTime.setSelectedIndex(0); // 12h
 		g.searchAdvUser.setText("From"); // User "From"

@@ -145,7 +145,7 @@ public class RetrieveEmailsUsingIMAP {
 				//mc += "\t subject: " + subject;
 				//mc += "\n" + "\n"+ "Message: " + messageContent;
 				mc += "\t Attachments: " + attachFiles;
-				frame.addMessage(new MessagePanel(fromemail, mc, ServiceType.GM, message.getSentDate()));
+				frame.addMessage(new MessagePanel(fromemail, mc, ServiceType.GM, message.getSentDate(), null));
 				posts.add(new OfflineMessage(fromemail, mc, ServiceType.GM, message.getSentDate()));
 			}
 

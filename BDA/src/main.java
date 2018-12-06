@@ -129,7 +129,7 @@ public class main {
 			posts = (ArrayList<OfflineMessage>) s.readObject();
 			for (int i = 0; i != posts.size(); i++) {
 				frame.addMessage(new MessagePanel(posts.get(i).getSender(), posts.get(i).getMessageContent(),
-						posts.get(i).getServiceType(), posts.get(i).getDateSent()));
+						posts.get(i).getServiceType(), posts.get(i).getDateSent(), null));
 			}
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();

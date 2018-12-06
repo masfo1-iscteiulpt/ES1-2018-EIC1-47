@@ -16,6 +16,9 @@ import java.io.Serializable;
 
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import javax.swing.JTextArea;
+import javax.swing.ImageIcon;
+import javax.swing.JTextField;
 /**
  * A specialized JPanel that represents a message obtained from a service.
  * 
@@ -25,6 +28,7 @@ import java.awt.Color;
 public class MessagePanel extends JPanel {
 	
 	private static final long serialVersionUID = -6800556301140860310L;
+	private JPanel replyPanel;
 	public JTextPane fullMesage;
 	public JTextPane headerMsg;
 	private ServiceType serviceType;
@@ -32,6 +36,7 @@ public class MessagePanel extends JPanel {
 	private String sender;
 	private Date dateSent;
 	private Status status;
+	private JTextField subject;
 	
 	/**
 	 * Created a MessagePanel with the specified sender, message content, service type and date.
@@ -39,8 +44,10 @@ public class MessagePanel extends JPanel {
 	 * @param mc	The message content.
 	 * @param st	The service type.
 	 * @param date	The date the message was sent.
+	 * @param status2 
 	 */
-	public MessagePanel(String from, String mc, ServiceType st, Date date) {
+	public MessagePanel(String from, String mc, ServiceType st, Date date, Status status) {
+		this.status = status;
 		serviceType = st;
 		messageContent = mc;
 		dateSent = date;
@@ -50,22 +57,58 @@ public class MessagePanel extends JPanel {
 		headerPane.setBackground(new Color(220, 220, 220));
 		
 		JPanel panel = new JPanel();
-		panel.addMouseListener(new MouseAdapter() {
+		panel.setBorder(null);
+		panel.setBackground(st.color());
+		
+		JLabel retweetLbl = new JLabel("");
+		retweetLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		retweetLbl.setIcon(new ImageIcon(MessagePanel.class.getResource("/resources/retweet.png")));
+		
+		JLabel expandMsgLbl = new JLabel("");
+		expandMsgLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		expandMsgLbl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				expandMessage();
 			}
 		});
-		panel.setBorder(null);
-		panel.setBackground(st.color());
+		expandMsgLbl.setIcon(new ImageIcon(MessagePanel.class.getResource("/resources/showmore.png")));
+		
+		JLabel replyLbl = new JLabel("");
+		replyLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if(replyPanel.isVisible()) {
+					replyPanel.setVisible(false);
+				} else {
+					replyPanel.setVisible(true);
+				}
+			}
+		});
+		
+		replyLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		replyLbl.setIcon(new ImageIcon(MessagePanel.class.getResource("/resources/reply.png")));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 68, Short.MAX_VALUE)
+				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+					.addGap(15)
+					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(replyLbl, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+						.addComponent(expandMsgLbl, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+						.addComponent(retweetLbl, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
+					.addGap(15))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 101, Short.MAX_VALUE)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(expandMsgLbl, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(retweetLbl, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(replyLbl, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(135, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		
@@ -102,16 +145,22 @@ public class MessagePanel extends JPanel {
 			headerMsg.setText(messageContent);
 		}
 		
+		replyPanel = new JPanel();
+		replyPanel.setBackground(new Color(200, 200, 200));
+		replyPanel.setVisible(false);
+		
 		GroupLayout gl_headerPane = new GroupLayout(headerPane);
 		gl_headerPane.setHorizontalGroup(
 			gl_headerPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_headerPane.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(fromLabel, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
 					.addComponent(dateLabel, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
 					.addGap(26))
-				.addComponent(headerMsg).addComponent(fullMesage)
+				.addComponent(replyPanel)
+				.addComponent(headerMsg)
+				.addComponent(fullMesage)
 		);
 		gl_headerPane.setVerticalGroup(
 			gl_headerPane.createParallelGroup(Alignment.LEADING)
@@ -121,102 +170,59 @@ public class MessagePanel extends JPanel {
 						.addComponent(fromLabel)
 						.addComponent(dateLabel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addComponent(headerMsg, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-					.addComponent(fullMesage, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-					)
+					.addComponent(headerMsg)
+					.addComponent(fullMesage)
+					.addComponent(replyPanel))
 		);
-		headerPane.setLayout(gl_headerPane);
-		setLayout(groupLayout);
-	}
-	
-	public MessagePanel(String from, String mc, ServiceType st, Date date, Status status) {
-		status = status;
-		sender = from;
-		messageContent = mc;
-		serviceType = st;
-		dateSent  = date;
 		
-		JPanel headerPane = new JPanel();
-		headerPane.setBackground(new Color(220, 220, 220));
+		JTextArea messageToSend = new JTextArea();
 		
-		JPanel panel = new JPanel();
-		panel.addMouseListener(new MouseAdapter() {
+		JLabel sendLbl = new JLabel("");
+		sendLbl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				expandMessage();
+				System.out.println("Reply");
 			}
 		});
-		panel.setBorder(null);
-		panel.setBackground(st.color());
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 68, Short.MAX_VALUE)
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 101, Short.MAX_VALUE)
-		);
-		panel.setLayout(gl_panel);
 		
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addComponent(headerPane, GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-				.addComponent(headerPane, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-		);
-		JLabel fromLabel = new JLabel(sender);
-		fromLabel.setHorizontalTextPosition(SwingConstants.LEADING);
+		sendLbl.setIcon(new ImageIcon(MessagePanel.class.getResource("/resources/send.png")));
 		
-		JLabel dateLabel = new JLabel(dateSent.toString());
-		dateLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-		
-		fullMesage = new JTextPane();
-		fullMesage.setBorder(null);
-		fullMesage.setEditable(false);
-		fullMesage.setText(messageContent);
-		fullMesage.setVisible(false);
-		
-		headerMsg = new JTextPane();
-		headerMsg.setEditable(false);
-		headerMsg.setBorder(null);
-		if(mc.length()>200) {
-			headerMsg.setText(messageContent.substring(0, 200));
-		} else {
-			headerMsg.setText(messageContent);
-		}
-		
-		GroupLayout gl_headerPane = new GroupLayout(headerPane);
-		gl_headerPane.setHorizontalGroup(
-			gl_headerPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_headerPane.createSequentialGroup()
+		subject = new JTextField();
+		subject.setColumns(10);
+		GroupLayout gl_replyPanel = new GroupLayout(replyPanel);
+		gl_replyPanel.setHorizontalGroup(
+			gl_replyPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_replyPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(fromLabel, GroupLayout.PREFERRED_SIZE, 151, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-					.addComponent(dateLabel, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
-					.addGap(26))
-				.addComponent(headerMsg).addComponent(fullMesage)
+					.addGroup(gl_replyPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(subject, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+						.addComponent(messageToSend, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(sendLbl, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+					.addGap(24))
 		);
-		gl_headerPane.setVerticalGroup(
-			gl_headerPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_headerPane.createSequentialGroup()
-					.addGap(10)
-					.addGroup(gl_headerPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(fromLabel)
-						.addComponent(dateLabel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addComponent(headerMsg, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-					.addComponent(fullMesage, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-					)
+		gl_replyPanel.setVerticalGroup(
+			gl_replyPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_replyPanel.createSequentialGroup()
+					.addGap(15)
+					.addComponent(subject, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(messageToSend, GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+					.addContainerGap())
+				.addGroup(gl_replyPanel.createSequentialGroup()
+					.addGap(111)
+					.addComponent(sendLbl, GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+					.addGap(71))
 		);
+		replyPanel.setLayout(gl_replyPanel);
 		headerPane.setLayout(gl_headerPane);
 		setLayout(groupLayout);
+		
+		if(!this.serviceType.equals(ServiceType.TW)) {
+			retweetLbl.setVisible(false);
+		} else {
+			replyLbl.setVisible(false);
+		}
 	}
 	
 	/**
@@ -275,5 +281,4 @@ public class MessagePanel extends JPanel {
 	public Status getStatus() {
 		return status;
 	}
-
 }
