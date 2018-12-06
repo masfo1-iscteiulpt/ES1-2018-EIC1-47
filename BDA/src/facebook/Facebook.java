@@ -6,6 +6,8 @@ import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.FacebookClient.AccessToken;
 import com.restfb.Parameter;
+import com.restfb.types.FacebookType;
+import com.restfb.types.Page;
 import com.restfb.types.Post;
 import com.restfb.types.User;
 
@@ -17,6 +19,7 @@ public class Facebook {
 
 	private String token = "EAALKZAOc8jaMBALNgsOkwZA0wReaiTwvFKLlnWo5X8ka4FaPhwxLZCpV4qvbZCuKP8aK5MJ8e8T7cmQZBrko7JozaLxMfTyh1yb66BzPPKtjBfpp5yUrJ9PIZA4LtIZAURA7QrQHTnsOaljtIKDHy5C9SeOcFG6PRFZAcVrLawBcGkAbj0BydOIf";
 	private boolean test =false;
+	private String pageToken = "EAALKZAOc8jaMBAMmB1rrJazio8FPKtX6LDY33drZB35ZAPdn2pfqHTyEhHTZAhUUVLPnyDoj5wXxezZBZCsYkPIhwAHEtRwYRp195SA6tDYbrhLomtcPOPAynCqGQZAupKDnjxO3OaGOKl6DHEbgQjH4H3yZAHOYCdvzhQ9tYX7ZBNcdtNqZBRNWgKwpq4esN1PTMwblYq2Yl1jFpSEDYXDsmQ";
 	
 	/**
 	 * 
@@ -102,9 +105,4 @@ public class Facebook {
 		return test;
 	}
 	
-	public boolean createPost() {
-		DefaultFacebookClient fcl = new DefaultFacebookClient(token);
-		test = true;
-		return test;
-	}
 }
