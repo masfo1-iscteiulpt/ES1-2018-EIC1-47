@@ -101,4 +101,10 @@ public class Facebook {
 		test = true;
 		return test;
 	}
+	
+	public boolean createPost() {
+		DefaultFacebookClient fcl = new DefaultFacebookClient(token);
+		test = true;
+		return test;
+	}
 }
