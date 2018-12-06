@@ -91,10 +91,7 @@ public class Settings extends JFrame {
 		saveButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("save changes");
-				//boolean fw = chckbxTw.isSelected();
-				//boolean tw = chckbxTw.isSelected();
-				//boolean gm = chckbxGm.isSelected();
+				saveConfigChanges();
 			}
 		});
 		
@@ -171,16 +168,16 @@ public class Settings extends JFrame {
 		);
 		mailPanel.setLayout(gl_mailPanel);
 		
-		twACK = new JTextField();
+		twACK = new JTextField(config.getTwACK());
 		twACK.setColumns(10);
 		
-		twACS = new JTextField();
+		twACS = new JTextField(config.getTwACS());
 		twACS.setColumns(10);
 		
-		twAAT = new JTextField();
+		twAAT = new JTextField(config.getTwAAT());
 		twAAT.setColumns(10);
 		
-		twAATS = new JTextField();
+		twAATS = new JTextField(config.getTwAATS());
 		twAATS.setColumns(10);
 		
 		JLabel twAckLbl = new JLabel("Auth Consumer Key");
@@ -243,10 +240,10 @@ public class Settings extends JFrame {
 		);
 		twPanel.setLayout(gl_twPanel);
 		
-		fbAI = new JTextField();
+		fbAI = new JTextField(config.getFbAppId());
 		fbAI.setColumns(10);
 		
-		fbAS = new JTextField();
+		fbAS = new JTextField(config.getFbAppSecret());
 		fbAS.setColumns(10);
 		
 		JLabel fbAiLbl = new JLabel("App Id");
@@ -255,7 +252,7 @@ public class Settings extends JFrame {
 		
 		JLabel fbAtLbl = new JLabel("Access Token");
 		
-		fbAT = new JTextField();
+		fbAT = new JTextField(config.getFbAcessToken());
 		fbAT.setColumns(10);
 		GroupLayout gl_fbPanel = new GroupLayout(fbPanel);
 		gl_fbPanel.setHorizontalGroup(
@@ -292,6 +289,13 @@ public class Settings extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 	
+	/**
+	 * Saves the configuration to a .xml file
+	 */
+	protected void saveConfigChanges() {
+		System.out.println("saving config changes");
+	}
+
 	/**
 	 * Enables/disables the Facebook Panel.
 	 * @param cmpnts the Facebook panels components.

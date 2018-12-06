@@ -87,8 +87,7 @@ public class main {
 		// tw init
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		Twitter_Class tw = new Twitter_Class(cb);
-		tw.sign_in("pRXsTFA4vsYjkjYIphXveKKgV", "CfNV7ZgEwN2hhysP8kAGmy6hWMF7mypqX6CPtRwDy7rQ63Z5rU",
-				"1053263399889653761-Eu236nomWzitNbXoEcKsOvQVCOchZw", "jKSOccpi450YERoIGJeP9qPQLRJbGTrEZtKoG4IlRDuip");
+		tw.sign_in(config.getTwACK(), config.getTwACS(), config.getTwAAT(), config.getTwAATS());
 		tw.printTweets(frame, posts);
 		// gmail init
 		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
@@ -107,7 +106,7 @@ public class main {
 		try {
 			fb.getUser();
 			fb.getExtendedAccessToken();
-			fb.filterFacebookPost(frame, posts);
+			fb.filterFacebookPost(config.getFbAcessToken(), config.getFbAppId(), config.getFbAppSecret(), frame, posts);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -154,35 +153,39 @@ public class main {
 	         XPath xpath = xpathFactory.newXPath();
 	         //gmail
 	         XPathExpression expr = xpath.compile("/CONFIGURATION/Gmail/@*");
-	         NodeList gm = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+	         NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 	         //gmail
-	         config.setGmailMail(gm.item(0).getFirstChild().getNodeValue());
+	         config.setGmailMail(nl.item(0).getFirstChild().getNodeValue());
 	         //password
-	         config.setGmailPassword(gm.item(1).getFirstChild().getNodeValue());
+	         config.setGmailPassword(nl.item(1).getFirstChild().getNodeValue());
 	         //protocol
-	         config.setGmailProtocol(gm.item(2).getFirstChild().getNodeValue());
+	         config.setGmailProtocol(nl.item(2).getFirstChild().getNodeValue());
 	         
 	         //facebook
 	         expr = xpath.compile("/CONFIGURATION/Facebook/@*");
-	         gm = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+	         nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 	         //AccessToken
-	         System.out.println(gm.item(0).getFirstChild().getNodeValue());
+	         config.setFbAcessToken(nl.item(0).getFirstChild().getNodeValue());
 	         //AppId
-	         System.out.println(gm.item(1).getFirstChild().getNodeValue());
+	         config.setFbAppId(nl.item(1).getFirstChild().getNodeValue());
 	         //ASecret
-	         System.out.println(gm.item(2).getFirstChild().getNodeValue());
+	         config.setFbAppSecret(nl.item(2).getFirstChild().getNodeValue());
 	         
 	         //twitter
 	         expr = xpath.compile("/CONFIGURATION/Twitter/@*");
-	         gm = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+	         nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 	         //AAT
-	         System.out.println(gm.item(0).getFirstChild().getNodeValue());
+	         System.out.println(nl.item(0).getFirstChild().getNodeValue());
+	         config.setTwAAT(nl.item(0).getFirstChild().getNodeValue());
 	         //AATS
-	         System.out.println(gm.item(1).getFirstChild().getNodeValue());
+	         System.out.println(nl.item(1).getFirstChild().getNodeValue());
+	         config.setTwAATS(nl.item(1).getFirstChild().getNodeValue());
 	         //ACK
-	         System.out.println(gm.item(2).getFirstChild().getNodeValue());
+	         System.out.println(nl.item(2).getFirstChild().getNodeValue());
+	         config.setTwACK(nl.item(2).getFirstChild().getNodeValue());
 	         //ACS
-	         System.out.println(gm.item(3).getFirstChild().getNodeValue());
+	         System.out.println(nl.item(3).getFirstChild().getNodeValue());
+	         config.setTwACS(nl.item(3).getFirstChild().getNodeValue());
 	        
 
 		} catch (IOException e) {

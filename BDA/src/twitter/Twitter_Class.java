@@ -37,12 +37,12 @@ public class Twitter_Class {
 	 * Initiates a Twitter account with the given tokens
 	 * 
 	 */
-	public boolean sign_in(String cK, String cS, String aT, String aTS){
+	public boolean sign_in(String ack, String acs, String aat, String aats){
 		cbc.setDebugEnabled(true)
-  	  	.setOAuthConsumerKey(cK)
-  	  	.setOAuthConsumerSecret(cS)
-  	  	.setOAuthAccessToken(aT)
-  	  	.setOAuthAccessTokenSecret(aTS);
+  	  	.setOAuthConsumerKey(ack)
+  	  	.setOAuthConsumerSecret(acs)
+  	  	.setOAuthAccessToken(aat)
+  	  	.setOAuthAccessTokenSecret(aats);
 		tf = new TwitterFactory(cbc.build());
     	twitter = tf.getInstance();  
 		return true;

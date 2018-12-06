@@ -57,11 +57,14 @@ public class Facebook {
 	 * -Permite filtrar os post que o user que recebe usando aquele Access Token
 	 * -E permite saber quantos são
 	 * -Apresenta resultados na consola
+	 * @param AppSecret 
+	 * @param AppId 
+	 * @param AcessToken 
 	 * @param frame 
 	 * @param posts 
 	 * 	 
 	 */
-	public void filterFacebookPost(BdaGUI frame, ArrayList<OfflineMessage> posts) {
+	public void filterFacebookPost(String AcessToken, String AppId, String AppSecret, BdaGUI frame, ArrayList<OfflineMessage> posts) {
 		String accessToken5 = token;
 		FacebookClient fbClient5 = new DefaultFacebookClient(accessToken5);
 
