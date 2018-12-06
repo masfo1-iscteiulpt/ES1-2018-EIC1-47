@@ -54,7 +54,7 @@ public class Twitter_Class {
 	 * 
 	 */
 	
-	public boolean printTweets(BdaGUI frame, ArrayList<OfflineMessage> posts) {      		
+	public void printTweets(BdaGUI frame, ArrayList<OfflineMessage> posts) {      		
         List<Status> statuses;
 		try {
 			statuses = twitter.getHomeTimeline();
@@ -74,11 +74,9 @@ public class Twitter_Class {
 				counterTotal++;
 			}
 			System.out.println("-------------\nNº of Results: " + counter+"/"+counterTotal);
-			return true;
 			} catch (TwitterException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return false;
+				System.out.println("twitter service unavailable");
 			}
 		
 	}

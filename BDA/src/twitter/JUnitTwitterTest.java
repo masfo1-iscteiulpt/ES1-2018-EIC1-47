@@ -22,31 +22,33 @@ public class JUnitTwitterTest {
 	public void sign_inTest() {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		Twitter_Class tw = new Twitter_Class(cb);
-		boolean test= tw.sign_in("pRXsTFA4vsYjkjYIphXveKKgV", "CfNV7ZgEwN2hhysP8kAGmy6hWMF7mypqX6CPtRwDy7rQ63Z5rU","1053263399889653761-Eu236nomWzitNbXoEcKsOvQVCOchZw", "jKSOccpi450YERoIGJeP9qPQLRJbGTrEZtKoG4IlRDuip");
+		boolean test = tw.sign_in("pRXsTFA4vsYjkjYIphXveKKgV", "CfNV7ZgEwN2hhysP8kAGmy6hWMF7mypqX6CPtRwDy7rQ63Z5rU",
+				"1053263399889653761-Eu236nomWzitNbXoEcKsOvQVCOchZw", "jKSOccpi450YERoIGJeP9qPQLRJbGTrEZtKoG4IlRDuip");
 		assertTrue(test);
 	}
+
 	@Test
 	public void printTweetsTest() {
 		BdaGUI frame = new BdaGUI(new Config());
-		ArrayList<OfflineMessage> posts= new ArrayList<OfflineMessage>();
+		ArrayList<OfflineMessage> posts = new ArrayList<OfflineMessage>();
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		Twitter_Class tw = new Twitter_Class(cb);
-		tw.sign_in("pRXsTFA4vsYjkjYIphXveKKgV", "CfNV7ZgEwN2hhysP8kAGmy6hWMF7mypqX6CPtRwDy7rQ63Z5rU","1053263399889653761-Eu236nomWzitNbXoEcKsOvQVCOchZw", "jKSOccpi450YERoIGJeP9qPQLRJbGTrEZtKoG4IlRDuip");
-		boolean test= tw.printTweets(frame, posts);
-		assertTrue(test);
+		tw.sign_in("pRXsTFA4vsYjkjYIphXveKKgV", "CfNV7ZgEwN2hhysP8kAGmy6hWMF7mypqX6CPtRwDy7rQ63Z5rU",
+				"1053263399889653761-Eu236nomWzitNbXoEcKsOvQVCOchZw", "jKSOccpi450YERoIGJeP9qPQLRJbGTrEZtKoG4IlRDuip");
+		tw.printTweets(frame, posts);
 	}
+
 	@Test
-	public void reTweetTest(){
+	public void reTweetTest() throws TwitterException {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		Twitter_Class tw = new Twitter_Class(cb);
-		tw.sign_in("pRXsTFA4vsYjkjYIphXveKKgV", "CfNV7ZgEwN2hhysP8kAGmy6hWMF7mypqX6CPtRwDy7rQ63Z5rU","1053263399889653761-Eu236nomWzitNbXoEcKsOvQVCOchZw", "jKSOccpi450YERoIGJeP9qPQLRJbGTrEZtKoG4IlRDuip");
-    	tw.getCbc();
-    	tw.getTf();
-		try {
-			List<Status> statuses = tw.getTwitter().getHomeTimeline();
-			boolean test = tw.reTweet(statuses.get(0));
-			assertTrue(test);
-		} catch (TwitterException e) {
-			}
+		tw.sign_in("pRXsTFA4vsYjkjYIphXveKKgV", "CfNV7ZgEwN2hhysP8kAGmy6hWMF7mypqX6CPtRwDy7rQ63Z5rU",
+				"1053263399889653761-Eu236nomWzitNbXoEcKsOvQVCOchZw", "jKSOccpi450YERoIGJeP9qPQLRJbGTrEZtKoG4IlRDuip");
+		tw.getCbc();
+		tw.getTf();
+		List<Status> statuses = tw.getTwitter().getHomeTimeline();
+		boolean test = tw.reTweet(statuses.get(0));
+		assertTrue(test);
+
 	}
 }

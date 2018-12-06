@@ -93,12 +93,8 @@ public class main {
 		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 		try {
 			tmu.getEmails(config.getGmailProtocol(), "imap.gmail.com", "993", config.getGmailMail(), config.getGmailPassword(), frame, posts);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchProviderException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (NoSuchProviderException | IOException e) {
+			System.out.println("Gmail service unavailable");
 		}
 
 		// fb init
