@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
@@ -54,11 +55,13 @@ public class BdaGUI extends JFrame {
 	private JPanel searchAdvPanel;
 	private JLabel serachAdvLbl;
 	private JLabel settings;
+	private Config config;
 	
 	/**
 	 * Creates a graphical user interface and all it's features.
+	 * @param runnable 
 	 */
-	public BdaGUI() {
+	public BdaGUI(Config configuration) {
 		setTitle("Bom Dia Academia");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 700);
@@ -66,6 +69,7 @@ public class BdaGUI extends JFrame {
 		contentPane.setBorder(null);
 		setContentPane(contentPane);
 		
+		config = configuration;
 		mainPanel = new JPanel();
 		mainPanel.setBorder(null);
 		mainPanel.setBackground(new Color(50, 50, 50));
@@ -317,7 +321,7 @@ public class BdaGUI extends JFrame {
 		settings.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Settings frame = new Settings();
+				Settings frame = new Settings(configuration);
 				frame.setVisible(true);
 			}
 		});

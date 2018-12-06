@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Test;
 
 import gui.BdaGUI;
+import gui.Config;
 import gui.OfflineMessage;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -26,7 +27,7 @@ public class JUnitTwitterTest {
 	}
 	@Test
 	public void printTweetsTest() {
-		BdaGUI frame = new BdaGUI();
+		BdaGUI frame = new BdaGUI(new Config());
 		ArrayList<OfflineMessage> posts= new ArrayList<OfflineMessage>();
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		Twitter_Class tw = new Twitter_Class(cb);

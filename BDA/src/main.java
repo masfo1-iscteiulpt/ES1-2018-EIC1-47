@@ -33,6 +33,7 @@ import twitter4j.conf.ConfigurationBuilder;
 import facebook.Facebook;
 import gmail.RetrieveEmailsUsingIMAP;
 import gui.BdaGUI;
+import gui.Config;
 import gui.MessagePanel;
 import gui.OfflineMessage;
 import twitter.Twitter_Class;
@@ -40,13 +41,21 @@ import twitter.Twitter_Class;
 public class main {
 
 	public static BdaGUI frame;
-	static boolean netConection = false;
-
+	public static boolean netConection = false;
+	public static Config configuration;
+	
 	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
+		try {
+			configuration = new Config();
+			loadSettings(configuration);
+		} catch (ParserConfigurationException | SAXException | TransformerFactoryConfigurationError
+				| TransformerException | XPathExpressionException e) {
+			e.printStackTrace();
+		}
 		EventQueue.invokeAndWait(new Runnable() {
 			public void run() {
 				try {
-					frame = new BdaGUI();
+					frame = new BdaGUI(configuration);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -66,22 +75,14 @@ public class main {
 			} catch (Exception e) {
 			}
 		}
-
-		try {
-			loadSettings();
-		} catch (ParserConfigurationException | SAXException | TransformerFactoryConfigurationError
-				| TransformerException | XPathExpressionException e) {
-			e.printStackTrace();
-		}
-
 		if (netConection) {
-			startServices();
+			startServices(configuration);
 		} else {
 			offlineServices();
 		}
 	}
 
-	public static void startServices() {
+	public static  void startServices(Config config) {
 		ArrayList<OfflineMessage> posts = new ArrayList<OfflineMessage>();
 		// tw init
 		ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -92,7 +93,7 @@ public class main {
 		// gmail init
 		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 		try {
-			tmu.getEmails("imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com", "CrokaNation12", frame, posts);
+			tmu.getEmails(config.getGmailProtocol(), "imap.gmail.com", "993", config.getGmailMail(), config.getGmailPassword(), frame, posts);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -140,7 +141,7 @@ public class main {
 		}
 	}
 
-	private static void loadSettings() throws ParserConfigurationException, SAXException, TransformerFactoryConfigurationError, TransformerException, XPathExpressionException {
+	private static void loadSettings(Config config) throws ParserConfigurationException, SAXException, TransformerFactoryConfigurationError, TransformerException, XPathExpressionException {
 		try {
 			File inputFile = new File("config.xml");
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -151,16 +152,15 @@ public class main {
 			// read settings
 	         XPathFactory xpathFactory = XPathFactory.newInstance();
 	         XPath xpath = xpathFactory.newXPath();
-	         
 	         //gmail
 	         XPathExpression expr = xpath.compile("/CONFIGURATION/Gmail/@*");
 	         NodeList gm = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 	         //gmail
-	         System.out.println(gm.item(0).getFirstChild().getNodeValue());
+	         config.setGmailMail(gm.item(0).getFirstChild().getNodeValue());
 	         //password
-	         System.out.println(gm.item(1).getFirstChild().getNodeValue());
+	         config.setGmailPassword(gm.item(1).getFirstChild().getNodeValue());
 	         //protocol
-	         System.out.println(gm.item(2).getFirstChild().getNodeValue());
+	         config.setGmailProtocol(gm.item(2).getFirstChild().getNodeValue());
 	         
 	         //facebook
 	         expr = xpath.compile("/CONFIGURATION/Facebook/@*");

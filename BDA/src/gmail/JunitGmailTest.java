@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import gui.BdaGUI;
+import gui.Config;
 import gui.OfflineMessage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -45,7 +46,7 @@ public class JunitGmailTest {
 	@Test
 	public void mailTest() throws IOException {
 			ArrayList<OfflineMessage> posts= new ArrayList<OfflineMessage>();
-			BdaGUI frame = new BdaGUI();
+			BdaGUI frame = new BdaGUI(new Config());
 			RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 			try {
 				boolean test = tmu.getEmails("imap", "imap.gmail.com", "993", 

@@ -44,7 +44,7 @@ public class Settings extends JFrame {
 	/**
 	 * Creates a settings frame.
 	 */
-	public Settings() {
+	public Settings(Config config) {
 		setResizable(false);
 		setTitle("Settings");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -137,15 +137,13 @@ public class Settings extends JFrame {
 					.addGap(7))
 		);
 		
-		gmail = new JTextField();
+		JLabel lblGmail = new JLabel("Gmail");
+		JLabel lblPassword = new JLabel("Password");
+		gmail = new JTextField(config.getGmailMail());
 		gmail.setColumns(10);
-		
-		gmailPass = new JTextField();
+		gmailPass = new JTextField(config.getGmailPassword());
 		gmailPass.setColumns(10);
 		
-		JLabel lblGmail = new JLabel("Gmail");
-		
-		JLabel lblPassword = new JLabel("Password");
 		GroupLayout gl_mailPanel = new GroupLayout(mailPanel);
 		gl_mailPanel.setHorizontalGroup(
 			gl_mailPanel.createParallelGroup(Alignment.LEADING)

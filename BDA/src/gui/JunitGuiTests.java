@@ -14,7 +14,7 @@ public class JunitGuiTests {
 
 	@Test
 	public void guiAddMessageTest() {
-		BdaGUI g = new BdaGUI();
+		BdaGUI g = new BdaGUI(new Config());
 		assertEquals(g.messages.size(), 0);
 
 		MessagePanel testMessage = new MessagePanel("From", "MessageContent", ServiceType.FB,
@@ -36,7 +36,7 @@ public class JunitGuiTests {
 
 	@Test
 	public void guiRemoveFiltersTest() {
-		BdaGUI g = new BdaGUI();
+		BdaGUI g = new BdaGUI(new Config());
 		g.messages
 				.add(new MessagePanel("From", "MessageContent", ServiceType.FB, new Date(System.currentTimeMillis())));
 		g.messages
@@ -55,7 +55,7 @@ public class JunitGuiTests {
 
 	@Test
 	public void guiFilterMessagesServiceTypeTest() {
-		BdaGUI g = new BdaGUI();
+		BdaGUI g = new BdaGUI(new Config());
 		g.messages
 				.add(new MessagePanel("From", "MessageContent", ServiceType.FB, new Date(System.currentTimeMillis())));
 		g.messages
@@ -84,7 +84,7 @@ public class JunitGuiTests {
 
 	@Test
 	public void guiFilterMessagesKeyTest() {
-		BdaGUI g = new BdaGUI();
+		BdaGUI g = new BdaGUI(new Config());
 		g.messages
 				.add(new MessagePanel("From", "MessageContent", ServiceType.FB, new Date(System.currentTimeMillis())));
 		g.messages.add(new MessagePanel("From", "Hello", ServiceType.TW, new Date(System.currentTimeMillis())));
@@ -99,7 +99,7 @@ public class JunitGuiTests {
 
 	@Test
 	public void guiAdvandecSearchTest() {
-		BdaGUI g = new BdaGUI();
+		BdaGUI g = new BdaGUI(new Config());
 		g.messages
 				.add(new MessagePanel("From", "MessageContent", ServiceType.FB, new Date(System.currentTimeMillis())));
 		g.messages.add(new MessagePanel("Other", "Hello", ServiceType.TW, new Date(System.currentTimeMillis())));
@@ -128,7 +128,7 @@ public class JunitGuiTests {
 
 	@Test
 	public void settingsFrameTest() {
-		Settings frame = new Settings();
+		Settings frame = new Settings(new Config());
 		assertNotNull(frame);
 		assertEquals(frame.isResizable(), false);
 		assertEquals(frame.getDefaultCloseOperation(), JFrame.DISPOSE_ON_CLOSE);
@@ -137,7 +137,7 @@ public class JunitGuiTests {
 
 	@Test
 	public void changeStateFbTest() {
-		Settings frame = new Settings();
+		Settings frame = new Settings(new Config());
 		Component[] cmpnts = frame.fbPanel.getComponents();
 
 		for (Component c : cmpnts) {
@@ -155,7 +155,7 @@ public class JunitGuiTests {
 
 	@Test
 	public void changeStateFbTest2() {
-		Settings frame = new Settings();
+		Settings frame = new Settings(new Config());
 		Component[] cmpnts = frame.fbPanel.getComponents();
 
 		for (Component c : cmpnts) {
@@ -173,7 +173,7 @@ public class JunitGuiTests {
 
 	@Test
 	public void changeStateTwTest() {
-		Settings frame = new Settings();
+		Settings frame = new Settings(new Config());
 		Component[] cmpnts = frame.twPanel.getComponents();
 
 		for (Component c : cmpnts) {
@@ -191,7 +191,7 @@ public class JunitGuiTests {
 
 	@Test
 	public void changeStateTwTest2() {
-		Settings frame = new Settings();
+		Settings frame = new Settings(new Config());
 		Component[] cmpnts = frame.twPanel.getComponents();
 
 		for (Component c : cmpnts) {
@@ -209,7 +209,7 @@ public class JunitGuiTests {
 
 	@Test
 	public void changeStateGmTest() {
-		Settings frame = new Settings();
+		Settings frame = new Settings(new Config());
 		Component[] cmpnts = frame.mailPanel.getComponents();
 
 		for (Component c : cmpnts) {
@@ -227,7 +227,7 @@ public class JunitGuiTests {
 
 	@Test
 	public void changeStateGmTest2() {
-		Settings frame = new Settings();
+		Settings frame = new Settings(new Config());
 		Component[] cmpnts = frame.mailPanel.getComponents();
 
 		for (Component c : cmpnts) {

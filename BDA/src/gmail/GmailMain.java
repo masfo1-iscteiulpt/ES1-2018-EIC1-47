@@ -5,14 +5,14 @@ import java.io.IOException;
 import javax.mail.NoSuchProviderException;
 
 import gui.BdaGUI;
+import gui.Config;
 
 public class GmailMain {
 
 	public static void main(String[] args) {
 		
 		//receiver
-
-		BdaGUI frame = new BdaGUI();
+		BdaGUI frame = new BdaGUI(new Config());
 		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 		try {
 			boolean mail = tmu.getEmails("imap", "imap.gmail.com", "993", "Trabalhosiscte12@gmail.com", "CrokaNation12",
