@@ -189,9 +189,9 @@ public class Settings extends JFrame {
 		
 		JLabel twAcsLbl = new JLabel("Auth Consumer Secret");
 		
-		JLabel twAatLbl = new JLabel("Auth Acess Token");
+		JLabel twAatLbl = new JLabel("Auth Access Token");
 		
-		JLabel twAatsLbl = new JLabel("Auth Acess Token Secret");
+		JLabel twAatsLbl = new JLabel("Auth Access Token Secret");
 		GroupLayout gl_twPanel = new GroupLayout(twPanel);
 		gl_twPanel.setHorizontalGroup(
 			gl_twPanel.createParallelGroup(Alignment.LEADING)
@@ -255,7 +255,7 @@ public class Settings extends JFrame {
 		
 		JLabel fbAsLbl = new JLabel("App Secret");
 		
-		JLabel fbAtLbl = new JLabel("Acces Token");
+		JLabel fbAtLbl = new JLabel("Access Token");
 		
 		fbAT = new JTextField();
 		fbAT.setColumns(10);
