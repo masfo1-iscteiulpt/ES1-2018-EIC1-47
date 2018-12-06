@@ -6,6 +6,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import enums.ServiceType;
+import twitter4j.Status;
+
 import java.util.Date;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
@@ -29,7 +31,7 @@ public class MessagePanel extends JPanel {
 	private String messageContent;
 	private String sender;
 	private Date dateSent;
-	private long Tweetid;
+	private Status status;
 	
 	/**
 	 * Created a MessagePanel with the specified sender, message content, service type and date.
@@ -127,8 +129,8 @@ public class MessagePanel extends JPanel {
 		setLayout(groupLayout);
 	}
 	
-	public MessagePanel(String from, String mc, ServiceType st, Date date, long id) {
-		Tweetid = id;
+	public MessagePanel(String from, String mc, ServiceType st, Date date, Status status) {
+		status = status;
 		sender = from;
 		messageContent = mc;
 		serviceType = st;
@@ -270,8 +272,8 @@ public class MessagePanel extends JPanel {
 		return headerMsg.getText();
 	}
 	
-	public long getTweetid() {
-		return Tweetid;
+	public Status getStatus() {
+		return status;
 	}
 
 }

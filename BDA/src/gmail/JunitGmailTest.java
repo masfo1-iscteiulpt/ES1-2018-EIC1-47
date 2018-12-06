@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import gui.BdaGUI;
+import gui.OfflineMessage;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class JunitGmailTest {
@@ -43,12 +44,12 @@ public class JunitGmailTest {
 	
 	@Test
 	public void mailTest() throws IOException {
-		
+			ArrayList<OfflineMessage> posts= new ArrayList<OfflineMessage>();
 			BdaGUI frame = new BdaGUI();
 			RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();
 			try {
 				boolean test = tmu.getEmails("imap", "imap.gmail.com", "993", 
-						"Trabalhosiscte12@gmail.com", "CrokaNation12", frame, null);
+						"Trabalhosiscte12@gmail.com", "CrokaNation12", frame, posts);
 				assertTrue(test);
 			} catch (NoSuchProviderException e) {
 				e.printStackTrace();

@@ -23,6 +23,8 @@ import twitter4j.conf.ConfigurationBuilder;
 public class Twitter_Class {
 	
 	ConfigurationBuilder cbc;
+	private TwitterFactory tf;
+	private Twitter twitter;
 	/**
 	 * Initiates a Twitter_Class object
 	 * @param ConfigurationBuilder
@@ -35,12 +37,15 @@ public class Twitter_Class {
 	 * Initiates a Twitter account with the given tokens
 	 * 
 	 */
-	public void sign_in(String cK, String cS, String aT, String aTS){
+	public boolean sign_in(String cK, String cS, String aT, String aTS){
 		cbc.setDebugEnabled(true)
   	  	.setOAuthConsumerKey(cK)
   	  	.setOAuthConsumerSecret(cS)
   	  	.setOAuthAccessToken(aT)
   	  	.setOAuthAccessTokenSecret(aTS);
+		tf = new TwitterFactory(cbc.build());
+    	twitter = tf.getInstance();  
+		return true;
 	}
 	/**
 	 * Prints the first 20 Tweets from the logged user
@@ -49,9 +54,7 @@ public class Twitter_Class {
 	 * 
 	 */
 	
-	public void printTweets(BdaGUI frame, ArrayList<OfflineMessage> posts) {
-		TwitterFactory tf = new TwitterFactory(cbc.build());
-    	Twitter twitter = tf.getInstance();        		
+	public boolean printTweets(BdaGUI frame, ArrayList<OfflineMessage> posts) {      		
         List<Status> statuses;
 		try {
 			statuses = twitter.getHomeTimeline();
@@ -65,33 +68,49 @@ public class Twitter_Class {
 					System.out.println(" ");
 					System.out.println("-------------------------------------------------------------------");
 					counter++;
-					frame.addMessage(new MessagePanel(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt(), status.getId()));
+					frame.addMessage(new MessagePanel(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt(), status));
 					posts.add(new OfflineMessage(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt()));
 				}
 				counterTotal++;
 			}
 			System.out.println("-------------\nNº of Results: " + counter+"/"+counterTotal);
+			return true;
 			} catch (TwitterException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			}
 		
 	}
 	
+	public ConfigurationBuilder getCbc() {
+		return cbc;
+	}
+	public TwitterFactory getTf() {
+		return tf;
+	}
+	public Twitter getTwitter() {
+		return twitter;
+	}
 	/**
 	 * Retweets a tweet of the given ID
 	 *  @param TweetId
 	 * 
 	 */
-	private void reTweet(long id) {
-		TwitterFactory tf = new TwitterFactory(cbc.build());
-    	Twitter twitter = tf.getInstance();        		
-    	try {
-			twitter.retweetStatus(id);
-		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public boolean reTweet(Status status) {
+        if(status.isRetweetedByMe() && status.getRetweetCount() >= 1 ){
+        	System.out.println("Já foi Retweeted");	
+        	return true; // this twit retweeted by your and others
+        } 
+		else{
+    		try {
+    			twitter.retweetStatus(status.getId());
+    			return true;
+    		} catch (TwitterException e) {
+    			e.printStackTrace();
+    			return false;
+    		}
+    		}
 	}
 	
 }
