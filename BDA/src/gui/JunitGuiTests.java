@@ -6,9 +6,14 @@ import java.awt.Component;
 import java.awt.Rectangle;
 import java.util.Date;
 import javax.swing.JFrame;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
 import org.junit.Test;
 
 import enums.ServiceType;
+import enums.Time;
 
 public class JunitGuiTests {
 
@@ -19,6 +24,10 @@ public class JunitGuiTests {
 
 		MessagePanel testMessage = new MessagePanel("From", "MessageContent", ServiceType.FB,
 				new Date(System.currentTimeMillis()), null);
+		testMessage.expandMessage();
+		assertEquals(null, testMessage.getStatus());
+		testMessage.expandMessage();
+		
 		g.addMessage(testMessage);
 
 		assertEquals(g.messages.size(), 1);
@@ -137,7 +146,12 @@ public class JunitGuiTests {
 
 	@Test
 	public void changeStateFbTest() {
-		Settings frame = new Settings(new Config());
+		Config conf = new Config();
+		conf.setFbAcessToken("test");
+		conf.setGmailMail("test");
+		conf.setTwAAT("test");
+		
+		Settings frame = new Settings(conf);
 		Component[] cmpnts = frame.fbPanel.getComponents();
 
 		for (Component c : cmpnts) {
@@ -155,7 +169,12 @@ public class JunitGuiTests {
 
 	@Test
 	public void changeStateFbTest2() {
-		Settings frame = new Settings(new Config());
+		Config conf = new Config();
+		conf.setFbAcessToken("test");
+		conf.setGmailMail("test");
+		conf.setTwAAT("test");
+		
+		Settings frame = new Settings(conf);
 		Component[] cmpnts = frame.fbPanel.getComponents();
 
 		for (Component c : cmpnts) {
@@ -173,7 +192,12 @@ public class JunitGuiTests {
 
 	@Test
 	public void changeStateTwTest() {
-		Settings frame = new Settings(new Config());
+		Config conf = new Config();
+		conf.setFbAcessToken("test");
+		conf.setGmailMail("test");
+		conf.setTwAAT("test");
+		
+		Settings frame = new Settings(conf);
 		Component[] cmpnts = frame.twPanel.getComponents();
 
 		for (Component c : cmpnts) {
@@ -191,7 +215,12 @@ public class JunitGuiTests {
 
 	@Test
 	public void changeStateTwTest2() {
-		Settings frame = new Settings(new Config());
+		Config conf = new Config();
+		conf.setFbAcessToken("test");
+		conf.setGmailMail("test");
+		conf.setTwAAT("test");
+		
+		Settings frame = new Settings(conf);
 		Component[] cmpnts = frame.twPanel.getComponents();
 
 		for (Component c : cmpnts) {
@@ -209,7 +238,12 @@ public class JunitGuiTests {
 
 	@Test
 	public void changeStateGmTest() {
-		Settings frame = new Settings(new Config());
+		Config conf = new Config();
+		conf.setFbAcessToken("test");
+		conf.setGmailMail("test");
+		conf.setTwAAT("test");
+		
+		Settings frame = new Settings(conf);
 		Component[] cmpnts = frame.mailPanel.getComponents();
 
 		for (Component c : cmpnts) {
@@ -227,7 +261,12 @@ public class JunitGuiTests {
 
 	@Test
 	public void changeStateGmTest2() {
-		Settings frame = new Settings(new Config());
+		Config conf = new Config();
+		conf.setFbAcessToken("test");
+		conf.setGmailMail("test");
+		conf.setTwAAT("test");
+		
+		Settings frame = new Settings(conf);
 		Component[] cmpnts = frame.mailPanel.getComponents();
 
 		for (Component c : cmpnts) {
@@ -242,5 +281,59 @@ public class JunitGuiTests {
 			assertEquals(c.isEnabled(), true);
 		}
 	}
-
+	
+	@Test
+	public void offlineMessageTest() {
+		Date d = new Date(System.currentTimeMillis());
+		OfflineMessage om = new OfflineMessage("from", "message content", ServiceType.BDA, d);
+		assertEquals(d, om.getDateSent());
+		assertEquals(ServiceType.BDA, om.getServiceType());
+		assertEquals("message content", om.getMessageContent());
+		assertEquals("from", om.getSender());
+	}
+	
+	@Test
+	public void saveConfigChangesTest() throws ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException {
+		Config conf = new Config();
+		conf.setFbAcessToken("test");
+		conf.setGmailMail("test");
+		conf.setTwAAT("test");
+		
+		Settings frame = new Settings(conf);
+		frame.saveConfigChanges();
+	}
+	
+	@Test
+	public void TimeTest(){
+		Time t = Time.ALL;
+		assertEquals("All", t.getTime());
+		assertEquals(0, t.getSeconds());
+	}
+	
+	@Test
+	public void ConfigTest(){
+		Config g = new Config();
+		g.setFbAcessToken("fbAcessToken");
+		g.setFbAppId("fbAppId");
+		g.setFbAppSecret("fbAppSecret");
+		g.setGmailMail("gmailMail");
+		g.setGmailPassword("gmailPassword");
+		g.setGmailProtocol("gmailProtocol");
+		g.setTwAAT("twAAT");
+		g.setTwAATS("twAATS");
+		g.setTwACK("twACK");
+		g.setTwACS("twACS");
+		
+		assertEquals("fbAcessToken", g.getFbAcessToken());
+		assertEquals("fbAppId", g.getFbAppId());
+		assertEquals("fbAppSecret", g.getFbAppSecret());
+		assertEquals("gmailMail", g.getGmailMail());
+		assertEquals("gmailPassword", g.getGmailPassword());
+		assertEquals("gmailProtocol", g.getGmailProtocol());
+		assertEquals("twAAT", g.getTwAAT());
+		assertEquals("twAATS", g.getTwAATS());
+		assertEquals("twACK", g.getTwACK());
+		assertEquals("twACS", g.getTwACS());
+	}
+	
 }
