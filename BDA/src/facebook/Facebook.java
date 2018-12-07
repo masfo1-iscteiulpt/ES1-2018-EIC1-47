@@ -39,12 +39,15 @@ public class Facebook {
 	/**
 	 * 
 	 * Description: Permite saber a validade do Extended Access Token
+	 * @param string2 
+	 * @param string 
+	 * @param string3 
 	 * 	 
 	 */
-	public String getExtendedAccessToken() {
-		String accessToken4 = token;
+	public String getExtendedAccessToken(String AcessToken, String AppId, String AppSecret) {
+		String accessToken4 = AcessToken;
 		FacebookClient fbClient4 = new DefaultFacebookClient(accessToken4);
-		AccessToken extendedAccessToken4 = fbClient4.obtainExtendedAccessToken("785484678466979", "98d490925815e4a3eb615da0d94a5983");
+		AccessToken extendedAccessToken4 = fbClient4.obtainExtendedAccessToken(AppId, AppSecret);
 		System.out.println("ExtendedAccessToken: " + extendedAccessToken4.getAccessToken());
 		System.out.println("Expires: " + extendedAccessToken4.getExpires());
 		
@@ -57,15 +60,13 @@ public class Facebook {
 	 * -Permite filtrar os post que o user que recebe usando aquele Access Token
 	 * -E permite saber quantos são
 	 * -Apresenta resultados na consola
-	 * @param AppSecret 
-	 * @param AppId 
 	 * @param AcessToken 
 	 * @param frame 
 	 * @param posts 
 	 * 	 
 	 */
-	public void filterFacebookPost(String AcessToken, String AppId, String AppSecret, BdaGUI frame, ArrayList<OfflineMessage> posts) {
-		String accessToken5 = token;
+	public void filterFacebookPost(String AcessToken, BdaGUI frame, ArrayList<OfflineMessage> posts) {
+		String accessToken5 = AcessToken;
 		FacebookClient fbClient5 = new DefaultFacebookClient(accessToken5);
 
 		Connection<Post> result = fbClient5.fetchConnection("me/feed", Post.class);

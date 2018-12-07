@@ -109,8 +109,8 @@ public class main {
 			try {
 				Facebook fb = new Facebook();
 				fb.getUser();
-				fb.getExtendedAccessToken();
-				fb.filterFacebookPost(config.getFbAcessToken(), config.getFbAppId(), config.getFbAppSecret(), frame,
+				fb.getExtendedAccessToken(config.getFbAcessToken(),config.getFbAppId(), config.getFbAppSecret());
+				fb.filterFacebookPost(config.getFbAcessToken(), frame,
 						posts);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
