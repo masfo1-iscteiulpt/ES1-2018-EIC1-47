@@ -25,18 +25,19 @@ public class MailSender {
 	 */
 	private static final int SMTP_HOST_PORT = 465;
 	/**
-	 * SMTP_AUTH_USER - user's email "***@gmail.com"
-	 */
-	private static final String SMTP_AUTH_USER = "Trabalhosiscte12@gmail.com";
-	/**
-	 * SMTP_AUTH_PWD - user's password
-	 */
-	private static final String SMTP_AUTH_PWD = "CrokaNation12";
-	/**
 	 * destination - destination for email
 	 */
 	private String destination;
-
+	/**
+	 * password - the sender's password
+	 */
+	private String password;
+	
+	/**
+	 * mail - the sender's gmail
+	 */
+	private String gmail;
+	
 	/**
 	 * @return destination for email
 	 */
@@ -50,14 +51,24 @@ public class MailSender {
 	public void setDestination(String destination) {
 		this.destination = destination;
 	}
+	
+	public void setMail(String gmail) {
+		this.gmail = gmail;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	/**
 	 * constructor for Sender class
 	 * 
 	 * @param destination - destination for email
 	 */
-	public MailSender(String destination) {
+	public MailSender(String destination, String mail, String password) {
 		setDestination(destination);
+		setPassword(password);
+		setMail(mail);
 	}
 
 	private Properties getProperties() {
@@ -92,7 +103,7 @@ public class MailSender {
 
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(getDestination()));
 
-			transport.connect(SMTP_HOST_NAME, SMTP_HOST_PORT, SMTP_AUTH_USER, SMTP_AUTH_PWD);
+			transport.connect(SMTP_HOST_NAME, SMTP_HOST_PORT, gmail, password);
 			transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
 			System.out.println("Message Sent!");
 			mail = true;

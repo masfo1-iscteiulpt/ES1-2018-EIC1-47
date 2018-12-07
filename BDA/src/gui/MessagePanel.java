@@ -6,6 +6,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import enums.ServiceType;
+import gmail.MailSender;
 import twitter4j.Status;
 
 import java.util.Date;
@@ -36,7 +37,8 @@ public class MessagePanel extends JPanel {
 	private String sender;
 	private Date dateSent;
 	private Status status;
-	private JTextField subject;
+	private JTextField mailSubject;
+	private Config config;
 	
 	/**
 	 * Created a MessagePanel with the specified sender, message content, service type and date.
@@ -182,20 +184,27 @@ public class MessagePanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				System.out.println("Reply");
+				
+				if(serviceType.equals(ServiceType.GM)) {
+					sendMail(mailSubject.getText(), messageToSend.getText());
+				}
+				mailSubject.setText("");
+				messageToSend.setText("");
+				replyPanel.setVisible(false);
 			}
 		});
 		
 		sendLbl.setIcon(new ImageIcon(MessagePanel.class.getResource("/resources/send.png")));
 		
-		subject = new JTextField();
-		subject.setColumns(10);
+		mailSubject = new JTextField();
+		mailSubject.setColumns(10);
 		GroupLayout gl_replyPanel = new GroupLayout(replyPanel);
 		gl_replyPanel.setHorizontalGroup(
 			gl_replyPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_replyPanel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_replyPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(subject, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+						.addComponent(mailSubject, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
 						.addComponent(messageToSend, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(sendLbl, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
@@ -205,7 +214,7 @@ public class MessagePanel extends JPanel {
 			gl_replyPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_replyPanel.createSequentialGroup()
 					.addGap(15)
-					.addComponent(subject, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(mailSubject, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(messageToSend, GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
 					.addContainerGap())
@@ -225,6 +234,16 @@ public class MessagePanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Sends a gmail response
+	 * @param message 
+	 * @param subject 
+	 */
+	protected void sendMail(String subject, String message) {
+		MailSender ms = new MailSender(sender, config.getGmailMail(), config.getGmailPassword());
+		ms.sendMessage(subject, message);
+	}
+
 	/**
 	 * Expands the MessagePanel showing the full message.
 	 */
@@ -278,7 +297,21 @@ public class MessagePanel extends JPanel {
 		return headerMsg.getText();
 	}
 	
+	/**
+	 * Returns twitter status.
+	 * @return twitter status.
+	 */
 	public Status getStatus() {
 		return status;
+	}
+
+	/**
+	 * Sets the configuration loaded from the xml file.
+	 * @param config the Config object to be saved.
+	 * @return this MessagePanel.
+	 */
+	public MessagePanel setConfig(Config config) {
+		this.config = config;
+		return this;
 	}
 }

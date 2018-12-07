@@ -420,7 +420,7 @@ public class BdaGUI extends JFrame {
 	 * @param mp The MessagePanel to be added.
 	 */
 	public void addMessage(MessagePanel mp) {
-		messages.add(mp);
+		messages.add(mp.setConfig(config));
 		parallel.addGroup(layout.createSequentialGroup().addComponent(mp));
 		sequential.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(mp));
 		mp.validate();

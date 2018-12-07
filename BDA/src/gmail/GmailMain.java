@@ -31,7 +31,7 @@ public class GmailMain {
 		//Sender
 		
 		
-		MailSender sender = new MailSender("Trabalhosiscte12@gmail.com");
+		MailSender sender = new MailSender("Trabalhosiscte12@gmail.com", "Trabalhosiscte12@gmail.com", "CrokaNation12");
 		boolean test = sender.sendMessage("Testing SMTP-SSL", "This is a test");
 		if (test) {
 			System.out.println("Sending sucess");
