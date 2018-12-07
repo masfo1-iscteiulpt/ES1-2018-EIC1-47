@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<CONFIGURATION>
+<Gmail Account='Trabalhosiscte12@gmail.com' Password="CrokaNation12" Protocol="imap"/>
+<Facebook AccessToken="token" AppId="id" AppSecret="secret"/>
+<Twitter AuthAccessToken="1053263399889653761-Eu236nomWzitNbXoEcKsOvQVCOchZw" AuthAccessTokenSecret="jKSOccpi450YERoIGJeP9qPQLRJbGTrEZtKoG4IlRDuip" AuthConsumerKey="pRXsTFA4vsYjkjYIphXveKKgV" AuthConsumerSecret="CfNV7ZgEwN2hhysP8kAGmy6hWMF7mypqX6CPtRwDy7rQ63Z5rU"></Twitter>
+</CONFIGURATION>

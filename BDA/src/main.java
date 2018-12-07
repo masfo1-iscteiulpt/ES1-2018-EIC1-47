@@ -10,6 +10,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import javax.mail.NoSuchProviderException;
+import javax.swing.ImageIcon;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -84,7 +85,8 @@ public class main {
 
 	public static void startServices(Config config) {
 		ArrayList<OfflineMessage> posts = new ArrayList<OfflineMessage>();
-
+		frame.connection.setIcon(new ImageIcon(BdaGUI.class.getResource("/resources/on.png")));
+		frame.connection.setVisible(true);
 		// tw init
 		if (config.getTwAAT() != null) {
 			ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -131,6 +133,8 @@ public class main {
 
 	private static void offlineServices() {
 		ArrayList<OfflineMessage> posts = new ArrayList<OfflineMessage>();
+		frame.connection.setIcon(new ImageIcon(BdaGUI.class.getResource("/resources/off.png")));
+		frame.connection.setVisible(true);
 		FileInputStream in;
 		try {
 			in = new FileInputStream("file.txt");

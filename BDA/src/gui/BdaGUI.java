@@ -38,6 +38,7 @@ public class BdaGUI extends JFrame {
 	public GroupLayout.ParallelGroup parallel;
 	public JComboBox<Time> searchAdvTime;
 	public JTextField searchAdvUser;
+	public JLabel connection;
 	public LinkedList<MessagePanel> messages = new LinkedList<MessagePanel>();
 	private JPanel contentPane;
 	private JPanel twPanel;
@@ -268,6 +269,11 @@ public class BdaGUI extends JFrame {
 		search.setPreferredSize(new Dimension(24, 24));
 		search.setIcon(new ImageIcon(BdaGUI.class.getResource("/resources/search.png")));
 		
+		connection = new JLabel(" - Online");
+		connection.setPreferredSize(new Dimension(24, 24));
+		connection.setIcon(new ImageIcon(BdaGUI.class.getResource("/resources/on.png")));
+		connection.setVisible(false);
+		
 		searchAdv = new JLabel("");
 		searchAdv.setPreferredSize(new Dimension(24, 24));
 		searchAdv.addMouseListener(new MouseAdapter() {
@@ -371,7 +377,9 @@ public class BdaGUI extends JFrame {
 		gl_menuPanel.setHorizontalGroup(
 			gl_menuPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_menuPanel.createSequentialGroup()
-					.addContainerGap(253, Short.MAX_VALUE)
+					.addGap(20)
+					.addComponent(connection, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(230, Short.MAX_VALUE)
 					.addComponent(searchField, GroupLayout.PREFERRED_SIZE, 178, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(search, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -386,6 +394,7 @@ public class BdaGUI extends JFrame {
 				.addGroup(gl_menuPanel.createSequentialGroup()
 					.addGap(5)
 					.addGroup(gl_menuPanel.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(connection, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(searchField, GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
 						.addGap(10)
 						.addComponent(search, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)
