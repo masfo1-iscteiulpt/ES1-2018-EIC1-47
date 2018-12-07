@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>RetrieveEmailsUsingIMAP.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BDA (Dec 7, 2018 3:42:24 AM)</a> &gt; <a href="../../index.html" class="el_group">BDA</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">gmail</a> &gt; <span class="el_source">RetrieveEmailsUsingIMAP.java</span></div><h1>RetrieveEmailsUsingIMAP.java</h1><pre class="source lang-java linenums">package gmail;
+
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Properties;
+import javax.mail.Address;
+import javax.mail.AuthenticationFailedException;
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.Message.RecipientType;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.NoSuchProviderException;
+import javax.mail.Part;
+import javax.mail.Session;
+import javax.mail.Store;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+
+
+import enums.ServiceType;
+import gui.BdaGUI;
+import gui.MessagePanel;
+import gui.OfflineMessage;
+
+/**
+ * This is a application to connect to Gmail server to retrieve received
+ * e-mails.
+ * 
+ * @author Luis Fernandes
+ * @version 1.2
+ *
+ */
+<span class="fc" id="L36">public class RetrieveEmailsUsingIMAP {</span>
+
+	/**
+	 * @param protocol imap
+	 * @param host
+	 * @param port
+	 * @return
+	 */
+	protected static Properties getServerProperties(String protocol, String host, String port) {
+<span class="fc" id="L45">		System.out.println(&quot;Connecting please wait...&quot;);</span>
+<span class="fc" id="L46">		Properties properties = new Properties();</span>
+<span class="fc" id="L47">		properties.put(String.format(&quot;mail.%s.host&quot;, protocol), host);</span>
+<span class="fc" id="L48">		properties.put(String.format(&quot;mail.%s.port&quot;, protocol), port);</span>
+<span class="fc" id="L49">		properties.setProperty(String.format(&quot;mail.%s.socketFactory.class&quot;, protocol),</span>
+<span class="fc" id="L50">				&quot;javax.net.ssl.SSLSocketFactory&quot;);</span>
+<span class="fc" id="L51">		properties.setProperty(String.format(&quot;mail.%s.socketFactory.fallback&quot;,</span>
+<span class="fc" id="L52">				protocol), &quot;false&quot;);</span>
+<span class="fc" id="L53">		properties.setProperty(String.format(&quot;mail.%s.socketFactory.port&quot;,</span>
+<span class="fc" id="L54">				protocol), String.valueOf(port));</span>
+<span class="fc" id="L55">		return properties;</span>
+	}
+
+	/**
+	 * this method prints e-mails located in user's Gmail INBOX
+	 * 
+	 * @param protocol imap
+	 * @param host     imap.gmail.com
+	 * @param port     port 993
+	 * @param userName user's mail &quot;****gmail.com&quot;
+	 * @param password user's password
+	 * @param frame 
+	 * @param posts 
+	 * @throws IOException
+	 */
+	public boolean getEmails(String protocol, String host, String port, String userName, String password, BdaGUI frame, ArrayList&lt;OfflineMessage&gt; posts)
+			throws IOException, NoSuchProviderException {
+
+<span class="fc" id="L73">		System.out.println(&quot;Inside getEmails method...&quot;);</span>
+<span class="fc" id="L74">		boolean mail = false;</span>
+<span class="fc" id="L75">		Properties properties = getServerProperties(protocol, host, port);</span>
+<span class="fc" id="L76">		Session session = Session.getDefaultInstance(properties);</span>
+<span class="fc" id="L77">		System.out.println(&quot;Connected to: &quot; + host);</span>
+
+		try {
+<span class="fc" id="L80">			Store store = session.getStore(protocol);</span>
+<span class="fc" id="L81">			store.connect(userName, password);</span>
+
+<span class="fc" id="L83">			Folder inbox = store.getFolder(&quot;INBOX&quot;);</span>
+<span class="fc" id="L84">			inbox.open(Folder.READ_WRITE);</span>
+
+<span class="fc" id="L86">			int count = inbox.getMessageCount();</span>
+<span class="fc" id="L87">			System.out.println(&quot;You have &quot; + count + &quot; emails in your inbox.&quot;);</span>
+<span class="fc" id="L88">			Message[] messages = inbox.getMessages(1, count);</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">			for (int i = 0; i &lt; messages.length; i++) {</span>
+<span class="fc" id="L90">				Message message = messages[i];</span>
+<span class="fc" id="L91">				Address[] fromAddresses = message.getFrom();</span>
+<span class="fc" id="L92">				String fromemail = fromAddresses[0].toString();</span>
+<span class="fc" id="L93">				String toemail = parseAddresses(message.getRecipients(RecipientType.TO));</span>
+<span class="fc" id="L94">				String ccemails = parseAddresses(message.getRecipients(RecipientType.CC));</span>
+<span class="fc" id="L95">				String subject = message.getSubject();</span>
+<span class="fc" id="L96">				String sentdate = message.getSentDate().toString();</span>
+
+<span class="fc" id="L98">				String contentType = message.getContentType();</span>
+<span class="fc" id="L99">				String messageContent = &quot;&quot;;</span>
+
+				// store attachment file name, separated by comma
+<span class="fc" id="L102">				String attachFiles = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L104" title="All 2 branches covered.">				if (contentType.contains(&quot;multipart&quot;)) {</span>
+<span class="fc" id="L105">					Object content = message.getContent();</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">					if (content != null) {</span>
+<span class="fc" id="L107">						messageContent = content.toString();</span>
+
+					}
+
+					// content may contain attachments
+<span class="fc" id="L112">					Multipart multiPart = (Multipart) message.getContent();</span>
+<span class="fc" id="L113">					int numberOfParts = multiPart.getCount();</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">					for (int partCount = 0; partCount &lt; numberOfParts; partCount++) {</span>
+<span class="fc" id="L115">						MimeBodyPart part = (MimeBodyPart) multiPart.getBodyPart(partCount);</span>
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">						if (Part.ATTACHMENT.equalsIgnoreCase(part.getDisposition())) {</span>
+							// this part is attachment
+<span class="nc" id="L118">							String fileName = part.getFileName();</span>
+<span class="nc" id="L119">							attachFiles += fileName + &quot;, &quot;;</span>
+							// Do no overwrite existing file
+<span class="nc" id="L121">							File file = new File(fileName);</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">							for (int j = 0; file.exists(); j++) {</span>
+<span class="nc" id="L123">								file = new File(fileName + j);</span>
+							}
+<span class="nc" id="L125">							part.saveFile(&quot;D:/emailattach&quot; + File.separator + fileName);</span>
+<span class="nc" id="L126">							messageContent = getText(message); // to get message body of attached emails</span>
+<span class="nc" id="L127">						} else {</span>
+							// this part for the message content
+<span class="fc" id="L129">							messageContent = part.getContent().toString();</span>
+						}
+
+					}
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">					if (attachFiles.length() &gt; 1) {</span>
+<span class="nc" id="L134">						attachFiles = attachFiles.substring(0, attachFiles.length() - 2);</span>
+					}
+<span class="pc bpc" id="L136" title="2 of 4 branches missed.">				} else if (contentType.contains(&quot;text/plain&quot;) || contentType.contains(&quot;text/html&quot;)) {</span>
+<span class="nc" id="L137">					Object content = message.getContent();</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">					if (content != null) {</span>
+<span class="nc" id="L139">						messageContent = content.toString();</span>
+					}
+				}		
+<span class="fc" id="L142">				String mc = htmlRemove(messageContent);</span>
+				//mc += &quot;\t To: &quot; + toemail;
+				//mc += &quot;\t CC: &quot; + ccemails;
+				//mc += &quot;\t subject: &quot; + subject;
+				//mc += &quot;\n&quot; + &quot;\n&quot;+ &quot;Message: &quot; + messageContent;
+<span class="fc" id="L147">				mc += &quot;\t Attachments: &quot; + attachFiles;</span>
+<span class="fc" id="L148">				frame.addMessage(new MessagePanel(fromemail, mc, ServiceType.GM, message.getSentDate(), null));</span>
+<span class="fc" id="L149">				posts.add(new OfflineMessage(fromemail, mc, ServiceType.GM, message.getSentDate()));</span>
+			}
+
+<span class="fc" id="L152">			inbox.close(false);</span>
+<span class="fc" id="L153">			mail = true;</span>
+<span class="fc" id="L154">			store.close();</span>
+<span class="pc" id="L155">		} catch (NoSuchProviderException ex) {</span>
+<span class="nc" id="L156">			mail = false;</span>
+<span class="nc" id="L157">			System.out.println(&quot;No provider for protocol: &quot; + protocol);</span>
+<span class="nc" id="L158">			ex.printStackTrace();</span>
+<span class="nc" id="L159">		} catch (MessagingException ex) {</span>
+<span class="nc" id="L160">			mail = false;</span>
+<span class="nc" id="L161">			System.out.println(&quot;Could not connect to the message store&quot;);</span>
+<span class="nc" id="L162">			ex.printStackTrace();</span>
+		}
+<span class="fc" id="L164">		return mail;</span>
+	}
+
+	/**
+	 * this method is use to remove html tags in the message text.
+	 * 
+	 * @param text message text content
+	 * @return message text without html tags
+	 */
+	public String htmlRemove(String text) {
+<span class="fc" id="L174">		String message = text.replaceAll(&quot;(?s)&lt;[^&gt;]*&gt;(\\s*&lt;[^&gt;]*&gt;)*&quot;, &quot; &quot;);</span>
+<span class="fc" id="L175">		return message;</span>
+	}
+
+	/**
+	 * @param address
+	 * @return
+	 */
+	private String parseAddresses(Address[] address) {
+
+<span class="fc" id="L184">		String listOfAddress = &quot;&quot;;</span>
+<span class="pc bpc" id="L185" title="1 of 4 branches missed.">		if ((address == null) || (address.length &lt; 1))</span>
+<span class="fc" id="L186">			return null;</span>
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">		if (!(address[0] instanceof InternetAddress))</span>
+<span class="nc" id="L188">			return null;</span>
+
+<span class="fc bfc" id="L190" title="All 2 branches covered.">		for (int i = 0; i &lt; address.length; i++) {</span>
+<span class="fc" id="L191">			InternetAddress internetAddress = (InternetAddress) address[0];</span>
+<span class="fc" id="L192">			listOfAddress += internetAddress.getAddress() + &quot;,&quot;;</span>
+		}
+<span class="fc" id="L194">		return listOfAddress;</span>
+	}
+
+	/**
+	 * This method is use to check whether user entered credentials are correct or
+	 * not. If connection established then credentials are correct otherwise not.
+	 * 
+	 * @param protocol imap
+	 * @param host     imap.gmail.com
+	 * @param port     port 993
+	 * @param userName user's gmail &quot;****gmail.com&quot;
+	 * @param password user's password
+	 * @return boolean value for connection status
+	 */
+
+	public String getConnectedStatus(String protocol, String host, String port, String userName, String password) {
+<span class="fc" id="L210">		Properties properties = getServerProperties(protocol, host, port);</span>
+<span class="fc" id="L211">		Session session = Session.getDefaultInstance(properties);</span>
+<span class="fc" id="L212">		String isconnected = &quot;&quot;;</span>
+		try {
+			// ---- Start Connection Establishment----------
+<span class="fc" id="L215">			Store store = session.getStore(protocol);</span>
+<span class="fc" id="L216">			System.out.println(&quot;Connecting to email....&quot;);</span>
+<span class="nc" id="L217">			store.connect(userName, password);</span>
+<span class="nc" id="L218">			isconnected = &quot;Connected_to_IMAP&quot;;</span>
+<span class="nc" id="L219">			System.out.println(&quot;Is Connected: &quot; + isconnected);</span>
+<span class="nc" id="L220">			System.out.println(&quot;Connected to :&quot; + protocol);</span>
+<span class="nc" id="L221">		} catch (NoSuchProviderException ex) {</span>
+<span class="nc" id="L222">			String ex1 = &quot;No provider for protocol: &quot; + protocol;</span>
+<span class="nc" id="L223">			System.out.println(ex1);</span>
+<span class="nc" id="L224">			return ex1;</span>
+			// ex.printStackTrace();
+<span class="fc" id="L226">		} catch (MessagingException ex) {</span>
+<span class="fc" id="L227">			String ex2 = &quot;Could not connect to the message store&quot;;</span>
+<span class="fc" id="L228">			System.out.println(ex2);</span>
+<span class="fc" id="L229">			return ex2;</span>
+			// ex.printStackTrace();
+		}
+<span class="nc" id="L232">		return isconnected;</span>
+	}
+
+	/**
+	 * This method is use to handle MIME message. a message with an attachment is
+	 * represented in MIME as a multipart message. In the simple case, the results
+	 * of the Message object's getContent method will be a MimeMultipart object. The
+	 * first body part of the multipart object will be the main text of the message.
+	 * The other body parts will be attachments.
+	 * 
+	 * @param p message
+	 * @return null
+	 * @throws MessagingException
+	 * @throws IOException
+	 */
+
+	public static String getText(Part p) throws MessagingException, IOException {
+<span class="nc bnc" id="L249" title="All 2 branches missed.">		if (p.isMimeType(&quot;text/*&quot;)) {</span>
+<span class="nc" id="L250">			String s = (String) p.getContent();</span>
+<span class="nc" id="L251">			return s;</span>
+		}
+
+<span class="nc bnc" id="L254" title="All 2 branches missed.">		if (p.isMimeType(&quot;multipart/alternative&quot;)) {</span>
+			// prefer html text over plain text
+<span class="nc" id="L256">			Multipart mp = (Multipart) p.getContent();</span>
+<span class="nc" id="L257">			String text = null;</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">			for (int i = 0; i &lt; mp.getCount(); i++) {</span>
+<span class="nc" id="L259">				Part bp = mp.getBodyPart(i);</span>
+<span class="nc bnc" id="L260" title="All 2 branches missed.">				if (bp.isMimeType(&quot;text/plain&quot;)) {</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">					if (text == null)</span>
+<span class="nc" id="L262">						text = getText(bp);</span>
+<span class="nc" id="L263">					continue;</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">				} else if (bp.isMimeType(&quot;text/html&quot;)) {</span>
+<span class="nc" id="L265">					String s = getText(bp);</span>
+<span class="nc bnc" id="L266" title="All 2 branches missed.">					if (s != null)</span>
+<span class="nc" id="L267">						return s;</span>
+				} else {
+<span class="nc" id="L269">					return getText(bp);</span>
+				}
+			}
+<span class="nc" id="L272">			return text;</span>
+<span class="nc bnc" id="L273" title="All 2 branches missed.">		} else if (p.isMimeType(&quot;multipart/*&quot;)) {</span>
+<span class="nc" id="L274">			Multipart mp = (Multipart) p.getContent();</span>
+<span class="nc bnc" id="L275" title="All 2 branches missed.">			for (int i = 0; i &lt; mp.getCount(); i++) {</span>
+<span class="nc" id="L276">				String s = getText(mp.getBodyPart(i));</span>
+<span class="nc bnc" id="L277" title="All 2 branches missed.">				if (s != null)</span>
+<span class="nc" id="L278">					return s;</span>
+			}
+		}
+
+<span class="nc" id="L282">		return null;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>BDA (Dec 7, 2018 3:42:24 AM)</div></body></html>

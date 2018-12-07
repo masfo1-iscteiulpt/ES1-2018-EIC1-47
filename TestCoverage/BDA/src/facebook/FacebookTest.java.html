@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>FacebookTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BDA (Dec 7, 2018 3:42:24 AM)</a> &gt; <a href="../../index.html" class="el_group">BDA</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">facebook</a> &gt; <span class="el_source">FacebookTest.java</span></div><h1>FacebookTest.java</h1><pre class="source lang-java linenums">package facebook;
+
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+
+<span class="nc" id="L6">class FacebookTest {</span>
+
+	@Test
+	void getUsertest() {
+<span class="nc" id="L10">		Facebook ftu = new Facebook();</span>
+<span class="nc" id="L11">		assertEquals(&quot;115472076112743 Rui Santos Esteves&quot;, ftu.getUser());</span>
+<span class="nc" id="L12">	}</span>
+	
+	@Test
+	void getExtendedAccessTokenTest() {
+		Facebook ftu = new Facebook();
+<span class="nc" id="L17">		assertEquals(&quot; Mon Dec 24 21:23:22 GMT 2018&quot;, ftu.getExtendedAccessToken());</span>
+	}
+
+	
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>BDA (Dec 7, 2018 3:42:24 AM)</div></body></html>

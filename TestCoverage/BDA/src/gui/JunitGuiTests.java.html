@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>JunitGuiTests.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BDA (Dec 7, 2018 3:42:24 AM)</a> &gt; <a href="../../index.html" class="el_group">BDA</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">JunitGuiTests.java</span></div><h1>JunitGuiTests.java</h1><pre class="source lang-java linenums">package gui;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import java.awt.Component;
+import java.awt.Rectangle;
+import java.util.Date;
+import javax.swing.JFrame;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
+import org.junit.Test;
+
+import enums.ServiceType;
+import enums.Time;
+
+<span class="fc" id="L18">public class JunitGuiTests {</span>
+
+	@Test
+	public void guiAddMessageTest() {
+<span class="fc" id="L22">		BdaGUI g = new BdaGUI(new Config());</span>
+<span class="fc" id="L23">		assertEquals(g.messages.size(), 0);</span>
+
+<span class="fc" id="L25">		MessagePanel testMessage = new MessagePanel(&quot;From&quot;, &quot;MessageContent&quot;, ServiceType.FB,</span>
+<span class="fc" id="L26">				new Date(System.currentTimeMillis()), null);</span>
+<span class="fc" id="L27">		testMessage.expandMessage();</span>
+<span class="fc" id="L28">		assertEquals(null, testMessage.getStatus());</span>
+<span class="fc" id="L29">		testMessage.expandMessage();</span>
+		
+<span class="fc" id="L31">		g.addMessage(testMessage);</span>
+
+<span class="fc" id="L33">		assertEquals(g.messages.size(), 1);</span>
+<span class="fc" id="L34">		assertEquals(g.messages.getLast(), testMessage);</span>
+
+<span class="fc" id="L36">		MessagePanel testMessage2 = new MessagePanel(&quot;From&quot;,</span>
+<span class="fc" id="L37">				&quot;MessageContentLongerThan200Charssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss&quot;,</span>
+<span class="fc" id="L38">				ServiceType.FB, new Date(System.currentTimeMillis()), null);</span>
+<span class="fc" id="L39">		g.addMessage(testMessage2);</span>
+
+<span class="fc" id="L41">		assertEquals(g.messages.size(), 2);</span>
+<span class="fc" id="L42">		assertEquals(g.messages.getLast(), testMessage2);</span>
+<span class="fc" id="L43">		assertEquals(testMessage2.getHeader(), testMessage2.getMessage().substring(0, 200));</span>
+<span class="fc" id="L44">	}</span>
+
+	@Test
+	public void guiRemoveFiltersTest() {
+<span class="fc" id="L48">		BdaGUI g = new BdaGUI(new Config());</span>
+<span class="fc" id="L49">		g.messages</span>
+<span class="fc" id="L50">				.add(new MessagePanel(&quot;From&quot;, &quot;MessageContent&quot;, ServiceType.FB, new Date(System.currentTimeMillis()), null));</span>
+<span class="fc" id="L51">		g.messages</span>
+<span class="fc" id="L52">				.add(new MessagePanel(&quot;From&quot;, &quot;MessageContent&quot;, ServiceType.TW, new Date(System.currentTimeMillis()), null));</span>
+<span class="fc" id="L53">		g.messages</span>
+<span class="fc" id="L54">				.add(new MessagePanel(&quot;From&quot;, &quot;MessageContent&quot;, ServiceType.GM, new Date(System.currentTimeMillis()), null));</span>
+<span class="fc" id="L55">		g.messages.getFirst().setVisible(false);</span>
+<span class="fc" id="L56">		g.messages.getLast().setVisible(false);</span>
+
+<span class="fc" id="L58">		g.removeFilters();</span>
+
+<span class="fc bfc" id="L60" title="All 2 branches covered.">		for (MessagePanel p : g.messages) {</span>
+<span class="fc" id="L61">			assertEquals(p.isVisible(), true);</span>
+		}
+<span class="fc" id="L63">	}</span>
+
+	@Test
+	public void guiFilterMessagesServiceTypeTest() {
+<span class="fc" id="L67">		BdaGUI g = new BdaGUI(new Config());</span>
+<span class="fc" id="L68">		g.messages</span>
+<span class="fc" id="L69">				.add(new MessagePanel(&quot;From&quot;, &quot;MessageContent&quot;, ServiceType.FB, new Date(System.currentTimeMillis()), null));</span>
+<span class="fc" id="L70">		g.messages</span>
+<span class="fc" id="L71">				.add(new MessagePanel(&quot;From&quot;, &quot;MessageContent&quot;, ServiceType.TW, new Date(System.currentTimeMillis()), null));</span>
+<span class="fc" id="L72">		g.messages</span>
+<span class="fc" id="L73">				.add(new MessagePanel(&quot;From&quot;, &quot;MessageContent&quot;, ServiceType.GM, new Date(System.currentTimeMillis()), null));</span>
+
+<span class="fc" id="L75">		g.filterMessages(ServiceType.FB);</span>
+
+<span class="fc" id="L77">		assertEquals(g.messages.get(0).isVisible(), true);</span>
+<span class="fc" id="L78">		assertEquals(g.messages.get(1).isVisible(), false);</span>
+<span class="fc" id="L79">		assertEquals(g.messages.get(2).isVisible(), false);</span>
+
+<span class="fc" id="L81">		g.filterMessages(ServiceType.TW);</span>
+
+<span class="fc" id="L83">		assertEquals(g.messages.get(0).isVisible(), false);</span>
+<span class="fc" id="L84">		assertEquals(g.messages.get(1).isVisible(), true);</span>
+<span class="fc" id="L85">		assertEquals(g.messages.get(2).isVisible(), false);</span>
+
+<span class="fc" id="L87">		g.filterMessages(ServiceType.GM);</span>
+
+<span class="fc" id="L89">		assertEquals(g.messages.get(0).isVisible(), false);</span>
+<span class="fc" id="L90">		assertEquals(g.messages.get(1).isVisible(), false);</span>
+<span class="fc" id="L91">		assertEquals(g.messages.get(2).isVisible(), true);</span>
+<span class="fc" id="L92">	}</span>
+
+	@Test
+	public void guiFilterMessagesKeyTest() {
+<span class="fc" id="L96">		BdaGUI g = new BdaGUI(new Config());</span>
+<span class="fc" id="L97">		g.messages</span>
+<span class="fc" id="L98">				.add(new MessagePanel(&quot;From&quot;, &quot;MessageContent&quot;, ServiceType.FB, new Date(System.currentTimeMillis()), null));</span>
+<span class="fc" id="L99">		g.messages.add(new MessagePanel(&quot;From&quot;, &quot;Hello&quot;, ServiceType.TW, new Date(System.currentTimeMillis()), null));</span>
+<span class="fc" id="L100">		g.messages.add(new MessagePanel(&quot;From&quot;, &quot;Bye&quot;, ServiceType.GM, new Date(System.currentTimeMillis()), null));</span>
+
+<span class="fc" id="L102">		g.filterMessages(&quot;Hello&quot;);</span>
+
+<span class="fc" id="L104">		assertEquals(g.messages.get(0).isVisible(), false);</span>
+<span class="fc" id="L105">		assertEquals(g.messages.get(1).isVisible(), true);</span>
+<span class="fc" id="L106">		assertEquals(g.messages.get(2).isVisible(), false);</span>
+<span class="fc" id="L107">	}</span>
+
+	@Test
+	public void guiAdvandecSearchTest() {
+<span class="fc" id="L111">		BdaGUI g = new BdaGUI(new Config());</span>
+<span class="fc" id="L112">		g.messages</span>
+<span class="fc" id="L113">				.add(new MessagePanel(&quot;From&quot;, &quot;MessageContent&quot;, ServiceType.FB, new Date(System.currentTimeMillis()), null));</span>
+<span class="fc" id="L114">		g.messages.add(new MessagePanel(&quot;Other&quot;, &quot;Hello&quot;, ServiceType.TW, new Date(System.currentTimeMillis()), null));</span>
+<span class="fc" id="L115">		g.messages.add(</span>
+<span class="fc" id="L116">				new MessagePanel(&quot;From&quot;, &quot;Bye&quot;, ServiceType.GM, new Date(System.currentTimeMillis() - 1000000000), null));</span>
+<span class="fc" id="L117">		g.messages.add(</span>
+<span class="fc" id="L118">				new MessagePanel(&quot;Other&quot;, &quot;Bye&quot;, ServiceType.GM, new Date(System.currentTimeMillis() - 1000000000), null));</span>
+
+<span class="fc" id="L120">		g.searchAdvTime.setSelectedIndex(0); // 12h</span>
+<span class="fc" id="L121">		g.searchAdvUser.setText(&quot;From&quot;); // User &quot;From&quot;</span>
+<span class="fc" id="L122">		g.performAdvSearch();</span>
+
+<span class="fc" id="L124">		assertEquals(g.messages.get(0).isVisible(), true);</span>
+<span class="fc" id="L125">		assertEquals(g.messages.get(1).isVisible(), false);</span>
+<span class="fc" id="L126">		assertEquals(g.messages.get(2).isVisible(), false);</span>
+
+<span class="fc" id="L128">		g.searchAdvTime.setSelectedIndex(6); // All</span>
+<span class="fc" id="L129">		g.searchAdvUser.setText(&quot;&quot;); // Everyone</span>
+<span class="fc" id="L130">		g.performAdvSearch();</span>
+
+<span class="fc" id="L132">		assertEquals(g.messages.get(0).isVisible(), true);</span>
+<span class="fc" id="L133">		assertEquals(g.messages.get(1).isVisible(), true);</span>
+<span class="fc" id="L134">		assertEquals(g.messages.get(2).isVisible(), true);</span>
+
+<span class="fc" id="L136">	}</span>
+
+	@Test
+	public void settingsFrameTest() {
+<span class="fc" id="L140">		Settings frame = new Settings(new Config());</span>
+<span class="fc" id="L141">		assertNotNull(frame);</span>
+<span class="fc" id="L142">		assertEquals(frame.isResizable(), false);</span>
+<span class="fc" id="L143">		assertEquals(frame.getDefaultCloseOperation(), JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="fc" id="L144">		assertEquals(frame.getBounds(), new Rectangle(100, 100, 500, 400));</span>
+<span class="fc" id="L145">	}</span>
+
+	@Test
+	public void changeStateFbTest() {
+<span class="fc" id="L149">		Config conf = new Config();</span>
+<span class="fc" id="L150">		conf.setFbAcessToken(&quot;test&quot;);</span>
+<span class="fc" id="L151">		conf.setGmailMail(&quot;test&quot;);</span>
+<span class="fc" id="L152">		conf.setTwAAT(&quot;test&quot;);</span>
+		
+<span class="fc" id="L154">		Settings frame = new Settings(conf);</span>
+<span class="fc" id="L155">		Component[] cmpnts = frame.fbPanel.getComponents();</span>
+
+<span class="fc bfc" id="L157" title="All 2 branches covered.">		for (Component c : cmpnts) {</span>
+<span class="fc" id="L158">			assertEquals(c.isEnabled(), true);</span>
+		}
+
+<span class="fc" id="L161">		frame.chckbxFb.setSelected(false);</span>
+
+<span class="fc" id="L163">		frame.changeStateFb(cmpnts);</span>
+
+<span class="fc bfc" id="L165" title="All 2 branches covered.">		for (Component c : cmpnts) {</span>
+<span class="fc" id="L166">			assertEquals(c.isEnabled(), false);</span>
+		}
+<span class="fc" id="L168">	}</span>
+
+	@Test
+	public void changeStateFbTest2() {
+<span class="fc" id="L172">		Config conf = new Config();</span>
+<span class="fc" id="L173">		conf.setFbAcessToken(&quot;test&quot;);</span>
+<span class="fc" id="L174">		conf.setGmailMail(&quot;test&quot;);</span>
+<span class="fc" id="L175">		conf.setTwAAT(&quot;test&quot;);</span>
+		
+<span class="fc" id="L177">		Settings frame = new Settings(conf);</span>
+<span class="fc" id="L178">		Component[] cmpnts = frame.fbPanel.getComponents();</span>
+
+<span class="fc bfc" id="L180" title="All 2 branches covered.">		for (Component c : cmpnts) {</span>
+<span class="fc" id="L181">			assertEquals(c.isEnabled(), true);</span>
+		}
+
+<span class="fc" id="L184">		frame.chckbxFb.setSelected(true);</span>
+
+<span class="fc" id="L186">		frame.changeStateFb(cmpnts);</span>
+
+<span class="fc bfc" id="L188" title="All 2 branches covered.">		for (Component c : cmpnts) {</span>
+<span class="fc" id="L189">			assertEquals(c.isEnabled(), true);</span>
+		}
+<span class="fc" id="L191">	}</span>
+
+	@Test
+	public void changeStateTwTest() {
+<span class="fc" id="L195">		Config conf = new Config();</span>
+<span class="fc" id="L196">		conf.setFbAcessToken(&quot;test&quot;);</span>
+<span class="fc" id="L197">		conf.setGmailMail(&quot;test&quot;);</span>
+<span class="fc" id="L198">		conf.setTwAAT(&quot;test&quot;);</span>
+		
+<span class="fc" id="L200">		Settings frame = new Settings(conf);</span>
+<span class="fc" id="L201">		Component[] cmpnts = frame.twPanel.getComponents();</span>
+
+<span class="fc bfc" id="L203" title="All 2 branches covered.">		for (Component c : cmpnts) {</span>
+<span class="fc" id="L204">			assertEquals(c.isEnabled(), true);</span>
+		}
+
+<span class="fc" id="L207">		frame.chckbxTw.setSelected(false);</span>
+
+<span class="fc" id="L209">		frame.changeStateTw(cmpnts);</span>
+
+<span class="fc bfc" id="L211" title="All 2 branches covered.">		for (Component c : cmpnts) {</span>
+<span class="fc" id="L212">			assertEquals(c.isEnabled(), false);</span>
+		}
+<span class="fc" id="L214">	}</span>
+
+	@Test
+	public void changeStateTwTest2() {
+<span class="fc" id="L218">		Config conf = new Config();</span>
+<span class="fc" id="L219">		conf.setFbAcessToken(&quot;test&quot;);</span>
+<span class="fc" id="L220">		conf.setGmailMail(&quot;test&quot;);</span>
+<span class="fc" id="L221">		conf.setTwAAT(&quot;test&quot;);</span>
+		
+<span class="fc" id="L223">		Settings frame = new Settings(conf);</span>
+<span class="fc" id="L224">		Component[] cmpnts = frame.twPanel.getComponents();</span>
+
+<span class="fc bfc" id="L226" title="All 2 branches covered.">		for (Component c : cmpnts) {</span>
+<span class="fc" id="L227">			assertEquals(c.isEnabled(), true);</span>
+		}
+
+<span class="fc" id="L230">		frame.chckbxTw.setSelected(true);</span>
+
+<span class="fc" id="L232">		frame.changeStateTw(cmpnts);</span>
+
+<span class="fc bfc" id="L234" title="All 2 branches covered.">		for (Component c : cmpnts) {</span>
+<span class="fc" id="L235">			assertEquals(c.isEnabled(), true);</span>
+		}
+<span class="fc" id="L237">	}</span>
+
+	@Test
+	public void changeStateGmTest() {
+<span class="fc" id="L241">		Config conf = new Config();</span>
+<span class="fc" id="L242">		conf.setFbAcessToken(&quot;test&quot;);</span>
+<span class="fc" id="L243">		conf.setGmailMail(&quot;test&quot;);</span>
+<span class="fc" id="L244">		conf.setTwAAT(&quot;test&quot;);</span>
+		
+<span class="fc" id="L246">		Settings frame = new Settings(conf);</span>
+<span class="fc" id="L247">		Component[] cmpnts = frame.mailPanel.getComponents();</span>
+
+<span class="fc bfc" id="L249" title="All 2 branches covered.">		for (Component c : cmpnts) {</span>
+<span class="fc" id="L250">			assertEquals(c.isEnabled(), true);</span>
+		}
+
+<span class="fc" id="L253">		frame.chckbxGm.setSelected(false);</span>
+
+<span class="fc" id="L255">		frame.changeStateGm(cmpnts);</span>
+
+<span class="fc bfc" id="L257" title="All 2 branches covered.">		for (Component c : cmpnts) {</span>
+<span class="fc" id="L258">			assertEquals(c.isEnabled(), false);</span>
+		}
+<span class="fc" id="L260">	}</span>
+
+	@Test
+	public void changeStateGmTest2() {
+<span class="fc" id="L264">		Config conf = new Config();</span>
+<span class="fc" id="L265">		conf.setFbAcessToken(&quot;test&quot;);</span>
+<span class="fc" id="L266">		conf.setGmailMail(&quot;test&quot;);</span>
+<span class="fc" id="L267">		conf.setTwAAT(&quot;test&quot;);</span>
+		
+<span class="fc" id="L269">		Settings frame = new Settings(conf);</span>
+<span class="fc" id="L270">		Component[] cmpnts = frame.mailPanel.getComponents();</span>
+
+<span class="fc bfc" id="L272" title="All 2 branches covered.">		for (Component c : cmpnts) {</span>
+<span class="fc" id="L273">			assertEquals(c.isEnabled(), true);</span>
+		}
+
+<span class="fc" id="L276">		frame.chckbxGm.setSelected(true);</span>
+
+<span class="fc" id="L278">		frame.changeStateGm(cmpnts);</span>
+
+<span class="fc bfc" id="L280" title="All 2 branches covered.">		for (Component c : cmpnts) {</span>
+<span class="fc" id="L281">			assertEquals(c.isEnabled(), true);</span>
+		}
+<span class="fc" id="L283">	}</span>
+	
+	@Test
+	public void offlineMessageTest() {
+<span class="fc" id="L287">		Date d = new Date(System.currentTimeMillis());</span>
+<span class="fc" id="L288">		OfflineMessage om = new OfflineMessage(&quot;from&quot;, &quot;message content&quot;, ServiceType.BDA, d);</span>
+<span class="fc" id="L289">		assertEquals(d, om.getDateSent());</span>
+<span class="fc" id="L290">		assertEquals(ServiceType.BDA, om.getServiceType());</span>
+<span class="fc" id="L291">		assertEquals(&quot;message content&quot;, om.getMessageContent());</span>
+<span class="fc" id="L292">		assertEquals(&quot;from&quot;, om.getSender());</span>
+<span class="fc" id="L293">	}</span>
+	
+	@Test
+	public void saveConfigChangesTest() throws ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException {
+<span class="fc" id="L297">		Config conf = new Config();</span>
+<span class="fc" id="L298">		conf.setFbAcessToken(&quot;test&quot;);</span>
+<span class="fc" id="L299">		conf.setGmailMail(&quot;test&quot;);</span>
+<span class="fc" id="L300">		conf.setTwAAT(&quot;test&quot;);</span>
+		
+<span class="fc" id="L302">		Settings frame = new Settings(conf);</span>
+<span class="fc" id="L303">		frame.saveConfigChanges();</span>
+<span class="fc" id="L304">	}</span>
+	
+	@Test
+	public void TimeTest(){
+<span class="fc" id="L308">		Time t = Time.ALL;</span>
+<span class="fc" id="L309">		assertEquals(&quot;All&quot;, t.getTime());</span>
+<span class="fc" id="L310">		assertEquals(0, t.getSeconds());</span>
+<span class="fc" id="L311">	}</span>
+	
+	@Test
+	public void ConfigTest(){
+<span class="fc" id="L315">		Config g = new Config();</span>
+<span class="fc" id="L316">		g.setFbAcessToken(&quot;fbAcessToken&quot;);</span>
+<span class="fc" id="L317">		g.setFbAppId(&quot;fbAppId&quot;);</span>
+<span class="fc" id="L318">		g.setFbAppSecret(&quot;fbAppSecret&quot;);</span>
+<span class="fc" id="L319">		g.setGmailMail(&quot;gmailMail&quot;);</span>
+<span class="fc" id="L320">		g.setGmailPassword(&quot;gmailPassword&quot;);</span>
+<span class="fc" id="L321">		g.setGmailProtocol(&quot;gmailProtocol&quot;);</span>
+<span class="fc" id="L322">		g.setTwAAT(&quot;twAAT&quot;);</span>
+<span class="fc" id="L323">		g.setTwAATS(&quot;twAATS&quot;);</span>
+<span class="fc" id="L324">		g.setTwACK(&quot;twACK&quot;);</span>
+<span class="fc" id="L325">		g.setTwACS(&quot;twACS&quot;);</span>
+		
+<span class="fc" id="L327">		assertEquals(&quot;fbAcessToken&quot;, g.getFbAcessToken());</span>
+<span class="fc" id="L328">		assertEquals(&quot;fbAppId&quot;, g.getFbAppId());</span>
+<span class="fc" id="L329">		assertEquals(&quot;fbAppSecret&quot;, g.getFbAppSecret());</span>
+<span class="fc" id="L330">		assertEquals(&quot;gmailMail&quot;, g.getGmailMail());</span>
+<span class="fc" id="L331">		assertEquals(&quot;gmailPassword&quot;, g.getGmailPassword());</span>
+<span class="fc" id="L332">		assertEquals(&quot;gmailProtocol&quot;, g.getGmailProtocol());</span>
+<span class="fc" id="L333">		assertEquals(&quot;twAAT&quot;, g.getTwAAT());</span>
+<span class="fc" id="L334">		assertEquals(&quot;twAATS&quot;, g.getTwAATS());</span>
+<span class="fc" id="L335">		assertEquals(&quot;twACK&quot;, g.getTwACK());</span>
+<span class="fc" id="L336">		assertEquals(&quot;twACS&quot;, g.getTwACS());</span>
+<span class="fc" id="L337">	}</span>
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>BDA (Dec 7, 2018 3:42:24 AM)</div></body></html>

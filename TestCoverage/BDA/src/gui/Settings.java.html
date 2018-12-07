@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Settings.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BDA (Dec 7, 2018 3:42:24 AM)</a> &gt; <a href="../../index.html" class="el_group">BDA</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">Settings.java</span></div><h1>Settings.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">package gui;</span>
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import enums.ServiceType;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JTextField;
+import javax.swing.JCheckBox;
+import java.awt.Component;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.awt.event.ActionEvent;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+
+@SuppressWarnings(&quot;serial&quot;)
+/**
+ * A settings frame that allows the user to tweak features.
+ * 
+ * @author Daniel Freitas
+ * @version 1.0
+ */
+public class Settings extends JFrame {
+
+	public JCheckBox chckbxFb;
+	public JCheckBox chckbxGm;
+	public JCheckBox chckbxTw;
+	public JPanel fbPanel;
+	public JPanel twPanel;
+	public JPanel mailPanel;
+	private JPanel contentPane;
+	private JTextField fbAI;
+	private JTextField twACK;
+	private JTextField gmail;
+	private JTextField fbAS;
+	private JTextField twACS;
+	private JTextField gmailPass;
+	private JTextField twAAT;
+	private JTextField twAATS;
+	private JTextField fbAT;
+
+	/**
+	 * Creates a settings frame.
+	 */
+<span class="fc" id="L63">	public Settings(Config config) {</span>
+<span class="fc" id="L64">		setResizable(false);</span>
+<span class="fc" id="L65">		setTitle(&quot;Settings&quot;);</span>
+<span class="fc" id="L66">		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);</span>
+<span class="fc" id="L67">		setBounds(100, 100, 500, 400);</span>
+<span class="fc" id="L68">		contentPane = new JPanel();</span>
+<span class="fc" id="L69">		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));</span>
+<span class="fc" id="L70">		setContentPane(contentPane);</span>
+
+<span class="fc" id="L72">		chckbxFb = new JCheckBox(&quot;FB&quot;);</span>
+<span class="fc" id="L73">		chckbxFb.setSelected(true);</span>
+<span class="fc" id="L74">		chckbxFb.addActionListener(new ActionListener() {</span>
+			public void actionPerformed(ActionEvent arg0) {
+<span class="nc" id="L76">				Component[] cmpnts = fbPanel.getComponents();</span>
+<span class="nc" id="L77">				changeStateFb(cmpnts);</span>
+<span class="nc" id="L78">			}</span>
+		});
+
+<span class="fc" id="L81">		chckbxTw = new JCheckBox(&quot;TW&quot;);</span>
+<span class="fc" id="L82">		chckbxTw.setSelected(true);</span>
+<span class="fc" id="L83">		chckbxTw.addActionListener(new ActionListener() {</span>
+			public void actionPerformed(ActionEvent arg0) {
+<span class="nc" id="L85">				Component[] cmpnts = twPanel.getComponents();</span>
+<span class="nc" id="L86">				changeStateTw(cmpnts);</span>
+<span class="nc" id="L87">			}</span>
+		});
+
+<span class="fc" id="L90">		chckbxGm = new JCheckBox(&quot;Gmail&quot;);</span>
+<span class="fc" id="L91">		chckbxGm.setSelected(true);</span>
+<span class="fc" id="L92">		chckbxGm.addActionListener(new ActionListener() {</span>
+			public void actionPerformed(ActionEvent arg0) {
+<span class="nc" id="L94">				Component[] cmpnts = mailPanel.getComponents();</span>
+<span class="nc" id="L95">				changeStateGm(cmpnts);</span>
+<span class="nc" id="L96">			}</span>
+		});
+		
+		
+		
+<span class="fc" id="L101">		fbPanel = new JPanel();</span>
+<span class="fc" id="L102">		fbPanel.setBackground(ServiceType.FB.color());</span>
+<span class="fc" id="L103">		twPanel = new JPanel();</span>
+<span class="fc" id="L104">		twPanel.setBackground(ServiceType.TW.color());</span>
+<span class="fc" id="L105">		mailPanel = new JPanel();</span>
+<span class="fc" id="L106">		mailPanel.setBackground(ServiceType.GM.color());</span>
+
+<span class="fc" id="L108">		JButton saveButton = new JButton(&quot;Save&quot;);</span>
+<span class="fc" id="L109">		saveButton.addActionListener(new ActionListener() {</span>
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+<span class="nc" id="L113">					saveConfigChanges();</span>
+<span class="nc" id="L114">				} catch (ParserConfigurationException | TransformerFactoryConfigurationError</span>
+<span class="nc" id="L115">						| TransformerException e1) {</span>
+<span class="nc" id="L116">					System.out.println(&quot;unable to save changes&quot;);</span>
+				}
+<span class="nc" id="L118">			}</span>
+		});
+
+<span class="fc" id="L121">		GroupLayout gl_contentPane = new GroupLayout(contentPane);</span>
+<span class="fc" id="L122">		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L123">				.addGroup(Alignment.TRAILING,</span>
+<span class="fc" id="L124">						gl_contentPane.createSequentialGroup().addGap(55).addComponent(chckbxFb).addGap(111)</span>
+<span class="fc" id="L125">								.addComponent(chckbxTw, GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE).addGap(112)</span>
+<span class="fc" id="L126">								.addComponent(chckbxGm).addGap(60))</span>
+<span class="fc" id="L127">				.addGroup(gl_contentPane.createSequentialGroup()</span>
+<span class="fc" id="L128">						.addComponent(fbPanel, GroupLayout.PREFERRED_SIZE, 142, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L129">						.addPreferredGap(ComponentPlacement.RELATED)</span>
+<span class="fc" id="L130">						.addComponent(twPanel, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L131">						.addPreferredGap(ComponentPlacement.RELATED)</span>
+<span class="fc" id="L132">						.addComponent(mailPanel, GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))</span>
+<span class="fc" id="L133">				.addGroup(gl_contentPane.createSequentialGroup().addGap(172)</span>
+<span class="fc" id="L134">						.addComponent(saveButton, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L135">						.addContainerGap(196, Short.MAX_VALUE)));</span>
+<span class="fc" id="L136">		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(gl_contentPane</span>
+<span class="fc" id="L137">				.createSequentialGroup().addContainerGap()</span>
+<span class="fc" id="L138">				.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE).addComponent(chckbxGm)</span>
+<span class="fc" id="L139">						.addComponent(chckbxTw).addComponent(chckbxFb))</span>
+<span class="fc" id="L140">				.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L141">						.addComponent(twPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L142">						.addComponent(mailPanel, GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)</span>
+<span class="fc" id="L143">						.addComponent(fbPanel, GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))</span>
+<span class="fc" id="L144">				.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(saveButton).addGap(7)));</span>
+
+<span class="fc" id="L146">		JLabel lblGmail = new JLabel(&quot;Gmail&quot;);</span>
+<span class="fc" id="L147">		JLabel lblPassword = new JLabel(&quot;Password&quot;);</span>
+<span class="fc" id="L148">		gmail = new JTextField(config.getGmailMail());</span>
+<span class="fc" id="L149">		gmail.setColumns(10);</span>
+<span class="fc" id="L150">		gmailPass = new JTextField(config.getGmailPassword());</span>
+<span class="fc" id="L151">		gmailPass.setColumns(10);</span>
+
+<span class="fc" id="L153">		GroupLayout gl_mailPanel = new GroupLayout(mailPanel);</span>
+<span class="fc" id="L154">		gl_mailPanel.setHorizontalGroup(gl_mailPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L155">				.addGroup(gl_mailPanel.createSequentialGroup().addContainerGap()</span>
+<span class="fc" id="L156">						.addGroup(gl_mailPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L157">								.addComponent(lblGmail, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L158">								.addComponent(gmail, 130, 130, 130)</span>
+<span class="fc" id="L159">								.addComponent(lblPassword, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L160">								.addComponent(gmailPass, 130, 130, 130))</span>
+<span class="fc" id="L161">						.addContainerGap(30, Short.MAX_VALUE)));</span>
+<span class="fc" id="L162">		gl_mailPanel.setVerticalGroup(gl_mailPanel.createParallelGroup(Alignment.LEADING).addGroup(gl_mailPanel</span>
+<span class="fc" id="L163">				.createSequentialGroup().addContainerGap().addComponent(lblGmail)</span>
+<span class="fc" id="L164">				.addPreferredGap(ComponentPlacement.RELATED)</span>
+<span class="fc" id="L165">				.addComponent(gmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L166">				.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(lblPassword)</span>
+<span class="fc" id="L167">				.addPreferredGap(ComponentPlacement.RELATED).addComponent(gmailPass, GroupLayout.PREFERRED_SIZE,</span>
+<span class="fc" id="L168">						GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L169">				.addContainerGap(188, Short.MAX_VALUE)));</span>
+<span class="fc" id="L170">		mailPanel.setLayout(gl_mailPanel);</span>
+
+<span class="fc" id="L172">		twACK = new JTextField(config.getTwACK());</span>
+<span class="fc" id="L173">		twACK.setColumns(10);</span>
+
+<span class="fc" id="L175">		twACS = new JTextField(config.getTwACS());</span>
+<span class="fc" id="L176">		twACS.setColumns(10);</span>
+
+<span class="fc" id="L178">		twAAT = new JTextField(config.getTwAAT());</span>
+<span class="fc" id="L179">		twAAT.setColumns(10);</span>
+
+<span class="fc" id="L181">		twAATS = new JTextField(config.getTwAATS());</span>
+<span class="fc" id="L182">		twAATS.setColumns(10);</span>
+
+<span class="fc" id="L184">		JLabel twAckLbl = new JLabel(&quot;Auth Consumer Key&quot;);</span>
+
+<span class="fc" id="L186">		JLabel twAcsLbl = new JLabel(&quot;Auth Consumer Secret&quot;);</span>
+
+<span class="fc" id="L188">		JLabel twAatLbl = new JLabel(&quot;Auth Access Token&quot;);</span>
+
+<span class="fc" id="L190">		JLabel twAatsLbl = new JLabel(&quot;Auth Access Token Secret&quot;);</span>
+<span class="fc" id="L191">		GroupLayout gl_twPanel = new GroupLayout(twPanel);</span>
+<span class="fc" id="L192">		gl_twPanel.setHorizontalGroup(gl_twPanel.createParallelGroup(Alignment.LEADING).addGroup(gl_twPanel</span>
+<span class="fc" id="L193">				.createSequentialGroup().addContainerGap()</span>
+<span class="fc" id="L194">				.addGroup(gl_twPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L195">						.addGroup(gl_twPanel.createSequentialGroup().addComponent(twAckLbl).addContainerGap(49,</span>
+<span class="fc" id="L196">								Short.MAX_VALUE))</span>
+<span class="fc" id="L197">						.addGroup(gl_twPanel.createSequentialGroup()</span>
+<span class="fc" id="L198">								.addComponent(twACK, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE).addGap(18))</span>
+<span class="fc" id="L199">						.addGroup(Alignment.TRAILING, gl_twPanel.createSequentialGroup()</span>
+<span class="fc" id="L200">								.addComponent(twAatsLbl, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE).addGap(18))</span>
+<span class="fc" id="L201">						.addGroup(Alignment.TRAILING,</span>
+<span class="fc" id="L202">								gl_twPanel.createSequentialGroup()</span>
+<span class="fc" id="L203">										.addGroup(gl_twPanel.createParallelGroup(Alignment.TRAILING)</span>
+<span class="fc" id="L204">												.addComponent(twAcsLbl, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,</span>
+<span class="fc" id="L205">														134, Short.MAX_VALUE)</span>
+<span class="fc" id="L206">												.addComponent(twACS, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))</span>
+<span class="fc" id="L207">										.addGap(18))</span>
+<span class="fc" id="L208">						.addGroup(gl_twPanel.createSequentialGroup()</span>
+<span class="fc" id="L209">								.addComponent(twAATS, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE).addGap(18))</span>
+<span class="fc" id="L210">						.addGroup(gl_twPanel.createSequentialGroup()</span>
+<span class="fc" id="L211">								.addComponent(twAAT, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE).addGap(18))</span>
+<span class="fc" id="L212">						.addGroup(gl_twPanel.createSequentialGroup()</span>
+<span class="fc" id="L213">								.addComponent(twAatLbl, GroupLayout.PREFERRED_SIZE, 112, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L214">								.addContainerGap(40, Short.MAX_VALUE)))));</span>
+<span class="fc" id="L215">		gl_twPanel.setVerticalGroup(gl_twPanel.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,</span>
+<span class="fc" id="L216">				gl_twPanel.createSequentialGroup().addContainerGap().addComponent(twAckLbl)</span>
+<span class="fc" id="L217">						.addPreferredGap(ComponentPlacement.RELATED)</span>
+<span class="fc" id="L218">						.addComponent(twACK, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,</span>
+<span class="fc" id="L219">								GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L220">						.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(twAcsLbl)</span>
+<span class="fc" id="L221">						.addPreferredGap(ComponentPlacement.RELATED)</span>
+<span class="fc" id="L222">						.addComponent(twACS, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,</span>
+<span class="fc" id="L223">								GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L224">						.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(twAatLbl)</span>
+<span class="fc" id="L225">						.addPreferredGap(ComponentPlacement.RELATED)</span>
+<span class="fc" id="L226">						.addComponent(twAAT, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,</span>
+<span class="fc" id="L227">								GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L228">						.addPreferredGap(ComponentPlacement.RELATED).addComponent(twAatsLbl)</span>
+<span class="fc" id="L229">						.addPreferredGap(ComponentPlacement.RELATED).addComponent(twAATS, GroupLayout.PREFERRED_SIZE,</span>
+<span class="fc" id="L230">								GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L231">						.addGap(19)));</span>
+<span class="fc" id="L232">		twPanel.setLayout(gl_twPanel);</span>
+
+<span class="fc" id="L234">		fbAI = new JTextField(config.getFbAppId());</span>
+<span class="fc" id="L235">		fbAI.setColumns(10);</span>
+
+<span class="fc" id="L237">		fbAS = new JTextField(config.getFbAppSecret());</span>
+<span class="fc" id="L238">		fbAS.setColumns(10);</span>
+
+<span class="fc" id="L240">		JLabel fbAiLbl = new JLabel(&quot;App Id&quot;);</span>
+
+<span class="fc" id="L242">		JLabel fbAsLbl = new JLabel(&quot;App Secret&quot;);</span>
+
+<span class="fc" id="L244">		JLabel fbAtLbl = new JLabel(&quot;Access Token&quot;);</span>
+
+<span class="fc" id="L246">		fbAT = new JTextField(config.getFbAcessToken());</span>
+<span class="fc" id="L247">		fbAT.setColumns(10);</span>
+<span class="fc" id="L248">		GroupLayout gl_fbPanel = new GroupLayout(fbPanel);</span>
+<span class="fc" id="L249">		gl_fbPanel.setHorizontalGroup(gl_fbPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L250">				.addGroup(gl_fbPanel.createSequentialGroup().addContainerGap()</span>
+<span class="fc" id="L251">						.addGroup(gl_fbPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L252">								.addComponent(fbAiLbl, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L253">								.addComponent(fbAI, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)</span>
+<span class="fc" id="L254">								.addComponent(fbAsLbl, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L255">								.addComponent(fbAS, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)</span>
+<span class="fc" id="L256">								.addComponent(fbAtLbl, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L257">								.addComponent(fbAT, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))</span>
+<span class="fc" id="L258">						.addContainerGap()));</span>
+<span class="fc" id="L259">		gl_fbPanel.setVerticalGroup(gl_fbPanel.createParallelGroup(Alignment.LEADING).addGroup(gl_fbPanel</span>
+<span class="fc" id="L260">				.createSequentialGroup().addContainerGap().addComponent(fbAiLbl)</span>
+<span class="fc" id="L261">				.addPreferredGap(ComponentPlacement.RELATED)</span>
+<span class="fc" id="L262">				.addComponent(fbAI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L263">				.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(fbAsLbl)</span>
+<span class="fc" id="L264">				.addPreferredGap(ComponentPlacement.RELATED)</span>
+<span class="fc" id="L265">				.addComponent(fbAS, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L266">				.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(fbAtLbl)</span>
+<span class="fc" id="L267">				.addPreferredGap(ComponentPlacement.RELATED)</span>
+<span class="fc" id="L268">				.addComponent(fbAT, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L269">				.addContainerGap(137, Short.MAX_VALUE)));</span>
+<span class="fc" id="L270">		fbPanel.setLayout(gl_fbPanel);</span>
+<span class="fc" id="L271">		contentPane.setLayout(gl_contentPane);</span>
+		
+<span class="fc bfc" id="L273" title="All 2 branches covered.">		if (config.getGmailMail() == null) {</span>
+<span class="fc" id="L274">			chckbxGm.setSelected(false);</span>
+<span class="fc" id="L275">			Component[] cmpnts = mailPanel.getComponents();</span>
+<span class="fc" id="L276">			changeStateGm(cmpnts);</span>
+		} 
+		
+<span class="fc bfc" id="L279" title="All 2 branches covered.">		if (config.getFbAcessToken() == null) {</span>
+<span class="fc" id="L280">			chckbxFb.setSelected(false);</span>
+<span class="fc" id="L281">			Component[] cmpnts = fbPanel.getComponents();</span>
+<span class="fc" id="L282">			changeStateGm(cmpnts);</span>
+		} 
+		
+<span class="fc bfc" id="L285" title="All 2 branches covered.">		if (config.getTwAAT() == null) {</span>
+<span class="fc" id="L286">			chckbxTw.setSelected(false);</span>
+<span class="fc" id="L287">			Component[] cmpnts = twPanel.getComponents();</span>
+<span class="fc" id="L288">			changeStateGm(cmpnts);</span>
+		} 
+<span class="fc" id="L290">	}</span>
+
+	/**
+	 * Saves the configuration to a .xml file
+	 * 
+	 * @throws ParserConfigurationException
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws TransformerException
+	 */
+	protected void saveConfigChanges()
+			throws ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException {
+<span class="fc" id="L301">		System.out.println(&quot;saving config changes&quot;);</span>
+<span class="fc" id="L302">		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();</span>
+<span class="fc" id="L303">		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();</span>
+<span class="fc" id="L304">		Document doc = docBuilder.newDocument();</span>
+<span class="fc" id="L305">		Element rootElement = doc.createElement(&quot;CONFIGURATION&quot;);</span>
+<span class="fc" id="L306">		doc.appendChild(rootElement);</span>
+
+<span class="fc" id="L308">		Element newElement1 = doc.createElement(&quot;Gmail&quot;);</span>
+<span class="pc bpc" id="L309" title="1 of 2 branches missed.">		if (chckbxGm.isSelected()) {</span>
+<span class="fc" id="L310">			newElement1.setAttribute(&quot;Protocol&quot;, &quot;imap&quot;);</span>
+<span class="fc" id="L311">			newElement1.setAttribute(&quot;Account&quot;, gmail.getText());</span>
+<span class="fc" id="L312">			newElement1.setAttribute(&quot;Password&quot;, gmailPass.getText());</span>
+		}
+
+<span class="fc" id="L315">		Element newElement2 = doc.createElement(&quot;Facebook&quot;);</span>
+<span class="pc bpc" id="L316" title="1 of 2 branches missed.">		if (chckbxFb.isSelected()) {</span>
+<span class="fc" id="L317">			newElement2.setAttribute(&quot;AppId&quot;, fbAI.getText());</span>
+<span class="fc" id="L318">			newElement2.setAttribute(&quot;AppSecret&quot;, fbAS.getText());</span>
+<span class="fc" id="L319">			newElement2.setAttribute(&quot;AccessToken&quot;, fbAT.getText());</span>
+		}
+
+<span class="fc" id="L322">		Element newElement3 = doc.createElement(&quot;Twitter&quot;);</span>
+<span class="pc bpc" id="L323" title="1 of 2 branches missed.">		if (chckbxTw.isSelected()) {</span>
+<span class="fc" id="L324">			newElement3.setAttribute(&quot;AuthConsumerKey&quot;, twACK.getText());</span>
+<span class="fc" id="L325">			newElement3.setAttribute(&quot;AuthConsumerSecret&quot;, twACS.getText());</span>
+<span class="fc" id="L326">			newElement3.setAttribute(&quot;AuthAccessToken&quot;, twAAT.getText());</span>
+<span class="fc" id="L327">			newElement3.setAttribute(&quot;AuthAccessTokenSecret&quot;, twAATS.getText());</span>
+		}
+
+		// Add new nodes to XML document (root element)
+<span class="fc" id="L331">		rootElement.appendChild(newElement1);</span>
+<span class="fc" id="L332">		rootElement.appendChild(newElement2);</span>
+<span class="fc" id="L333">		rootElement.appendChild(newElement3);</span>
+
+		// Save XML document
+<span class="fc" id="L336">		Transformer transformer = TransformerFactory.newInstance().newTransformer();</span>
+<span class="fc" id="L337">		transformer.setOutputProperty(OutputKeys.INDENT, &quot;yes&quot;);</span>
+<span class="fc" id="L338">		StreamResult result = new StreamResult(new File(&quot;config.xml&quot;));</span>
+<span class="fc" id="L339">		DOMSource source = new DOMSource(doc);</span>
+<span class="fc" id="L340">		transformer.transform(source, result);</span>
+<span class="fc" id="L341">		this.dispose();</span>
+<span class="fc" id="L342">	}</span>
+
+	/**
+	 * Enables/disables the Facebook Panel.
+	 * 
+	 * @param cmpnts
+	 *            the Facebook panels components.
+	 */
+	public void changeStateFb(Component[] cmpnts) {
+<span class="fc bfc" id="L351" title="All 2 branches covered.">		if (chckbxFb.isSelected()) {</span>
+<span class="fc bfc" id="L352" title="All 2 branches covered.">			for (Component c : cmpnts) {</span>
+<span class="fc" id="L353">				c.setEnabled(true);</span>
+			}
+<span class="fc" id="L355">		} else {</span>
+<span class="fc bfc" id="L356" title="All 2 branches covered.">			for (Component c : cmpnts) {</span>
+<span class="fc" id="L357">				c.setEnabled(false);</span>
+			}
+		}
+<span class="fc" id="L360">	}</span>
+
+	/**
+	 * Enables/disables the Twitter Panel.
+	 * 
+	 * @param cmpnts
+	 *            the Twitter panels components.
+	 */
+	public void changeStateTw(Component[] cmpnts) {
+<span class="fc bfc" id="L369" title="All 2 branches covered.">		if (chckbxTw.isSelected()) {</span>
+<span class="fc bfc" id="L370" title="All 2 branches covered.">			for (Component c : cmpnts) {</span>
+<span class="fc" id="L371">				c.setEnabled(true);</span>
+			}
+<span class="fc" id="L373">		} else {</span>
+<span class="fc bfc" id="L374" title="All 2 branches covered.">			for (Component c : cmpnts) {</span>
+<span class="fc" id="L375">				c.setEnabled(false);</span>
+			}
+		}
+<span class="fc" id="L378">	}</span>
+
+	/**
+	 * Enables/disables the G-mail Panel.
+	 * 
+	 * @param cmpnts
+	 *            the G-mail panels components.
+	 */
+	public void changeStateGm(Component[] cmpnts) {
+<span class="fc bfc" id="L387" title="All 2 branches covered.">		if (chckbxGm.isSelected()) {</span>
+<span class="fc bfc" id="L388" title="All 2 branches covered.">			for (Component c : cmpnts) {</span>
+<span class="fc" id="L389">				c.setEnabled(true);</span>
+			}
+<span class="fc" id="L391">		} else {</span>
+<span class="fc bfc" id="L392" title="All 2 branches covered.">			for (Component c : cmpnts) {</span>
+<span class="fc" id="L393">				c.setEnabled(false);</span>
+			}
+		}
+<span class="fc" id="L396">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>BDA (Dec 7, 2018 3:42:24 AM)</div></body></html>

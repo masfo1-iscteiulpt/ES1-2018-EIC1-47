@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Facebook.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BDA (Dec 7, 2018 3:42:24 AM)</a> &gt; <a href="../../index.html" class="el_group">BDA</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">facebook</a> &gt; <span class="el_source">Facebook.java</span></div><h1>Facebook.java</h1><pre class="source lang-java linenums">package facebook;
+
+import java.util.ArrayList;
+import java.util.List;
+import com.restfb.Connection;
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.FacebookClient.AccessToken;
+import com.restfb.types.Post;
+import com.restfb.types.User;
+
+import enums.ServiceType;
+import gui.BdaGUI;
+import gui.MessagePanel;
+import gui.OfflineMessage;
+
+<span class="nc" id="L17">public class Facebook {</span>
+
+	/*Token de Acesso conta do Facebook */
+<span class="nc" id="L20">	private String token = &quot;EAALKZAOc8jaMBAPKZATfpUCHan46iHDTn2n3pm7gZBv1xVgofzCTU9jPZB1cXMwFBZB2B5I2ZBe6vclCIX4cHFBlpFMpxC7U7TRAoYgb1DxpyqygTeE0SMf8aK4TnVfJbDNyxmTZCNfx2BZB9JtewpIPAkJVkmLN7cNVlgOukjyAgMmbqBUpWsoc&quot;;</span>
+
+	/**
+	 * 
+	 * Description: Permite saber o user que possui aquele Access Token
+	 * @author masfo1-iscteiulpt
+	 * 
+	 * 	 
+	 */
+	public String getUser() {
+<span class="nc" id="L30">		String accessToken2 = token;</span>
+<span class="nc" id="L31">		FacebookClient fbClient2 = new DefaultFacebookClient(accessToken2);</span>
+<span class="nc" id="L32">		User me2 = fbClient2.fetchObject(&quot;me&quot;, User.class);</span>
+<span class="nc" id="L33">		System.out.println(&quot;Facebook:&quot;);</span>
+<span class="nc" id="L34">		System.out.println(&quot;Id: &quot; + me2.getId());</span>
+<span class="nc" id="L35">		System.out.println(&quot;Name: &quot; + me2.getName());</span>
+<span class="nc" id="L36">		return me2.getId() + &quot; &quot; + me2.getName();</span>
+	}
+	
+	/**
+	 * 
+	 * Description: Permite saber a validade do Extended Access Token
+	 * @param string2 
+	 * @param string 
+	 * @param string3 
+	 * 	 
+	 */
+	public String getExtendedAccessToken(String AcessToken, String AppId, String AppSecret) {
+<span class="nc" id="L48">		String accessToken4 = AcessToken;</span>
+<span class="nc" id="L49">		FacebookClient fbClient4 = new DefaultFacebookClient(accessToken4);</span>
+<span class="nc" id="L50">		AccessToken extendedAccessToken4 = fbClient4.obtainExtendedAccessToken(AppId, AppSecret);</span>
+<span class="nc" id="L51">		System.out.println(&quot;ExtendedAccessToken: &quot; + extendedAccessToken4.getAccessToken());</span>
+<span class="nc" id="L52">		System.out.println(&quot;Expires: &quot; + extendedAccessToken4.getExpires());</span>
+		
+<span class="nc" id="L54">		return &quot; &quot; + extendedAccessToken4.getExpires().toString();</span>
+	}
+
+	/**
+	 * 
+	 * Description: 
+	 * -Permite filtrar os post que o user que recebe usando aquele Access Token
+	 * -E permite saber quantos são
+	 * -Apresenta resultados na consola
+	 * @param AcessToken 
+	 * @param frame 
+	 * @param posts 
+	 * 	 
+	 */
+	public void filterFacebookPost(String AcessToken, BdaGUI frame, ArrayList&lt;OfflineMessage&gt; posts) {
+<span class="nc" id="L69">		String accessToken5 = AcessToken;</span>
+<span class="nc" id="L70">		FacebookClient fbClient5 = new DefaultFacebookClient(accessToken5);</span>
+
+<span class="nc" id="L72">		Connection&lt;Post&gt; result = fbClient5.fetchConnection(&quot;me/feed&quot;, Post.class);</span>
+<span class="nc" id="L73">		System.out.println(&quot;\nPosts:&quot;);</span>
+<span class="nc" id="L74">		int counter5 = 0;</span>
+<span class="nc" id="L75">		int counterTotal = 0;</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">		for (List&lt;Post&gt; page : result) {</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">			for (Post aPost : page) {</span>
+<span class="nc" id="L78">					System.out.println(&quot;---- Post &quot; + counter5 + &quot; ----&quot;);</span>
+<span class="nc" id="L79">					System.out.println(&quot;Id: &quot; + &quot;fb.com/&quot; + aPost.getId());</span>
+<span class="nc" id="L80">					String mc = aPost.getMessage();</span>
+<span class="nc" id="L81">					mc += &quot;\n&quot; + &quot;Caption: &quot; + aPost.getDescription();</span>
+<span class="nc" id="L82">					mc += &quot;\n&quot; + &quot;Created: &quot; + aPost.getCreatedTime();</span>
+<span class="nc" id="L83">					System.out.println(&quot;Message: &quot; + aPost.getMessage());</span>
+<span class="nc" id="L84">					System.out.println(&quot;Created: &quot; + aPost.getCreatedTime());</span>
+<span class="nc" id="L85">					counter5++;</span>
+					
+<span class="nc" id="L87">					frame.addMessage(new MessagePanel(&quot;&quot;, mc, ServiceType.FB, aPost.getCreatedTime(), null));</span>
+<span class="nc" id="L88">					posts.add(new OfflineMessage(&quot;&quot;, mc, ServiceType.FB, aPost.getCreatedTime()));</span>
+<span class="nc" id="L89">				counterTotal++;</span>
+			}
+		}
+<span class="nc" id="L92">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>BDA (Dec 7, 2018 3:42:24 AM)</div></body></html>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MailSender.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BDA (Dec 7, 2018 3:42:24 AM)</a> &gt; <a href="../../index.html" class="el_group">BDA</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">gmail</a> &gt; <span class="el_source">MailSender.java</span></div><h1>MailSender.java</h1><pre class="source lang-java linenums">package gmail;
+
+import javax.mail.*;
+import javax.mail.internet.*;
+
+import java.util.Properties;
+import javax.activation.*;
+
+/**
+ * This is a application to connect to Gmail server to retrieve received
+ * e-mails.
+ * 
+ * @author Luis Fernandes
+ * @version 1.0
+ *
+ */
+
+public class MailSender {
+	/**
+	 * SMTP_HOST_NAME - protocol
+	 */
+	private static final String SMTP_HOST_NAME = &quot;smtp.gmail.com&quot;;
+	/**
+	 * SMTP_HOST_PORT - Port for app
+	 */
+	private static final int SMTP_HOST_PORT = 465;
+	/**
+	 * destination - destination for email
+	 */
+	private String destination;
+	/**
+	 * password - the sender's password
+	 */
+	private String password;
+	
+	/**
+	 * mail - the sender's gmail
+	 */
+	private String gmail;
+	
+	/**
+	 * @return destination for email
+	 */
+	public String getDestination() {
+<span class="fc" id="L45">		return destination;</span>
+	}
+
+	/**
+	 * @param destination for email
+	 */
+	public void setDestination(String destination) {
+<span class="fc" id="L52">		this.destination = destination;</span>
+<span class="fc" id="L53">	}</span>
+	
+	public void setMail(String gmail) {
+<span class="fc" id="L56">		this.gmail = gmail;</span>
+<span class="fc" id="L57">	}</span>
+	
+	public void setPassword(String password) {
+<span class="fc" id="L60">		this.password = password;</span>
+<span class="fc" id="L61">	}</span>
+
+	/**
+	 * constructor for Sender class
+	 * 
+	 * @param destination - destination for email
+	 */
+<span class="fc" id="L68">	public MailSender(String destination, String mail, String password) {</span>
+<span class="fc" id="L69">		setDestination(destination);</span>
+<span class="fc" id="L70">		setPassword(password);</span>
+<span class="fc" id="L71">		setMail(mail);</span>
+<span class="fc" id="L72">	}</span>
+
+	private Properties getProperties() {
+<span class="fc" id="L75">		System.out.println(&quot;Connecting please wait...&quot;);</span>
+<span class="fc" id="L76">		Properties properties = new Properties();</span>
+<span class="fc" id="L77">		properties.put(&quot;mail.transport.protocol&quot;, &quot;smtps&quot;);</span>
+<span class="fc" id="L78">		properties.put(&quot;mail.smtps.host&quot;, SMTP_HOST_NAME);</span>
+<span class="fc" id="L79">		properties.put(&quot;mail.smtp.port&quot;, SMTP_HOST_PORT);</span>
+<span class="fc" id="L80">		properties.put(&quot;mail.smtps.auth&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L81">		return properties;</span>
+	}
+
+	/**
+	 * @param sub  - subject for email
+	 * @param cont - email content
+	 * @return boolean for success state
+	 * @throws Exception
+	 */
+	public boolean sendMessage(String sub, String cont) {
+<span class="fc" id="L91">		boolean mail = false;</span>
+<span class="fc" id="L92">		Session session = Session.getInstance(getProperties());</span>
+<span class="fc" id="L93">		System.out.println(&quot;Session created&quot;);</span>
+<span class="fc" id="L94">		session.setDebug(true);</span>
+
+		try {
+<span class="fc" id="L97">			Transport transport = session.getTransport();</span>
+<span class="fc" id="L98">			MimeMessage message = new MimeMessage(session);</span>
+			// e-mail subject
+<span class="fc" id="L100">			message.setSubject(sub);</span>
+			// e-mail message
+<span class="fc" id="L102">			message.setContent(cont, &quot;text/plain&quot;);</span>
+
+<span class="fc" id="L104">			message.addRecipient(Message.RecipientType.TO, new InternetAddress(getDestination()));</span>
+
+<span class="fc" id="L106">			transport.connect(SMTP_HOST_NAME, SMTP_HOST_PORT, gmail, password);</span>
+<span class="fc" id="L107">			transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));</span>
+<span class="fc" id="L108">			System.out.println(&quot;Message Sent!&quot;);</span>
+<span class="fc" id="L109">			mail = true;</span>
+<span class="fc" id="L110">			transport.close();</span>
+<span class="pc" id="L111">		} catch (MessagingException e) {</span>
+
+<span class="nc" id="L113">			e.printStackTrace();</span>
+		}
+<span class="fc" id="L115">		return mail;</span>
+
+	}
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>BDA (Dec 7, 2018 3:42:24 AM)</div></body></html>

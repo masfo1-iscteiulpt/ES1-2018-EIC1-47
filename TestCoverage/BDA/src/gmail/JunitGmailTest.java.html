@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>JunitGmailTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BDA (Dec 7, 2018 3:42:24 AM)</a> &gt; <a href="../../index.html" class="el_group">BDA</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">gmail</a> &gt; <span class="el_source">JunitGmailTest.java</span></div><h1>JunitGmailTest.java</h1><pre class="source lang-java linenums">package gmail;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Properties;
+import javax.mail.NoSuchProviderException;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+import gui.BdaGUI;
+import gui.Config;
+import gui.OfflineMessage;
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+<span class="fc" id="L20">public class JunitGmailTest {</span>
+	
+	@Test
+	public void failConnectionTest() throws IOException {
+<span class="fc" id="L24">		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();</span>
+<span class="fc" id="L25">		String connect = tmu.getConnectedStatus(&quot;imap&quot;, &quot;imap.gmail.com&quot;, &quot;993&quot;, &quot;Trabalhosiscte12@gmail.com&quot;,</span>
+<span class="fc" id="L26">				&quot;CrokaNation1000&quot;);</span>
+<span class="fc" id="L27">		assertEquals(&quot;Could not connect to the message store&quot;, connect);</span>
+<span class="fc" id="L28">	}</span>
+	
+
+	@Test
+	public void htmlRemvTest() {
+<span class="fc" id="L33">		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();</span>
+<span class="fc" id="L34">		String htmlFree = tmu.htmlRemove(&quot;&lt;div&gt;olÃ¡ Eu, sou Eu!!!&quot;);</span>
+<span class="fc" id="L35">		assertEquals(&quot; olÃ¡ Eu, sou Eu!!!&quot;, htmlFree);</span>
+<span class="fc" id="L36">	}</span>
+
+	@Test
+	public void propertiesNotNull() {
+<span class="fc" id="L40">		RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();</span>
+<span class="fc" id="L41">		Properties properties = tmu.getServerProperties(&quot;imap&quot;, &quot;imap.gmail.com&quot;, &quot;993&quot;);</span>
+<span class="fc" id="L42">		assertNotNull(&quot;Propreties&quot;, properties);</span>
+<span class="fc" id="L43">		System.out.println(&quot;recive complete&quot;);</span>
+<span class="fc" id="L44">	}</span>
+	
+	@Test
+	public void mailTest() throws IOException {
+<span class="fc" id="L48">			ArrayList&lt;OfflineMessage&gt; posts= new ArrayList&lt;OfflineMessage&gt;();</span>
+<span class="fc" id="L49">			BdaGUI frame = new BdaGUI(new Config());</span>
+<span class="fc" id="L50">			RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();</span>
+			try {
+<span class="fc" id="L52">				boolean test = tmu.getEmails(&quot;imap&quot;, &quot;imap.gmail.com&quot;, &quot;993&quot;, </span>
+<span class="fc" id="L53">						&quot;Trabalhosiscte12@gmail.com&quot;, &quot;CrokaNation12&quot;, frame, posts);</span>
+<span class="fc" id="L54">				assertTrue(test);</span>
+<span class="pc" id="L55">			} catch (NoSuchProviderException e) {</span>
+<span class="nc" id="L56">				e.printStackTrace();</span>
+			}
+		
+<span class="fc" id="L59">	}</span>
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>BDA (Dec 7, 2018 3:42:24 AM)</div></body></html>

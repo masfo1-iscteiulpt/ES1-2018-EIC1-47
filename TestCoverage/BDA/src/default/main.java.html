@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>main.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BDA (Dec 7, 2018 3:42:24 AM)</a> &gt; <a href="../../index.html" class="el_group">BDA</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">main.java</span></div><h1>main.java</h1><pre class="source lang-java linenums"><span class="nc" id="L1">import java.awt.EventQueue;</span>
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.util.ArrayList;
+import javax.mail.NoSuchProviderException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import twitter4j.conf.ConfigurationBuilder;
+import facebook.Facebook;
+import gmail.RetrieveEmailsUsingIMAP;
+import gui.BdaGUI;
+import gui.Config;
+import gui.MessagePanel;
+import gui.OfflineMessage;
+import twitter.Twitter_Class;
+
+<span class="nc" id="L41">public class main {</span>
+
+	public static BdaGUI frame;
+<span class="nc" id="L44">	public static boolean netConection = false;</span>
+<span class="nc" id="L45">	public static Config configuration;</span>
+
+	public static void main(String[] args) throws InvocationTargetException, InterruptedException {
+		try {
+<span class="nc" id="L49">			configuration = new Config();</span>
+<span class="nc" id="L50">			loadSettings(configuration);</span>
+<span class="nc" id="L51">		} catch (ParserConfigurationException | SAXException | TransformerFactoryConfigurationError</span>
+<span class="nc" id="L52">				| TransformerException | XPathExpressionException e) {</span>
+<span class="nc" id="L53">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L55">		EventQueue.invokeAndWait(new Runnable() {</span>
+			public void run() {
+				try {
+<span class="nc" id="L58">					frame = new BdaGUI(configuration);</span>
+<span class="nc" id="L59">					frame.setVisible(true);</span>
+<span class="nc" id="L60">				} catch (Exception e) {</span>
+<span class="nc" id="L61">					e.printStackTrace();</span>
+				}
+<span class="nc" id="L63">			}</span>
+		});
+<span class="nc" id="L65">		Socket s = new Socket();</span>
+<span class="nc" id="L66">		InetSocketAddress addr = new InetSocketAddress(&quot;www.google.com&quot;, 80);</span>
+		try {
+<span class="nc" id="L68">			s.connect(addr, 3000);</span>
+<span class="nc" id="L69">			netConection = true;</span>
+<span class="nc" id="L70">		} catch (Exception e) {</span>
+
+<span class="nc" id="L72">		} finally {</span>
+			try {
+<span class="nc" id="L74">				s.close();</span>
+<span class="nc" id="L75">			} catch (Exception e) {</span>
+			}
+<span class="nc" id="L77">		}</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">		if (netConection) {</span>
+<span class="nc" id="L79">			startServices(configuration);</span>
+<span class="nc" id="L80">		} else {</span>
+<span class="nc" id="L81">			offlineServices();</span>
+		}
+<span class="nc" id="L83">	}</span>
+
+	public static void startServices(Config config) {
+<span class="nc" id="L86">		ArrayList&lt;OfflineMessage&gt; posts = new ArrayList&lt;OfflineMessage&gt;();</span>
+
+		// tw init
+<span class="nc bnc" id="L89" title="All 2 branches missed.">		if (config.getTwAAT() != null) {</span>
+<span class="nc" id="L90">			ConfigurationBuilder cb = new ConfigurationBuilder();</span>
+<span class="nc" id="L91">			Twitter_Class tw = new Twitter_Class(cb);</span>
+<span class="nc" id="L92">			tw.sign_in(config.getTwACK(), config.getTwACS(), config.getTwAAT(), config.getTwAATS());</span>
+<span class="nc" id="L93">			tw.printTweets(frame, posts);</span>
+		}
+
+		// gmail init
+<span class="nc bnc" id="L97" title="All 2 branches missed.">		if (config.getGmailMail() != null) {</span>
+<span class="nc" id="L98">			RetrieveEmailsUsingIMAP tmu = new RetrieveEmailsUsingIMAP();</span>
+			try {
+<span class="nc" id="L100">				tmu.getEmails(config.getGmailProtocol(), &quot;imap.gmail.com&quot;, &quot;993&quot;, config.getGmailMail(),</span>
+<span class="nc" id="L101">						config.getGmailPassword(), frame, posts);</span>
+<span class="nc" id="L102">			} catch (NoSuchProviderException | IOException e) {</span>
+<span class="nc" id="L103">				System.out.println(&quot;Gmail service unavailable&quot;);</span>
+			}
+		}
+
+		// fb init
+<span class="nc bnc" id="L108" title="All 2 branches missed.">		if (config.getFbAcessToken() != null) {</span>
+			try {
+<span class="nc" id="L110">				Facebook fb = new Facebook();</span>
+<span class="nc" id="L111">				fb.getUser();</span>
+<span class="nc" id="L112">				fb.getExtendedAccessToken(config.getFbAcessToken(),config.getFbAppId(), config.getFbAppSecret());</span>
+<span class="nc" id="L113">				fb.filterFacebookPost(config.getFbAcessToken(), frame,</span>
+<span class="nc" id="L114">						posts);</span>
+<span class="nc" id="L115">			} catch (Exception e) {</span>
+<span class="nc" id="L116">				System.out.println(e.getMessage());</span>
+			}
+		}
+
+		FileOutputStream f;
+		try {
+<span class="nc" id="L122">			f = new FileOutputStream(&quot;file.txt&quot;);</span>
+<span class="nc" id="L123">			ObjectOutputStream s = new ObjectOutputStream(f);</span>
+<span class="nc" id="L124">			s.writeObject(posts);</span>
+<span class="nc" id="L125">			s.close();</span>
+<span class="nc" id="L126">			System.out.println(&quot;File Saved&quot;);</span>
+<span class="nc" id="L127">		} catch (IOException e) {</span>
+<span class="nc" id="L128">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L130">	}</span>
+
+	private static void offlineServices() {
+<span class="nc" id="L133">		ArrayList&lt;OfflineMessage&gt; posts = new ArrayList&lt;OfflineMessage&gt;();</span>
+		FileInputStream in;
+		try {
+<span class="nc" id="L136">			in = new FileInputStream(&quot;file.txt&quot;);</span>
+<span class="nc" id="L137">			ObjectInputStream s = new ObjectInputStream(in);</span>
+<span class="nc" id="L138">			posts = (ArrayList&lt;OfflineMessage&gt;) s.readObject();</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">			for (int i = 0; i != posts.size(); i++) {</span>
+<span class="nc" id="L140">				frame.addMessage(new MessagePanel(posts.get(i).getSender(), posts.get(i).getMessageContent(),</span>
+<span class="nc" id="L141">						posts.get(i).getServiceType(), posts.get(i).getDateSent(), null));</span>
+			}
+<span class="nc" id="L143">		} catch (IOException | ClassNotFoundException e) {</span>
+<span class="nc" id="L144">			e.printStackTrace();</span>
+		}
+<span class="nc" id="L146">	}</span>
+
+	private static void loadSettings(Config config) throws ParserConfigurationException, SAXException,
+			TransformerFactoryConfigurationError, TransformerException, XPathExpressionException {
+		try {
+<span class="nc" id="L151">			File inputFile = new File(&quot;config.xml&quot;);</span>
+<span class="nc" id="L152">			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();</span>
+			DocumentBuilder dBuilder;
+<span class="nc" id="L154">			dBuilder = dbFactory.newDocumentBuilder();</span>
+<span class="nc" id="L155">			Document doc = dBuilder.parse(inputFile);</span>
+<span class="nc" id="L156">			doc.getDocumentElement().normalize();</span>
+			// read settings
+<span class="nc" id="L158">			XPathFactory xpathFactory = XPathFactory.newInstance();</span>
+<span class="nc" id="L159">			XPath xpath = xpathFactory.newXPath();</span>
+			// gmail
+<span class="nc" id="L161">			XPathExpression expr = xpath.compile(&quot;/CONFIGURATION/Gmail/@*&quot;);</span>
+<span class="nc" id="L162">			NodeList nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">			if (nl.item(0) != null) {</span>
+				// gmail
+<span class="nc" id="L165">				config.setGmailMail(nl.item(0).getFirstChild().getNodeValue());</span>
+				// password
+<span class="nc" id="L167">				config.setGmailPassword(nl.item(1).getFirstChild().getNodeValue());</span>
+				// protocol
+<span class="nc" id="L169">				config.setGmailProtocol(nl.item(2).getFirstChild().getNodeValue());</span>
+<span class="nc" id="L170">			} else {</span>
+<span class="nc" id="L171">				config.setGmailMail(null);</span>
+<span class="nc" id="L172">				config.setGmailPassword(null);</span>
+<span class="nc" id="L173">				config.setGmailProtocol(null);</span>
+			}
+
+			// facebook
+<span class="nc" id="L177">			expr = xpath.compile(&quot;/CONFIGURATION/Facebook/@*&quot;);</span>
+<span class="nc" id="L178">			nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">			if (nl.item(0) != null) {</span>
+				// AccessToken
+<span class="nc" id="L181">				config.setFbAcessToken(nl.item(0).getFirstChild().getNodeValue());</span>
+				// AppId
+<span class="nc" id="L183">				config.setFbAppId(nl.item(1).getFirstChild().getNodeValue());</span>
+				// ASecret
+<span class="nc" id="L185">				config.setFbAppSecret(nl.item(2).getFirstChild().getNodeValue());</span>
+<span class="nc" id="L186">			} else {</span>
+<span class="nc" id="L187">				config.setFbAcessToken(null);</span>
+<span class="nc" id="L188">				config.setFbAppId(null);</span>
+<span class="nc" id="L189">				config.setFbAppSecret(null);</span>
+			}
+
+			// twitter
+<span class="nc" id="L193">			expr = xpath.compile(&quot;/CONFIGURATION/Twitter/@*&quot;);</span>
+<span class="nc" id="L194">			nl = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">			if (nl.item(0) != null) {</span>
+				// AAT
+<span class="nc" id="L197">				config.setTwAAT(nl.item(0).getFirstChild().getNodeValue());</span>
+				// AATS
+<span class="nc" id="L199">				config.setTwAATS(nl.item(1).getFirstChild().getNodeValue());</span>
+				// ACK
+<span class="nc" id="L201">				config.setTwACK(nl.item(2).getFirstChild().getNodeValue());</span>
+				// ACS
+<span class="nc" id="L203">				config.setTwACS(nl.item(3).getFirstChild().getNodeValue());</span>
+<span class="nc" id="L204">			} else {</span>
+<span class="nc" id="L205">				config.setTwAAT(null);</span>
+<span class="nc" id="L206">				config.setTwAATS(null);</span>
+<span class="nc" id="L207">				config.setTwACK(null);</span>
+<span class="nc" id="L208">				config.setTwACS(null);</span>
+			}
+
+<span class="nc" id="L211">		} catch (IOException e) {</span>
+<span class="nc" id="L212">			System.out.println(&quot;settings file not found, creating one&quot;);</span>
+
+<span class="nc" id="L214">			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();</span>
+<span class="nc" id="L215">			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();</span>
+<span class="nc" id="L216">			Document doc = docBuilder.newDocument();</span>
+<span class="nc" id="L217">			Element rootElement = doc.createElement(&quot;CONFIGURATION&quot;);</span>
+<span class="nc" id="L218">			doc.appendChild(rootElement);</span>
+
+<span class="nc" id="L220">			Element newElement1 = doc.createElement(&quot;Gmail&quot;);</span>
+<span class="nc" id="L221">			newElement1.setAttribute(&quot;Protocol&quot;, &quot;imap&quot;);</span>
+<span class="nc" id="L222">			newElement1.setAttribute(&quot;Account&quot;, &quot;gmail&quot;);</span>
+<span class="nc" id="L223">			newElement1.setAttribute(&quot;Password&quot;, &quot;password&quot;);</span>
+
+<span class="nc" id="L225">			Element newElement2 = doc.createElement(&quot;Facebook&quot;);</span>
+<span class="nc" id="L226">			newElement2.setAttribute(&quot;AppId&quot;, &quot;id&quot;);</span>
+<span class="nc" id="L227">			newElement2.setAttribute(&quot;AppSecret&quot;, &quot;secret&quot;);</span>
+<span class="nc" id="L228">			newElement2.setAttribute(&quot;AccessToken&quot;, &quot;token&quot;);</span>
+
+<span class="nc" id="L230">			Element newElement3 = doc.createElement(&quot;Twitter&quot;);</span>
+<span class="nc" id="L231">			newElement3.setAttribute(&quot;AuthConsumerKey&quot;, &quot;aKey&quot;);</span>
+<span class="nc" id="L232">			newElement3.setAttribute(&quot;AuthConsumerSecret&quot;, &quot;aSecret&quot;);</span>
+<span class="nc" id="L233">			newElement3.setAttribute(&quot;AuthAccessToken&quot;, &quot;token&quot;);</span>
+<span class="nc" id="L234">			newElement3.setAttribute(&quot;AuthAccessTokenSecret&quot;, &quot;tokenSecret&quot;);</span>
+
+			// Add new nodes to XML document (root element)
+<span class="nc" id="L237">			rootElement.appendChild(newElement1);</span>
+<span class="nc" id="L238">			rootElement.appendChild(newElement2);</span>
+<span class="nc" id="L239">			rootElement.appendChild(newElement3);</span>
+
+			// Save XML document
+<span class="nc" id="L242">			Transformer transformer = TransformerFactory.newInstance().newTransformer();</span>
+<span class="nc" id="L243">			transformer.setOutputProperty(OutputKeys.INDENT, &quot;yes&quot;);</span>
+<span class="nc" id="L244">			StreamResult result = new StreamResult(new File(&quot;config.xml&quot;));</span>
+<span class="nc" id="L245">			DOMSource source = new DOMSource(doc);</span>
+<span class="nc" id="L246">			transformer.transform(source, result);</span>
+		}
+<span class="nc" id="L248">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>BDA (Dec 7, 2018 3:42:24 AM)</div></body></html>

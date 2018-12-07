@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Twitter_Class.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BDA (Dec 7, 2018 3:42:24 AM)</a> &gt; <a href="../../index.html" class="el_group">BDA</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">twitter</a> &gt; <span class="el_source">Twitter_Class.java</span></div><h1>Twitter_Class.java</h1><pre class="source lang-java linenums">package twitter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import enums.ServiceType;
+import gui.BdaGUI;
+import gui.MessagePanel;
+import gui.OfflineMessage;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
+/**
+ * This is a application to connect to Twitter server to retrieve received
+ * tweets.
+ * 
+ * @author Hugo Croca
+ * @version 1.0
+ *
+ */
+public class Twitter_Class {
+	
+	ConfigurationBuilder cbc;
+	private TwitterFactory tf;
+	private Twitter twitter;
+	/**
+	 * Initiates a Twitter_Class object
+	 * @param ConfigurationBuilder
+	 */
+<span class="fc" id="L32">	public Twitter_Class(ConfigurationBuilder ConfigurationBuilder) {</span>
+<span class="fc" id="L33">		this.cbc=ConfigurationBuilder;</span>
+		
+<span class="fc" id="L35">	}</span>
+	/**
+	 * Initiates a Twitter account with the given tokens
+	 * 
+	 */
+	public boolean sign_in(String ack, String acs, String aat, String aats){
+<span class="fc" id="L41">		cbc.setDebugEnabled(true)</span>
+<span class="fc" id="L42">  	  	.setOAuthConsumerKey(ack)</span>
+<span class="fc" id="L43">  	  	.setOAuthConsumerSecret(acs)</span>
+<span class="fc" id="L44">  	  	.setOAuthAccessToken(aat)</span>
+<span class="fc" id="L45">  	  	.setOAuthAccessTokenSecret(aats);</span>
+<span class="fc" id="L46">		tf = new TwitterFactory(cbc.build());</span>
+<span class="fc" id="L47">    	twitter = tf.getInstance();  </span>
+<span class="fc" id="L48">		return true;</span>
+	}
+	/**
+	 * Prints the first 20 Tweets from the logged user
+	 * @param frame 
+	 * @param posts 
+	 * 
+	 */
+	
+	public void printTweets(BdaGUI frame, ArrayList&lt;OfflineMessage&gt; posts) {      		
+        List&lt;Status&gt; statuses;
+		try {
+<span class="fc" id="L60">			statuses = twitter.getHomeTimeline();</span>
+<span class="fc" id="L61">			System.out.println(&quot;------------------------\n Showing home timeline \n------------------------&quot;);</span>
+<span class="fc" id="L62">			int counter=0;</span>
+<span class="fc" id="L63">			int counterTotal = 0;</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">			for (Status status : statuses) {</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">				if (status.getUser().getName() != null) {</span>
+<span class="fc" id="L66">					System.out.println(&quot; &quot;);</span>
+<span class="fc" id="L67">					System.out.println(status.getUser().getName() + &quot;:&quot; + status.getText() + &quot; - &quot; + status.getCreatedAt());</span>
+<span class="fc" id="L68">					System.out.println(&quot; &quot;);</span>
+<span class="fc" id="L69">					System.out.println(&quot;-------------------------------------------------------------------&quot;);</span>
+<span class="fc" id="L70">					counter++;</span>
+<span class="fc" id="L71">					frame.addMessage(new MessagePanel(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt(), status));</span>
+<span class="fc" id="L72">					posts.add(new OfflineMessage(status.getUser().getName(), status.getText(), ServiceType.TW, status.getCreatedAt()));</span>
+				}
+<span class="fc" id="L74">				counterTotal++;</span>
+			}
+<span class="fc" id="L76">			System.out.println(&quot;-------------\nNº of Results: &quot; + counter+&quot;/&quot;+counterTotal);</span>
+<span class="pc" id="L77">			} catch (TwitterException e) {</span>
+				// TODO Auto-generated catch block
+<span class="nc" id="L79">				System.out.println(&quot;twitter service unavailable&quot;);</span>
+			}
+		
+<span class="fc" id="L82">	}</span>
+	
+	public ConfigurationBuilder getCbc() {
+<span class="fc" id="L85">		return cbc;</span>
+	}
+	public TwitterFactory getTf() {
+<span class="fc" id="L88">		return tf;</span>
+	}
+	public Twitter getTwitter() {
+<span class="fc" id="L91">		return twitter;</span>
+	}
+	/**
+	 * Retweets a tweet of the given ID
+	 *  @param TweetId
+	 * 
+	 */
+	public boolean reTweet(Status status) {
+<span class="pc bpc" id="L99" title="2 of 4 branches missed.">        if(status.isRetweetedByMe() &amp;&amp; status.getRetweetCount() &gt;= 1 ){</span>
+<span class="fc" id="L100">        	System.out.println(&quot;Já foi Retweeted&quot;);	</span>
+<span class="fc" id="L101">        	return true; // this twit retweeted by your and others</span>
+        } 
+		else{
+    		try {
+<span class="nc" id="L105">    			twitter.retweetStatus(status.getId());</span>
+<span class="nc" id="L106">    			return true;</span>
+<span class="nc" id="L107">    		} catch (TwitterException e) {</span>
+<span class="nc" id="L108">    			e.printStackTrace();</span>
+<span class="nc" id="L109">    			return false;</span>
+    		}
+    		}
+	}
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>BDA (Dec 7, 2018 3:42:24 AM)</div></body></html>

@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>BdaGUI.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BDA (Dec 7, 2018 3:42:24 AM)</a> &gt; <a href="../../index.html" class="el_group">BDA</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">BdaGUI.java</span></div><h1>BdaGUI.java</h1><pre class="source lang-java linenums"><span class="fc" id="L1">package gui;</span>
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.LinkedList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+
+import enums.ServiceType;
+import enums.Time;
+
+@SuppressWarnings(&quot;serial&quot;)
+/**
+ * This is the main graphical user interface class.
+ * 
+ * @author Daniel Freitas
+ * @version 1.0
+ *
+ */
+public class BdaGUI extends JFrame {
+
+	public JPanel resultsPanel;
+	public GroupLayout layout;
+	public GroupLayout.Group sequential;
+	public GroupLayout.ParallelGroup parallel;
+	public JComboBox&lt;Time&gt; searchAdvTime;
+	public JTextField searchAdvUser;
+<span class="fc" id="L41">	public LinkedList&lt;MessagePanel&gt; messages = new LinkedList&lt;MessagePanel&gt;();</span>
+	private JPanel contentPane;
+	private JPanel twPanel;
+	private JPanel mainPanel;
+	private JPanel bdaPanel;
+	private JPanel fbPanel;
+	private JPanel emailPanel;
+	private JLabel twLogo;
+	private JLabel fbLogo;
+	private JLabel emailLogo;
+	private JLabel search;
+	private JTextField searchField;
+	private JScrollPane resultsScrollPane;
+	private JLabel searchAdv;
+	private JPanel searchAdvPanel;
+	private JLabel serachAdvLbl;
+	private JLabel settings;
+	private Config config;
+	
+	/**
+	 * Creates a graphical user interface and all it's features.
+	 * @param runnable 
+	 */
+<span class="fc" id="L64">	public BdaGUI(Config configuration) {</span>
+<span class="fc" id="L65">		setTitle(&quot;Bom Dia Academia&quot;);</span>
+<span class="fc" id="L66">		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+<span class="fc" id="L67">		setBounds(100, 100, 800, 700);</span>
+<span class="fc" id="L68">		contentPane = new JPanel();</span>
+<span class="fc" id="L69">		contentPane.setBorder(null);</span>
+<span class="fc" id="L70">		setContentPane(contentPane);</span>
+		
+<span class="fc" id="L72">		config = configuration;</span>
+<span class="fc" id="L73">		mainPanel = new JPanel();</span>
+<span class="fc" id="L74">		mainPanel.setBorder(null);</span>
+<span class="fc" id="L75">		mainPanel.setBackground(new Color(50, 50, 50));</span>
+		
+<span class="fc" id="L77">		twPanel = new JPanel();</span>
+<span class="fc" id="L78">		twPanel.addMouseListener(new MouseAdapter() {</span>
+			@Override
+			public void mouseClicked(MouseEvent e) {
+<span class="nc" id="L81">				System.out.println(&quot;Filter tw&quot;);</span>
+<span class="nc" id="L82">				filterMessages(ServiceType.TW);</span>
+<span class="nc" id="L83">			}</span>
+		});
+<span class="fc" id="L85">		twPanel.setMinimumSize(new Dimension(100, 100));</span>
+<span class="fc" id="L86">		twPanel.setBackground(ServiceType.TW.color());</span>
+<span class="fc" id="L87">		twPanel.setBorder(null);</span>
+		
+<span class="fc" id="L89">		twLogo = new JLabel(&quot;&quot;);</span>
+<span class="fc" id="L90">		twLogo.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="fc" id="L91">		twLogo.setSize(new Dimension(100, 100));</span>
+<span class="fc" id="L92">		twLogo.setIcon(new ImageIcon(BdaGUI.class.getResource(&quot;/resources/tw.png&quot;)));</span>
+<span class="fc" id="L93">		GroupLayout gl_twPanel = new GroupLayout(twPanel);</span>
+<span class="fc" id="L94">		gl_twPanel.setHorizontalGroup(</span>
+<span class="fc" id="L95">			gl_twPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L96">				.addGroup(Alignment.TRAILING, gl_twPanel.createSequentialGroup()</span>
+<span class="fc" id="L97">					.addContainerGap()</span>
+<span class="fc" id="L98">					.addComponent(twLogo, GroupLayout.PREFERRED_SIZE, 55, Short.MAX_VALUE)</span>
+<span class="fc" id="L99">					.addContainerGap())</span>
+		);
+<span class="fc" id="L101">		gl_twPanel.setVerticalGroup(</span>
+<span class="fc" id="L102">			gl_twPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L103">				.addGroup(gl_twPanel.createSequentialGroup()</span>
+<span class="fc" id="L104">					.addGap(10)</span>
+<span class="fc" id="L105">					.addComponent(twLogo, GroupLayout.PREFERRED_SIZE, 69, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L106">					.addContainerGap(72, Short.MAX_VALUE))</span>
+		);
+<span class="fc" id="L108">		twPanel.setLayout(gl_twPanel);</span>
+		
+<span class="fc" id="L110">		fbPanel = new JPanel();</span>
+<span class="fc" id="L111">		fbPanel.addMouseListener(new MouseAdapter() {</span>
+			@Override
+			public void mouseClicked(MouseEvent e) {
+<span class="nc" id="L114">				System.out.println(&quot;Filter fb&quot;);</span>
+<span class="nc" id="L115">				filterMessages(ServiceType.FB);</span>
+<span class="nc" id="L116">			}</span>
+		});
+<span class="fc" id="L118">		fbPanel.setMinimumSize(new Dimension(100, 100));</span>
+<span class="fc" id="L119">		fbPanel.setBackground(ServiceType.FB.color());</span>
+<span class="fc" id="L120">		fbPanel.setBorder(null);</span>
+		
+<span class="fc" id="L122">		fbLogo = new JLabel(&quot;&quot;);</span>
+<span class="fc" id="L123">		fbLogo.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="fc" id="L124">		fbLogo.setIcon(new ImageIcon(BdaGUI.class.getResource(&quot;/resources/fb.png&quot;)));</span>
+<span class="fc" id="L125">		GroupLayout gl_fbPanel = new GroupLayout(fbPanel);</span>
+<span class="fc" id="L126">		gl_fbPanel.setHorizontalGroup(</span>
+<span class="fc" id="L127">			gl_fbPanel.createParallelGroup(Alignment.TRAILING)</span>
+<span class="fc" id="L128">				.addGroup(Alignment.LEADING, gl_fbPanel.createSequentialGroup()</span>
+<span class="fc" id="L129">					.addContainerGap()</span>
+<span class="fc" id="L130">					.addComponent(fbLogo, GroupLayout.PREFERRED_SIZE, 89, Short.MAX_VALUE)</span>
+<span class="fc" id="L131">					.addContainerGap())</span>
+		);
+<span class="fc" id="L133">		gl_fbPanel.setVerticalGroup(</span>
+<span class="fc" id="L134">			gl_fbPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L135">				.addGroup(gl_fbPanel.createSequentialGroup()</span>
+<span class="fc" id="L136">					.addGap(10)</span>
+<span class="fc" id="L137">					.addComponent(fbLogo, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L138">					.addContainerGap(63, Short.MAX_VALUE))</span>
+		);
+<span class="fc" id="L140">		fbPanel.setLayout(gl_fbPanel);</span>
+		
+<span class="fc" id="L142">		emailPanel = new JPanel();</span>
+<span class="fc" id="L143">		emailPanel.addMouseListener(new MouseAdapter() {</span>
+			@Override
+			public void mouseClicked(MouseEvent e) {
+<span class="nc" id="L146">				System.out.println(&quot;Filter email&quot;);</span>
+<span class="nc" id="L147">				filterMessages(ServiceType.GM);</span>
+<span class="nc" id="L148">			}</span>
+		});
+<span class="fc" id="L150">		emailPanel.setMinimumSize(new Dimension(100, 100));</span>
+<span class="fc" id="L151">		emailPanel.setBackground(ServiceType.GM.color());</span>
+<span class="fc" id="L152">		emailPanel.setBorder(null);</span>
+		
+<span class="fc" id="L154">		emailLogo = new JLabel(&quot;&quot;);</span>
+<span class="fc" id="L155">		emailLogo.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="fc" id="L156">		emailLogo.setIcon(new ImageIcon(BdaGUI.class.getResource(&quot;/resources/email.png&quot;)));</span>
+<span class="fc" id="L157">		GroupLayout gl_emailPanel = new GroupLayout(emailPanel);</span>
+<span class="fc" id="L158">		gl_emailPanel.setHorizontalGroup(</span>
+<span class="fc" id="L159">			gl_emailPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L160">				.addGroup(gl_emailPanel.createSequentialGroup()</span>
+<span class="fc" id="L161">					.addContainerGap()</span>
+<span class="fc" id="L162">					.addComponent(emailLogo, GroupLayout.PREFERRED_SIZE, 89, Short.MAX_VALUE)</span>
+<span class="fc" id="L163">					.addContainerGap())</span>
+		);
+<span class="fc" id="L165">		gl_emailPanel.setVerticalGroup(</span>
+<span class="fc" id="L166">			gl_emailPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L167">				.addGroup(gl_emailPanel.createSequentialGroup()</span>
+<span class="fc" id="L168">					.addGap(10)</span>
+<span class="fc" id="L169">					.addComponent(emailLogo, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L170">					.addContainerGap(71, Short.MAX_VALUE))</span>
+		);
+<span class="fc" id="L172">		emailPanel.setLayout(gl_emailPanel);</span>
+		
+		
+<span class="fc" id="L175">		bdaPanel = new JPanel();</span>
+<span class="fc" id="L176">		bdaPanel.addMouseListener(new MouseAdapter() {</span>
+			@Override
+			public void mouseClicked(MouseEvent e) {
+<span class="nc" id="L179">				System.out.println(&quot;Remove filters&quot;);</span>
+<span class="nc" id="L180">				removeFilters();</span>
+<span class="nc" id="L181">			}</span>
+		});
+<span class="fc" id="L183">		bdaPanel.setMinimumSize(new Dimension(100, 100));</span>
+<span class="fc" id="L184">		bdaPanel.setBorder(null);</span>
+<span class="fc" id="L185">		bdaPanel.setBackground(ServiceType.BDA.color());</span>
+		
+<span class="fc" id="L187">		JLabel bdaLogo = new JLabel(&quot;&quot;);</span>
+<span class="fc" id="L188">		bdaLogo.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="fc" id="L189">		bdaLogo.setSize(new Dimension(100, 100));</span>
+<span class="fc" id="L190">		bdaLogo.setIcon(new ImageIcon(BdaGUI.class.getResource(&quot;/resources/bda1.png&quot;)));</span>
+		
+<span class="fc" id="L192">		GroupLayout gl_bdaPanel = new GroupLayout(bdaPanel);</span>
+<span class="fc" id="L193">		gl_bdaPanel.setHorizontalGroup(</span>
+<span class="fc" id="L194">			gl_bdaPanel.createParallelGroup(Alignment.TRAILING)</span>
+<span class="fc" id="L195">				.addGroup(gl_bdaPanel.createSequentialGroup()</span>
+<span class="fc" id="L196">					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L197">					.addComponent(bdaLogo, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L198">					.addContainerGap())</span>
+		);
+<span class="fc" id="L200">		gl_bdaPanel.setVerticalGroup(</span>
+<span class="fc" id="L201">			gl_bdaPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L202">				.addGroup(gl_bdaPanel.createSequentialGroup()</span>
+<span class="fc" id="L203">					.addGap(10)</span>
+<span class="fc" id="L204">					.addComponent(bdaLogo, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L205">					.addContainerGap(69, Short.MAX_VALUE))</span>
+		);
+<span class="fc" id="L207">		bdaPanel.setLayout(gl_bdaPanel);</span>
+		
+<span class="fc" id="L209">		resultsScrollPane = new JScrollPane();</span>
+<span class="fc" id="L210">		resultsScrollPane.setBorder(null);</span>
+<span class="fc" id="L211">		resultsScrollPane.setViewportBorder(null);</span>
+<span class="fc" id="L212">		resultsScrollPane.setBorder(null);</span>
+		
+<span class="fc" id="L214">		resultsPanel = new JPanel();</span>
+<span class="fc" id="L215">		resultsPanel.setBackground(new Color(50, 50, 50));</span>
+<span class="fc" id="L216">		resultsScrollPane.setViewportView(resultsPanel);</span>
+		
+<span class="fc" id="L218">		layout = new GroupLayout(resultsPanel);</span>
+<span class="fc" id="L219">        resultsPanel.setLayout(layout);</span>
+<span class="fc" id="L220">        layout.setAutoCreateGaps(true);</span>
+<span class="fc" id="L221">        layout.setAutoCreateContainerGaps(true);</span>
+<span class="fc" id="L222">        parallel = layout.createParallelGroup();</span>
+<span class="fc" id="L223">        layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(parallel));</span>
+<span class="fc" id="L224">        sequential = layout.createSequentialGroup();</span>
+<span class="fc" id="L225">        layout.setVerticalGroup(sequential);</span>
+		
+<span class="fc" id="L227">		JPanel menuPanel = new JPanel();</span>
+<span class="fc" id="L228">		menuPanel.setBackground(new Color(200, 200, 200));</span>
+		
+<span class="fc" id="L230">		GroupLayout gl_contentPane = new GroupLayout(contentPane);</span>
+<span class="fc" id="L231">		gl_contentPane.setHorizontalGroup(</span>
+<span class="fc" id="L232">			gl_contentPane.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L233">				.addGroup(gl_contentPane.createSequentialGroup()</span>
+<span class="fc" id="L234">					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)</span>
+<span class="fc" id="L235">						.addComponent(emailPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L236">						.addComponent(fbPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L237">						.addComponent(twPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L238">						.addComponent(bdaPanel, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))</span>
+<span class="fc" id="L239">					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L240">						.addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)</span>
+<span class="fc" id="L241">						.addComponent(menuPanel, GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)))</span>
+		);
+<span class="fc" id="L243">		gl_contentPane.setVerticalGroup(</span>
+<span class="fc" id="L244">			gl_contentPane.createParallelGroup(Alignment.TRAILING)</span>
+<span class="fc" id="L245">				.addGroup(gl_contentPane.createSequentialGroup()</span>
+<span class="fc" id="L246">					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L247">						.addGroup(gl_contentPane.createSequentialGroup()</span>
+<span class="fc" id="L248">							.addComponent(menuPanel, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L249">							.addComponent(mainPanel, GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE))</span>
+<span class="fc" id="L250">						.addGroup(gl_contentPane.createSequentialGroup()</span>
+<span class="fc" id="L251">							.addComponent(bdaPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L252">							.addComponent(twPanel, GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE)</span>
+<span class="fc" id="L253">							.addComponent(fbPanel, GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)</span>
+<span class="fc" id="L254">							.addComponent(emailPanel, GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)))</span>
+<span class="fc" id="L255">					.addGap(0))</span>
+		);
+		
+<span class="fc" id="L258">		search = new JLabel(&quot;&quot;);</span>
+<span class="fc" id="L259">		search.addMouseListener(new MouseAdapter() {</span>
+			@Override
+			public void mouseClicked(MouseEvent e) {
+<span class="nc bnc" id="L262" title="All 2 branches missed.">				if(searchField.getText() != &quot;&quot;) {</span>
+<span class="nc" id="L263">					System.out.println(&quot;Perform search for &quot; + searchField.getText());</span>
+<span class="nc" id="L264">					filterMessages(searchField.getText());</span>
+				}
+<span class="nc" id="L266">			}</span>
+		});
+<span class="fc" id="L268">		search.setPreferredSize(new Dimension(24, 24));</span>
+<span class="fc" id="L269">		search.setIcon(new ImageIcon(BdaGUI.class.getResource(&quot;/resources/search.png&quot;)));</span>
+		
+<span class="fc" id="L271">		searchAdv = new JLabel(&quot;&quot;);</span>
+<span class="fc" id="L272">		searchAdv.setPreferredSize(new Dimension(24, 24));</span>
+<span class="fc" id="L273">		searchAdv.addMouseListener(new MouseAdapter() {</span>
+			@Override
+			public void mouseClicked(MouseEvent e) {
+<span class="nc bnc" id="L276" title="All 2 branches missed.">				if(searchAdvPanel.isVisible()) {</span>
+<span class="nc" id="L277">					searchAdvPanel.setVisible(false);</span>
+<span class="nc" id="L278">				} else {</span>
+<span class="nc" id="L279">					searchAdvPanel.setVisible(true);</span>
+				}
+<span class="nc" id="L281">			}</span>
+		});
+<span class="fc" id="L283">		searchAdv.setIcon(new ImageIcon(BdaGUI.class.getResource(&quot;/resources/searchAdv.png&quot;)));</span>
+		
+<span class="fc" id="L285">		searchField = new JTextField(&quot;&quot;);</span>
+<span class="fc" id="L286">		searchField.setForeground(Color.WHITE);</span>
+<span class="fc" id="L287">		searchField.setCaretColor(Color.WHITE);</span>
+<span class="fc" id="L288">		searchField.setBorder(null);</span>
+<span class="fc" id="L289">		searchField.setColumns(10);</span>
+<span class="fc" id="L290">		searchField.setBackground(new Color(50, 50, 50));</span>
+		
+<span class="fc" id="L292">		searchAdvPanel = new JPanel();</span>
+<span class="fc" id="L293">		searchAdvPanel.setVisible(false);</span>
+<span class="fc" id="L294">		searchAdvPanel.setBackground(new Color(100, 100, 100));		</span>
+		
+<span class="fc" id="L296">		serachAdvLbl = new JLabel(&quot;Advanced Search&quot;);</span>
+<span class="fc" id="L297">		serachAdvLbl.setForeground(Color.WHITE);</span>
+		
+<span class="fc" id="L299">		searchAdvUser = new JTextField();</span>
+<span class="fc" id="L300">		searchAdvUser.setColumns(10);</span>
+		
+<span class="fc" id="L302">		JLabel searchAdvBut = new JLabel();</span>
+<span class="fc" id="L303">		searchAdvBut.setHorizontalAlignment(SwingConstants.CENTER);</span>
+<span class="fc" id="L304">		searchAdvBut.setIcon(new ImageIcon(BdaGUI.class.getResource(&quot;/resources/searchAdv.png&quot;)));</span>
+<span class="fc" id="L305">		searchAdvBut.addMouseListener(new MouseAdapter() {</span>
+			@Override
+			public void mouseClicked(MouseEvent e) {
+<span class="nc" id="L308">				performAdvSearch();</span>
+<span class="nc" id="L309">			}</span>
+		});
+		
+<span class="fc" id="L312">		searchAdvTime = new JComboBox&lt;Time&gt;();</span>
+<span class="fc" id="L313">		searchAdvTime.setModel(new DefaultComboBoxModel&lt;Time&gt;(new Time[] {Time.H12, Time.D1, Time.D2, Time.D5, Time.D10, Time.D30, Time.ALL}));</span>
+<span class="fc" id="L314">		searchAdvTime.setSelectedIndex(6);</span>
+		
+<span class="fc" id="L316">		JLabel searchAdvTimeLbl = new JLabel(&quot;Time:&quot;);</span>
+<span class="fc" id="L317">		JLabel searchAdvUserLbl = new JLabel(&quot;From user:&quot;);</span>
+		
+<span class="fc" id="L319">		settings = new JLabel(&quot;&quot;);</span>
+<span class="fc" id="L320">		settings.setPreferredSize(new Dimension(24, 24));</span>
+<span class="fc" id="L321">		settings.addMouseListener(new MouseAdapter() {</span>
+			@Override
+			public void mouseClicked(MouseEvent e) {
+<span class="nc" id="L324">				Settings frame = new Settings(configuration);</span>
+<span class="nc" id="L325">				frame.setVisible(true);</span>
+<span class="nc" id="L326">			}</span>
+		});
+<span class="fc" id="L328">		settings.setIcon(new ImageIcon(BdaGUI.class.getResource(&quot;/resources/settings.png&quot;)));</span>
+		
+<span class="fc" id="L330">		GroupLayout gl_searchAdvPanel = new GroupLayout(searchAdvPanel);</span>
+<span class="fc" id="L331">		gl_searchAdvPanel.setHorizontalGroup(</span>
+<span class="fc" id="L332">			gl_searchAdvPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L333">				.addGroup(gl_searchAdvPanel.createSequentialGroup()</span>
+<span class="fc" id="L334">					.addGap(28)</span>
+<span class="fc" id="L335">					.addGroup(gl_searchAdvPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L336">						.addGroup(gl_searchAdvPanel.createSequentialGroup()</span>
+<span class="fc" id="L337">							.addComponent(searchAdvTimeLbl)</span>
+<span class="fc" id="L338">							.addContainerGap())</span>
+<span class="fc" id="L339">						.addGroup(gl_searchAdvPanel.createSequentialGroup()</span>
+<span class="fc" id="L340">							.addGroup(gl_searchAdvPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L341">								.addComponent(searchAdvTime, Alignment.LEADING, 0, 86, Short.MAX_VALUE)</span>
+<span class="fc" id="L342">								.addComponent(searchAdvUser)</span>
+<span class="fc" id="L343">								.addGroup(gl_searchAdvPanel.createSequentialGroup()</span>
+<span class="fc" id="L344">									.addGap(2)</span>
+<span class="fc" id="L345">									.addGroup(gl_searchAdvPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L346">										.addComponent(searchAdvUserLbl)</span>
+<span class="fc" id="L347">										.addComponent(serachAdvLbl, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))</span>
+<span class="fc" id="L348">								.addComponent(searchAdvBut, Alignment.CENTER, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))</span>
+<span class="fc" id="L349">							.addGap(32))))</span>
+		);
+<span class="fc" id="L351">		gl_searchAdvPanel.setVerticalGroup(</span>
+<span class="fc" id="L352">			gl_searchAdvPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L353">				.addGroup(gl_searchAdvPanel.createSequentialGroup()</span>
+<span class="fc" id="L354">					.addGap(5)</span>
+<span class="fc" id="L355">					.addComponent(serachAdvLbl)</span>
+<span class="fc" id="L356">					.addGap(23)</span>
+<span class="fc" id="L357">					.addComponent(searchAdvUserLbl)</span>
+<span class="fc" id="L358">					.addPreferredGap(ComponentPlacement.RELATED)</span>
+<span class="fc" id="L359">					.addComponent(searchAdvUser, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L360">					.addGap(22)</span>
+<span class="fc" id="L361">					.addComponent(searchAdvTimeLbl)</span>
+<span class="fc" id="L362">					.addPreferredGap(ComponentPlacement.RELATED)</span>
+<span class="fc" id="L363">					.addComponent(searchAdvTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L364">					.addPreferredGap(ComponentPlacement.RELATED, 390, Short.MAX_VALUE)</span>
+<span class="fc" id="L365">					.addComponent(searchAdvBut)</span>
+<span class="fc" id="L366">					.addGap(20))</span>
+		);
+<span class="fc" id="L368">		searchAdvPanel.setLayout(gl_searchAdvPanel);</span>
+		
+<span class="fc" id="L370">		GroupLayout gl_menuPanel = new GroupLayout(menuPanel);</span>
+<span class="fc" id="L371">		gl_menuPanel.setHorizontalGroup(</span>
+<span class="fc" id="L372">			gl_menuPanel.createParallelGroup(Alignment.TRAILING)</span>
+<span class="fc" id="L373">				.addGroup(gl_menuPanel.createSequentialGroup()</span>
+<span class="fc" id="L374">					.addContainerGap(253, Short.MAX_VALUE)</span>
+<span class="fc" id="L375">					.addComponent(searchField, GroupLayout.PREFERRED_SIZE, 178, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L376">					.addGap(18)</span>
+<span class="fc" id="L377">					.addComponent(search, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L378">					.addGap(18)</span>
+<span class="fc" id="L379">					.addComponent(searchAdv, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L380">					.addGap(18)</span>
+<span class="fc" id="L381">					.addComponent(settings, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L382">					.addGap(18))</span>
+		);
+<span class="fc" id="L384">		gl_menuPanel.setVerticalGroup(</span>
+<span class="fc" id="L385">			gl_menuPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L386">				.addGroup(gl_menuPanel.createSequentialGroup()</span>
+<span class="fc" id="L387">					.addGap(5)</span>
+<span class="fc" id="L388">					.addGroup(gl_menuPanel.createParallelGroup(Alignment.LEADING, false)</span>
+<span class="fc" id="L389">						.addComponent(searchField, GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)</span>
+<span class="fc" id="L390">						.addGap(10)</span>
+<span class="fc" id="L391">						.addComponent(search, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L392">						.addGap(10)</span>
+<span class="fc" id="L393">						.addComponent(searchAdv, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L394">						.addGap(10)</span>
+<span class="fc" id="L395">						.addComponent(settings, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))</span>
+		);
+		
+<span class="fc" id="L398">		menuPanel.setLayout(gl_menuPanel);</span>
+		
+<span class="fc" id="L400">		GroupLayout gl_mainPanel = new GroupLayout(mainPanel);</span>
+<span class="fc" id="L401">		gl_mainPanel.setHorizontalGroup(</span>
+<span class="fc" id="L402">			gl_mainPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L403">				.addGroup(gl_mainPanel.createSequentialGroup()</span>
+<span class="fc" id="L404">					.addComponent(resultsScrollPane, GroupLayout.PREFERRED_SIZE, 500, Short.MAX_VALUE)</span>
+<span class="fc" id="L405">					.addComponent(searchAdvPanel, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE))		</span>
+		);
+<span class="fc" id="L407">		gl_mainPanel.setVerticalGroup(</span>
+<span class="fc" id="L408">			gl_mainPanel.createParallelGroup(Alignment.LEADING)</span>
+<span class="fc" id="L409">				.addGroup(gl_mainPanel.createParallelGroup()</span>
+<span class="fc" id="L410">					.addComponent(resultsScrollPane, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)</span>
+<span class="fc" id="L411">					.addComponent(searchAdvPanel, GroupLayout.PREFERRED_SIZE, 579, Short.MAX_VALUE))</span>
+		);
+		
+<span class="fc" id="L414">		mainPanel.setLayout(gl_mainPanel);</span>
+<span class="fc" id="L415">		contentPane.setLayout(gl_contentPane);</span>
+<span class="fc" id="L416">	}</span>
+	
+	/**
+	 * Adds a MessagePanel component to the gui.
+	 * @param mp The MessagePanel to be added.
+	 */
+	public void addMessage(MessagePanel mp) {
+<span class="fc" id="L423">		messages.add(mp.setConfig(config));</span>
+<span class="fc" id="L424">		parallel.addGroup(layout.createSequentialGroup().addComponent(mp));</span>
+<span class="fc" id="L425">		sequential.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(mp));</span>
+<span class="fc" id="L426">		mp.validate();</span>
+<span class="fc" id="L427">	}</span>
+	
+	/**
+	 * Filters the displayed messages on gui by service.
+	 * @param st The desired service to filter the messages.
+	 */
+	public void filterMessages(ServiceType st) {
+<span class="fc" id="L434">		removeFilters();</span>
+<span class="fc bfc" id="L435" title="All 2 branches covered.">		for(MessagePanel p : messages) {</span>
+<span class="fc bfc" id="L436" title="All 2 branches covered.">			if(p.getService() != st) {</span>
+<span class="fc" id="L437">				p.setVisible(false);</span>
+			}
+		}
+<span class="fc" id="L440">	}</span>
+	
+	/**
+	 * Filters the displayed messages on gui by a key string.
+	 * @param key The desired string to filter the messages.
+	 */
+	public void filterMessages(String key) {
+<span class="fc bfc" id="L447" title="All 2 branches covered.">		for(MessagePanel p : messages) {</span>
+<span class="fc bfc" id="L448" title="All 2 branches covered.">			if(!p.getMessage().contains(key)) {</span>
+<span class="fc" id="L449">				p.setVisible(false);</span>
+			}
+		}
+<span class="fc" id="L452">	}</span>
+	
+	/**
+	 * Removes the all the filters applied to the gui's messages.
+	 */
+	public void removeFilters() {
+<span class="fc bfc" id="L458" title="All 2 branches covered.">		for(MessagePanel p : messages) {</span>
+<span class="fc bfc" id="L459" title="All 2 branches covered.">			if(!p.isVisible()) {</span>
+<span class="fc" id="L460">				p.setVisible(true);</span>
+			}
+		}
+<span class="fc" id="L463">	}</span>
+	
+	/**
+	 * Performs an advanced search in function of the desired time and sender's name.
+	 */
+	public void performAdvSearch() {
+<span class="fc" id="L469">		removeFilters();</span>
+<span class="fc" id="L470">		long ms = ((Time) searchAdvTime.getSelectedItem() ).getSeconds();</span>
+		
+<span class="fc bfc" id="L472" title="All 2 branches covered.">		for(MessagePanel p : messages) {</span>
+<span class="fc bfc" id="L473" title="All 4 branches covered.">			if(!searchAdvUser.getText().equals(&quot;&quot;) &amp;&amp; !p.getSender().equals(searchAdvUser.getText())) {</span>
+<span class="fc" id="L474">				p.setVisible(false);</span>
+			}
+<span class="fc bfc" id="L476" title="All 4 branches covered.">			if(ms!=0 &amp;&amp; p.getDate().getTime() &lt; (System.currentTimeMillis() - ms*1000)) {</span>
+<span class="fc" id="L477">				p.setVisible(false);</span>
+			}
+		}
+<span class="fc" id="L480">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>BDA (Dec 7, 2018 3:42:24 AM)</div></body></html>
