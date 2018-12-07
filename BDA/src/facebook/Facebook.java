@@ -1,11 +1,14 @@
 package facebook;
 
+
+
 import java.util.ArrayList;
 import java.util.List;
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
 import com.restfb.FacebookClient.AccessToken;
+import com.restfb.Parameter;
 import com.restfb.types.Post;
 import com.restfb.types.User;
 
@@ -17,7 +20,8 @@ import gui.OfflineMessage;
 public class Facebook {
 
 	/*Token de Acesso conta do Facebook */
-	private String token = "EAALKZAOc8jaMBAPKZATfpUCHan46iHDTn2n3pm7gZBv1xVgofzCTU9jPZB1cXMwFBZB2B5I2ZBe6vclCIX4cHFBlpFMpxC7U7TRAoYgb1DxpyqygTeE0SMf8aK4TnVfJbDNyxmTZCNfx2BZB9JtewpIPAkJVkmLN7cNVlgOukjyAgMmbqBUpWsoc";
+	private String token = "EAALKZAOc8jaMBAMDZBlW1g5JiWh0JZCRpXrGeo0AY5oDHxfvD3gFxZB42rI1m3mGxKsHVhVyjrZC8PdHPxVdksATGoUJZAtL6xVbyReLinqVgr3wvOyIvXZCEbTXad3q6YZCVOIKBp3THG3OADfqURHTmJhjwMnEBkozB3N3ZADZAkfm0eJYUyELZAi";
+	private boolean test = false;
 
 	/**
 	 * 
@@ -26,14 +30,14 @@ public class Facebook {
 	 * 
 	 * 	 
 	 */
-	public String getUser() {
+	public boolean getUser() {
 		String accessToken2 = token;
 		FacebookClient fbClient2 = new DefaultFacebookClient(accessToken2);
 		User me2 = fbClient2.fetchObject("me", User.class);
 		System.out.println("Facebook:");
 		System.out.println("Id: " + me2.getId());
 		System.out.println("Name: " + me2.getName());
-		return me2.getId() + " " + me2.getName();
+		return true;
 	}
 	
 	/**
@@ -44,14 +48,13 @@ public class Facebook {
 	 * @param string3 
 	 * 	 
 	 */
-	public String getExtendedAccessToken(String AcessToken, String AppId, String AppSecret) {
+	public boolean getExtendedAccessToken(String AcessToken, String AppId, String AppSecret) {
 		String accessToken4 = AcessToken;
 		FacebookClient fbClient4 = new DefaultFacebookClient(accessToken4);
 		AccessToken extendedAccessToken4 = fbClient4.obtainExtendedAccessToken(AppId, AppSecret);
 		System.out.println("ExtendedAccessToken: " + extendedAccessToken4.getAccessToken());
 		System.out.println("Expires: " + extendedAccessToken4.getExpires());
-		
-		return " " + extendedAccessToken4.getExpires().toString();
+		return true;
 	}
 
 	/**
@@ -65,7 +68,7 @@ public class Facebook {
 	 * @param posts 
 	 * 	 
 	 */
-	public void filterFacebookPost(String AcessToken, BdaGUI frame, ArrayList<OfflineMessage> posts) {
+	public boolean filterFacebookPost(String AcessToken, BdaGUI frame, ArrayList<OfflineMessage> posts) {
 		String accessToken5 = AcessToken;
 		FacebookClient fbClient5 = new DefaultFacebookClient(accessToken5);
 
@@ -89,5 +92,8 @@ public class Facebook {
 				counterTotal++;
 			}
 		}
+		return true;
 	}
+	
+
 }

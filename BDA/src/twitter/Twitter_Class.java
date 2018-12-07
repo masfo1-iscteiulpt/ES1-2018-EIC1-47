@@ -1,5 +1,6 @@
 package twitter;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,10 @@ public class Twitter_Class {
 	}
 	/**
 	 * Initiates a Twitter account with the given tokens
+	 * @param acess consumer key
+	 * @param Acess consumer secret
+	 * @param Acess token
+	 * @paramAcesss token secret
 	 * 
 	 */
 	public boolean sign_in(String ack, String acs, String aat, String aats){
@@ -75,24 +80,35 @@ public class Twitter_Class {
 			}
 			System.out.println("-------------\nNº of Results: " + counter+"/"+counterTotal);
 			} catch (TwitterException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
 				System.out.println("twitter service unavailable");
 			}
 		
 	}
-	
+	/**
+	 * 
+	 * @return ConfigurationBuilder
+	 */
 	public ConfigurationBuilder getCbc() {
 		return cbc;
 	}
+	/**
+	 * 
+	 * @return TwitterFactory
+	 */
 	public TwitterFactory getTf() {
 		return tf;
 	}
+	/**
+	 * 
+	 * @return Twitter
+	 */
 	public Twitter getTwitter() {
 		return twitter;
 	}
 	/**
-	 * Retweets a tweet of the given ID
-	 *  @param TweetId
+	 * Retweets a tweet of the given Status
+	 *  @param Status
 	 * 
 	 */
 	public boolean reTweet(Status status) {
