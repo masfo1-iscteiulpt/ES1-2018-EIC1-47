@@ -7,7 +7,9 @@ import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import enums.ServiceType;
 import gmail.MailSender;
+import twitter.Twitter_Class;
 import twitter4j.Status;
+import twitter4j.conf.ConfigurationBuilder;
 
 import java.util.Date;
 import javax.swing.JLabel;
@@ -63,6 +65,12 @@ public class MessagePanel extends JPanel {
 		panel.setBackground(st.color());
 		
 		JLabel retweetLbl = new JLabel("");
+		retweetLbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				retweet(status);
+			}
+		});
 		retweetLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		retweetLbl.setIcon(new ImageIcon(MessagePanel.class.getResource("/resources/retweet.png")));
 		
@@ -234,6 +242,17 @@ public class MessagePanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param status2
+	 */
+	protected void retweet(Status status) {
+		ConfigurationBuilder cb = new ConfigurationBuilder();
+		Twitter_Class tw = new Twitter_Class(cb);
+		tw.sign_in(config.getTwACK(), config.getTwACS(), config.getTwAAT(), config.getTwAATS());
+		tw.reTweet(status);
+	}
+
 	/**
 	 * Sends a gmail response
 	 * @param message 
